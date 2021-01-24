@@ -31,10 +31,11 @@ public class PerHostScans implements IScannerCheck {
 		}
 		this.callbacks.printOutput("do ActiveScan per host on: " + currentHost);
 		scanedHosts.add(currentHost);
-		issues.addAll(
-				new scanSensiveFiles(callbacks, helpers).doScanSensiveFiles(baseRequestResponse, insertionPoint)
-		);
-		
+		if (Global.config.getConfigSensitiveFilesScanEnable_value()){
+			issues.addAll(
+					new scanSensiveFiles(callbacks, helpers).doScanSensiveFiles(baseRequestResponse, insertionPoint)
+			);
+		}
 		List nullList = new ArrayList();
 		nullList.add(null);
 		issues.removeAll(nullList);

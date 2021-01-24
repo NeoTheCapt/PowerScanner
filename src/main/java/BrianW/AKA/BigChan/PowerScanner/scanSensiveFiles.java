@@ -1,14 +1,10 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
 import BrianW.AKA.BigChan.Tools.Global;
-import BrianW.AKA.BigChan.Tools.InteractionServer;
-import BrianW.AKA.BigChan.Tools.utils;
 import burp.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Spliterator;
 
 public class scanSensiveFiles extends scanHandler {
 	protected IBurpExtenderCallbacks callbacks;
@@ -26,17 +22,20 @@ public class scanSensiveFiles extends scanHandler {
 		String[] fileList = Global.config.getConfigSensitiveFiles_value().split("\n");
 		List<IScanIssue> issues = new ArrayList<>();
 		for (String file : fileList) {
+			file = file.replace("\r","");
+			if ("".equals(file.replace(" ", ""))){
+				continue;
+			}
 			file = "/" + file;
 			IHttpRequestResponse pairSensitiveFile = fetchURL(baseRequestResponse, file);
 			short code = helpers.analyzeResponse(pairSensitiveFile.getResponse()).getStatusCode();
 			callbacks.printOutput(String.format("Scanning sensitive file: %s, code: %d", file, code));
-			if (code == 200 || code == 403 || code == 301) {
+			if (code == 200 || code == 403 || code == 301 || code == 302) {
 				issues.add(
 						reporter(
 								"Sensitive File found",
 								String.format("Filename: %s <br>" +
-												"Response Status Code: %d <br>"
-										,
+												"Response Status Code: %d <br>",
 										file,
 										code
 								),

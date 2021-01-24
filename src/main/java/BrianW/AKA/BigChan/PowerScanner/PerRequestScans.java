@@ -1,5 +1,6 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
+import BrianW.AKA.BigChan.Tools.Global;
 import burp.*;
 
 import java.util.ArrayList;
@@ -23,12 +24,16 @@ public class PerRequestScans implements IScannerCheck {
 	public List<IScanIssue> doActiveScan(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
 		// report the issue
 		List<IScanIssue> issues = new ArrayList<>();
-		issues.add(
-				new ScanSqli(callbacks, helpers).doScanSqli(baseRequestResponse, insertionPoint)
-		);
-		issues.add(
-				new ScanRCE(callbacks, helpers).doScanRCE(baseRequestResponse, insertionPoint)
-		);
+		if (Global.config.getConfigSqliEnable_value()){
+			issues.add(
+					new ScanSqli(callbacks, helpers).doScanSqli(baseRequestResponse, insertionPoint)
+			);
+		}
+		if (Global.config.getConfigRCEEnable_value()){
+			issues.add(
+					new ScanRCE(callbacks, helpers).doScanRCE(baseRequestResponse, insertionPoint)
+			);
+		}
 		List nullList = new ArrayList();
 		nullList.add(null);
 		issues.removeAll(nullList);
