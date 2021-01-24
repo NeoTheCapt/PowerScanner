@@ -33,9 +33,9 @@
 ![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livescan6.png)
 
 ## Bypass WAF
-![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/BypassWAF1.jpg)
-![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/BypassWAF2.jpg)
-![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/BypassWAF3.jpg)
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/BypassWAF1.png)
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/BypassWAF2.png)
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/BypassWAF3.png)
 
 ## 扫描结果
-![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/report1.jpg)
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/report1.png)
