@@ -10,9 +10,12 @@
 * Sql注入
 * 命令注入
 * 敏感文件
-* Bypass WAF(IP随机化、Cookie随机化)
+* BypassWAF:IP随机化
+* BypassWAF:Cookie清空
 
 ## TODO
+* BypassWAF:膨胀Post body
+* BypassWAF:膨胀Get URL
 * 路径穿越
 * CMS识别
 
