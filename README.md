@@ -9,10 +9,10 @@
 ## Feature
 * Sql注入
 * 命令注入
+* 敏感文件
 
 ## TODO
 * 路径穿越
-* 敏感文件
 * CMS识别
 
 # How To Use
