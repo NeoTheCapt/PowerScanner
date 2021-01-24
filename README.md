@@ -18,9 +18,9 @@
 * 加载插件
 ![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/loadext.png)
 * 新建在线主动扫描
-![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livetask1.png)
-![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livetask2.png)
-![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livetask3.png)
-![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livetask4.png)
-![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livetask5.png)
-![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livetask6.png)
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livescan1.png)
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livescan2.png)
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livescan3.png)
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livescan4.png)
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livescan5.png)
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livescan6.png)
