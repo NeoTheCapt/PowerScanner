@@ -25,7 +25,7 @@ public class PowerPannel extends JPanel {
 		this.checkBox_SensitiveFilesScan.setSelected(Global.config.getConfigSensitiveFilesScanEnable_value());
 		this.textArea_RCE_cmd.setText(Global.config.getConfigRCEcmd_value());
 		this.textArea_SensitiveFiles.setText(Global.config.getConfigSensitiveFiles_value());
-		this.checkBox_SensitiveParam.setEnabled(Global.config.getConfigSensitiveParamEnable_value());
+		this.checkBox_SensitiveParam.setSelected(Global.config.getConfigSensitiveParamEnable_value());
 		this.checkBox_RandomIP.setSelected(Global.config.getConfigRandomIPEnable_value());
 		this.checkBox_RandomHost.setSelected(Global.config.getConfigRandomHostEnable_value());
 		this.checkBox_RandomUA.setSelected(Global.config.getConfigRandomUAEnable_value());
