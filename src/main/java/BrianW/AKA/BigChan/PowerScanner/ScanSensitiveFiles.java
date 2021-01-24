@@ -6,12 +6,12 @@ import burp.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScanSensiveFiles extends Reporter {
+public class ScanSensitiveFiles extends Reporter {
 	protected IBurpExtenderCallbacks callbacks;
 	protected IExtensionHelpers helpers;
 	private IBurpCollaboratorClientContext collaboratorContext;
 	
-	public ScanSensiveFiles(IBurpExtenderCallbacks callbacks, IExtensionHelpers helpers) {
+	public ScanSensitiveFiles(IBurpExtenderCallbacks callbacks, IExtensionHelpers helpers) {
 		super(callbacks, helpers);
 		this.callbacks = callbacks;
 		this.helpers = helpers;

@@ -25,6 +25,20 @@ public class Config {
 	private String configSensitiveFilesScanEnable_key = "SensiveFilesScanEnable";
 	private Boolean configSensitiveFilesScanEnable_value = true;
 	
+	private String configSensitiveParamEnable_key = "SensiveParamEnable";
+	private Boolean configSensitiveParamEnable_value = true;
+	
+	private String configRandomIPEnable_key = "RandomIPEnable";
+	private Boolean configRandomIPEnable_value = true;
+	
+	private String configClearCookieEnable_key = "ClearCookieEnable";
+	private Boolean configClearCookieEnable_value = true;
+	
+	private String configRandomUAEnable_key = "RandomUAEnable";
+	private Boolean configRandomUAEnable_value = true;
+	
+	private String configRandomHostEnable_key = "RandomHostEnable";
+	private Boolean configRandomHostEnable_value = true;
 	//=====================================================
 	private String configSectionSqli = "Sqli";
 	//=====================================================
@@ -51,6 +65,11 @@ public class Config {
 				this.configRCEEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configRCEEnable_key));
 				this.configPathTraversalEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configPathTraversalEnable_key));
 				this.configSensitiveFilesScanEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configSensitiveFilesScanEnable_key));
+				this.configSensitiveParamEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configSensitiveParamEnable_key));
+				this.configRandomIPEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configRandomIPEnable_key));
+				this.configClearCookieEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configClearCookieEnable_key));
+				this.configRandomUAEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configRandomUAEnable_key));
+				this.configRandomHostEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configRandomHostEnable_key));
 				this.configRCEcmd_value = ini.get(configSectionRCE, configRCEcmd_key);
 				this.configSensitiveFiles_value = ini.get(configSectionSensiveFilesScan, configSensitiveFiles_key);
 			} else {
@@ -84,6 +103,26 @@ public class Config {
 				ini.add(configSectionSensiveFilesScan,
 						configSensitiveFiles_key,
 						configSensitiveFiles_value
+				);
+				ini.add(configSectionGlobal,
+						configSensitiveParamEnable_key,
+						configSensitiveParamEnable_value
+				);
+				ini.add(configSectionGlobal,
+						configRandomIPEnable_key,
+						configRandomIPEnable_value
+				);
+				ini.add(configSectionGlobal,
+						configClearCookieEnable_key,
+						configClearCookieEnable_value
+				);
+				ini.add(configSectionGlobal,
+						configRandomUAEnable_key,
+						configRandomUAEnable_value
+				);
+				ini.add(configSectionGlobal,
+						configRandomHostEnable_key,
+						configRandomHostEnable_value
 				);
 				//将文件内容保存到文件中
 				ini.store(this.file);
@@ -149,6 +188,51 @@ public class Config {
 		return this;
 	}
 	
+	public Config setConfigSensitiveParamEnable_value(Boolean configSensitiveParamEnable_value) {
+		setValue(this.configSectionGlobal,
+				this.configSensitiveParamEnable_key,
+				configSensitiveParamEnable_value.toString()
+		);
+		this.configSensitiveParamEnable_value = configSensitiveParamEnable_value;
+		return this;
+	}
+	
+	public Config setConfigRandomIPEnable_value(Boolean configRandomIPEnable_value) {
+		setValue(this.configSectionGlobal,
+				this.configRandomIPEnable_key,
+				configRandomIPEnable_value.toString()
+		);
+		this.configRandomIPEnable_value = configRandomIPEnable_value;
+		return this;
+	}
+	
+	public Config setConfigClearCookieEnable_value(Boolean configClearCookieEnable_value) {
+		setValue(this.configSectionGlobal,
+				this.configClearCookieEnable_key,
+				configClearCookieEnable_value.toString()
+		);
+		this.configClearCookieEnable_value = configClearCookieEnable_value;
+		return this;
+	}
+	
+	public Config setConfigRandomUAEnable_value(Boolean configRandomUAEnable_value) {
+		setValue(this.configSectionGlobal,
+				this.configRandomUAEnable_key,
+				configRandomUAEnable_value.toString()
+		);
+		this.configRandomUAEnable_value = configRandomUAEnable_value;
+		return this;
+	}
+	
+	public Config setConfigRandomHostEnable_value(Boolean configRandomHostEnable_value) {
+		setValue(this.configSectionGlobal,
+				this.configRandomHostEnable_key,
+				configRandomHostEnable_value.toString()
+		);
+		this.configRandomHostEnable_value = configRandomHostEnable_value;
+		return this;
+	}
+	
 	public Boolean getConfigSqliEnable_value() {
 		return configSqliEnable_value;
 	}
@@ -171,6 +255,26 @@ public class Config {
 	
 	public String getConfigSensitiveFiles_value() {
 		return configSensitiveFiles_value;
+	}
+	
+	public Boolean getConfigSensitiveParamEnable_value() {
+		return configSensitiveParamEnable_value;
+	}
+	
+	public Boolean getConfigRandomIPEnable_value() {
+		return configRandomIPEnable_value;
+	}
+	
+	public Boolean getConfigClearCookieEnable_value() {
+		return configClearCookieEnable_value;
+	}
+	
+	public Boolean getConfigRandomUAEnable_value() {
+		return configRandomUAEnable_value;
+	}
+	
+	public Boolean getConfigRandomHostEnable_value() {
+		return configRandomHostEnable_value;
 	}
 	
 	private void setValue(String section, String key, String value){

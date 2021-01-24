@@ -23,7 +23,13 @@ public class PowerPannel extends JPanel {
 		this.checkBox_Sqli.setSelected(Global.config.getConfigSqliEnable_value());
 		this.checkBox_RCE.setSelected(Global.config.getConfigRCEEnable_value());
 		this.checkBox_SensitiveFilesScan.setSelected(Global.config.getConfigSensitiveFilesScanEnable_value());
-		
+		this.textArea_RCE_cmd.setText(Global.config.getConfigRCEcmd_value());
+		this.textArea_SensitiveFiles.setText(Global.config.getConfigSensitiveFiles_value());
+		this.checkBox_SensitiveParam.setEnabled(Global.config.getConfigSensitiveParamEnable_value());
+		this.checkBox_RandomIP.setSelected(Global.config.getConfigRandomIPEnable_value());
+		this.checkBox_RandomHost.setSelected(Global.config.getConfigRandomHostEnable_value());
+		this.checkBox_RandomUA.setSelected(Global.config.getConfigRandomUAEnable_value());
+		this.checkBox_ClearCookies.setSelected(Global.config.getConfigClearCookieEnable_value());
 	}
 
 	private void checkBox_SqliActionPerformed(ActionEvent e) {
@@ -54,6 +60,26 @@ public class PowerPannel extends JPanel {
 	private void textArea_SensitiveFilesFocusLost(FocusEvent e) {
 		Global.config.setConfigSensitiveFiles_value(this.textArea_SensitiveFiles.getText());
 	}
+
+	private void checkBox_SensitiveParamActionPerformed(ActionEvent e) {
+		Global.config.setConfigSensitiveParamEnable_value(this.checkBox_SensitiveParam.isSelected());
+	}
+
+	private void checkBox_RandomIPActionPerformed(ActionEvent e) {
+		Global.config.setConfigRandomIPEnable_value(this.checkBox_RandomIP.isSelected());
+	}
+
+	private void checkBox_ClearCookiesActionPerformed(ActionEvent e) {
+		Global.config.setConfigClearCookieEnable_value(this.checkBox_ClearCookies.isSelected());
+	}
+
+	private void checkBox_RandomUAActionPerformed(ActionEvent e) {
+		Global.config.setConfigRandomUAEnable_value(this.checkBox_RandomUA.isSelected());
+	}
+
+	private void checkBox_RandomHostActionPerformed(ActionEvent e) {
+		Global.config.setConfigRandomHostEnable_value(this.checkBox_RandomHost.isSelected());
+	}
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
 		tabbedPane1 = new JTabbedPane();
@@ -67,11 +93,12 @@ public class PowerPannel extends JPanel {
 		checkBox_SensitiveFilesScan = new JCheckBox();
 		scrollPane3 = new JScrollPane();
 		textArea_SensitiveFiles = new JTextArea();
+		checkBox_SensitiveParam = new JCheckBox();
 		panel4 = new JPanel();
-		checkBox2 = new JCheckBox();
-		checkBox3 = new JCheckBox();
-		checkBox7 = new JCheckBox();
-		checkBox8 = new JCheckBox();
+		checkBox_RandomIP = new JCheckBox();
+		checkBox_ClearCookies = new JCheckBox();
+		checkBox_RandomUA = new JCheckBox();
+		checkBox_RandomHost = new JCheckBox();
 		panel2 = new JPanel();
 		scrollPane1 = new JScrollPane();
 		table1 = new JTable();
@@ -156,6 +183,12 @@ public class PowerPannel extends JPanel {
 				panel1.add(scrollPane3);
 				scrollPane3.setBounds(35, 205, 265, 55);
 
+				//---- checkBox_SensitiveParam ----
+				checkBox_SensitiveParam.setText("\u62a5\u544a\u53ef\u80fd\u5b58\u5728\u6f0f\u6d1e\u7684\u654f\u611f\u53c2\u6570\u540d");
+				checkBox_SensitiveParam.addActionListener(e -> checkBox_SensitiveParamActionPerformed(e));
+				panel1.add(checkBox_SensitiveParam);
+				checkBox_SensitiveParam.setBounds(30, 275, 280, 25);
+
 				{
 					// compute preferred size
 					Dimension preferredSize = new Dimension();
@@ -177,25 +210,29 @@ public class PowerPannel extends JPanel {
 			{
 				panel4.setLayout(null);
 
-				//---- checkBox2 ----
-				checkBox2.setText("IP\u968f\u673a\u5316");
-				panel4.add(checkBox2);
-				checkBox2.setBounds(30, 20, 215, checkBox2.getPreferredSize().height);
+				//---- checkBox_RandomIP ----
+				checkBox_RandomIP.setText("IP\u968f\u673a\u5316");
+				checkBox_RandomIP.addActionListener(e -> checkBox_RandomIPActionPerformed(e));
+				panel4.add(checkBox_RandomIP);
+				checkBox_RandomIP.setBounds(30, 20, 215, checkBox_RandomIP.getPreferredSize().height);
 
-				//---- checkBox3 ----
-				checkBox3.setText("\u6e05\u7a7aCookies");
-				panel4.add(checkBox3);
-				checkBox3.setBounds(new Rectangle(new Point(30, 50), checkBox3.getPreferredSize()));
+				//---- checkBox_ClearCookies ----
+				checkBox_ClearCookies.setText("\u6e05\u7a7aCookies");
+				checkBox_ClearCookies.addActionListener(e -> checkBox_ClearCookiesActionPerformed(e));
+				panel4.add(checkBox_ClearCookies);
+				checkBox_ClearCookies.setBounds(new Rectangle(new Point(30, 50), checkBox_ClearCookies.getPreferredSize()));
 
-				//---- checkBox7 ----
-				checkBox7.setText("User-agent\u968f\u673a\u5316");
-				panel4.add(checkBox7);
-				checkBox7.setBounds(new Rectangle(new Point(30, 80), checkBox7.getPreferredSize()));
+				//---- checkBox_RandomUA ----
+				checkBox_RandomUA.setText("User-agent\u968f\u673a\u5316");
+				checkBox_RandomUA.addActionListener(e -> checkBox_RandomUAActionPerformed(e));
+				panel4.add(checkBox_RandomUA);
+				checkBox_RandomUA.setBounds(new Rectangle(new Point(30, 80), checkBox_RandomUA.getPreferredSize()));
 
-				//---- checkBox8 ----
-				checkBox8.setText("Host\u968f\u673a\u5316");
-				panel4.add(checkBox8);
-				checkBox8.setBounds(new Rectangle(new Point(30, 115), checkBox8.getPreferredSize()));
+				//---- checkBox_RandomHost ----
+				checkBox_RandomHost.setText("Host\u968f\u673a\u5316");
+				checkBox_RandomHost.addActionListener(e -> checkBox_RandomHostActionPerformed(e));
+				panel4.add(checkBox_RandomHost);
+				checkBox_RandomHost.setBounds(new Rectangle(new Point(30, 115), checkBox_RandomHost.getPreferredSize()));
 
 				{
 					// compute preferred size
@@ -316,11 +353,12 @@ public class PowerPannel extends JPanel {
 	private JCheckBox checkBox_SensitiveFilesScan;
 	private JScrollPane scrollPane3;
 	private JTextArea textArea_SensitiveFiles;
+	private JCheckBox checkBox_SensitiveParam;
 	private JPanel panel4;
-	private JCheckBox checkBox2;
-	private JCheckBox checkBox3;
-	private JCheckBox checkBox7;
-	private JCheckBox checkBox8;
+	private JCheckBox checkBox_RandomIP;
+	private JCheckBox checkBox_ClearCookies;
+	private JCheckBox checkBox_RandomUA;
+	private JCheckBox checkBox_RandomHost;
 	private JPanel panel2;
 	private JScrollPane scrollPane1;
 	private JTable table1;

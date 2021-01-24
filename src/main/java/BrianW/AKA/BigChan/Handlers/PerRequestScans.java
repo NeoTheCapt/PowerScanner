@@ -1,6 +1,8 @@
 package BrianW.AKA.BigChan.Handlers;
 
+import BrianW.AKA.BigChan.PowerScanner.ScanPathTraversal;
 import BrianW.AKA.BigChan.PowerScanner.ScanRCE;
+import BrianW.AKA.BigChan.PowerScanner.ScanSensitiveParam;
 import BrianW.AKA.BigChan.PowerScanner.ScanSqli;
 import BrianW.AKA.BigChan.Tools.Global;
 import burp.*;
@@ -36,7 +38,16 @@ public class PerRequestScans implements IScannerCheck {
 					new ScanRCE(callbacks, helpers).doScanRCE(baseRequestResponse, insertionPoint)
 			);
 		}
-		
+		if (Global.config.getConfigPathTraversalEnable_value()){
+			issues.add(
+					new ScanPathTraversal(callbacks, helpers).doScanPathTraversal(baseRequestResponse, insertionPoint)
+			);
+		}
+		if (Global.config.getConfigSensitiveParamEnable_value()){
+			issues.add(
+					new ScanSensitiveParam(callbacks, helpers).doScanSensitiveParam(baseRequestResponse, insertionPoint)
+			);
+		}
 		List nullList = new ArrayList();
 		nullList.add(null);
 		issues.removeAll(nullList);

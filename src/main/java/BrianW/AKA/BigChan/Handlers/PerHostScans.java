@@ -1,5 +1,5 @@
 package BrianW.AKA.BigChan.Handlers;
-import BrianW.AKA.BigChan.PowerScanner.ScanSensiveFiles;
+import BrianW.AKA.BigChan.PowerScanner.ScanSensitiveFiles;
 import BrianW.AKA.BigChan.Tools.Global;
 import burp.*;
 
@@ -34,7 +34,7 @@ public class PerHostScans implements IScannerCheck {
 		scanedHosts.add(currentHost);
 		if (Global.config.getConfigSensitiveFilesScanEnable_value()){
 			issues.addAll(
-					new ScanSensiveFiles(callbacks, helpers).doScanSensiveFiles(baseRequestResponse, insertionPoint)
+					new ScanSensitiveFiles(callbacks, helpers).doScanSensiveFiles(baseRequestResponse, insertionPoint)
 			);
 		}
 		List nullList = new ArrayList();

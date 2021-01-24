@@ -7,16 +7,17 @@
 * By Brian.W AKA BigCHAN
 
 ## Feature
-* Sql注入
-* 命令注入
-* 敏感文件
+* 扫描Sql注入
+* 扫描命令注入
+* 扫描敏感文件
+* 扫描路径穿越
 * BypassWAF:各种Headers随机化(IP随机化、Cookie清空、User-agent随机化、HOST随机化)
 * BypassWAF:锚点随机化，随机锚点{{|RANDOMSTR|}},{{|RANDOMINT|}}
+* 报告敏感参数(参数明看起来可能是漏洞点)
 
 ## TODO
 * BypassWAF:膨胀Post body
 * BypassWAF:膨胀Get URL
-* 路径穿越
 * CMS识别
 
 # How To Use

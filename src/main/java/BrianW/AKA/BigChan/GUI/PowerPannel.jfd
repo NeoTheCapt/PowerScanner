@@ -77,36 +77,50 @@ new FormModel {
 						"width": 265
 						"height": 55
 					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "checkBox_SensitiveParam"
+						"text": "报告可能存在漏洞的敏感参数名"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_SensitiveParamActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 30
+						"y": 275
+						"width": 280
+						"height": 25
+					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "挖洞"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
 					name: "panel4"
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "checkBox2"
+						name: "checkBox_RandomIP"
 						"text": "IP随机化"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_RandomIPActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 						"x": 30
 						"y": 20
 						"width": 215
 					} )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "checkBox3"
+						name: "checkBox_ClearCookies"
 						"text": "清空Cookies"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_ClearCookiesActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 						"x": 30
 						"y": 50
 					} )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "checkBox7"
+						name: "checkBox_RandomUA"
 						"text": "User-agent随机化"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_RandomUAActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 						"x": 30
 						"y": 80
 					} )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
-						name: "checkBox8"
+						name: "checkBox_RandomHost"
 						"text": "Host随机化"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_RandomHostActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 						"x": 30
 						"y": 115
