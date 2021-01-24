@@ -10,6 +10,7 @@
 * Sql注入
 * 命令注入
 * 敏感文件
+* Bypass WAF(IP随机化、Cookie随机化)
 
 ## TODO
 * 路径穿越

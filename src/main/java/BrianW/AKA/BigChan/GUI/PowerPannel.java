@@ -67,6 +67,9 @@ public class PowerPannel extends JPanel {
 		checkBox_SensitiveFilesScan = new JCheckBox();
 		scrollPane3 = new JScrollPane();
 		textArea_SensitiveFiles = new JTextArea();
+		panel4 = new JPanel();
+		checkBox2 = new JCheckBox();
+		checkBox3 = new JCheckBox();
 		panel2 = new JPanel();
 		scrollPane1 = new JScrollPane();
 		table1 = new JTable();
@@ -92,13 +95,13 @@ public class PowerPannel extends JPanel {
 				checkBox_Sqli.setText("\u6ce8\u5165\u6d4b\u8bd5");
 				checkBox_Sqli.addActionListener(e -> checkBox_SqliActionPerformed(e));
 				panel1.add(checkBox_Sqli);
-				checkBox_Sqli.setBounds(new Rectangle(new Point(15, 175), checkBox_Sqli.getPreferredSize()));
+				checkBox_Sqli.setBounds(new Rectangle(new Point(30, 45), checkBox_Sqli.getPreferredSize()));
 
 				//---- checkBox_RCE ----
 				checkBox_RCE.setText("\u547d\u4ee4\u6ce8\u5165(\u4e0b\u65b9\u586b\u5199\u5355\u884c\u547d\u4ee4)");
 				checkBox_RCE.addActionListener(e -> checkBox_RCEActionPerformed(e));
 				panel1.add(checkBox_RCE);
-				checkBox_RCE.setBounds(new Rectangle(new Point(15, 205), checkBox_RCE.getPreferredSize()));
+				checkBox_RCE.setBounds(new Rectangle(new Point(30, 75), checkBox_RCE.getPreferredSize()));
 
 				//---- checkBox6 ----
 				checkBox6.setText("\u4f4e\u8c03\u6a21\u5f0f(\u6700\u5927\u7a0b\u5ea6\u51cf\u5c11\u53d1\u5305\u91cf\uff0c\u540c\u65f6\u63d0\u9ad8\u8bef\u62a5\u7387)");
@@ -121,19 +124,19 @@ public class PowerPannel extends JPanel {
 					scrollPane2.setViewportView(textArea_RCE_cmd);
 				}
 				panel1.add(scrollPane2);
-				scrollPane2.setBounds(15, 230, 270, 35);
+				scrollPane2.setBounds(30, 100, 270, 35);
 
 				//---- checkBox_PathTraversal ----
 				checkBox_PathTraversal.setText("\u8def\u5f84\u7a7f\u8d8a");
 				checkBox_PathTraversal.addActionListener(e -> checkBox_PathTraversalActionPerformed(e));
 				panel1.add(checkBox_PathTraversal);
-				checkBox_PathTraversal.setBounds(new Rectangle(new Point(15, 275), checkBox_PathTraversal.getPreferredSize()));
+				checkBox_PathTraversal.setBounds(new Rectangle(new Point(30, 145), checkBox_PathTraversal.getPreferredSize()));
 
 				//---- checkBox_SensitiveFilesScan ----
 				checkBox_SensitiveFilesScan.setText("\u654f\u611f\u6587\u4ef6\u63a2\u6d4b(\u4e0b\u65b9\u586b\u5199\u591a\u884c\u63a2\u6d4b\u6587\u4ef6\u5217\u8868)");
 				checkBox_SensitiveFilesScan.addActionListener(e -> checkBox_SensitiveFilesScanActionPerformed(e));
 				panel1.add(checkBox_SensitiveFilesScan);
-				checkBox_SensitiveFilesScan.setBounds(15, 305, 220, checkBox_SensitiveFilesScan.getPreferredSize().height);
+				checkBox_SensitiveFilesScan.setBounds(30, 175, 220, checkBox_SensitiveFilesScan.getPreferredSize().height);
 
 				//======== scrollPane3 ========
 				{
@@ -149,7 +152,7 @@ public class PowerPannel extends JPanel {
 					scrollPane3.setViewportView(textArea_SensitiveFiles);
 				}
 				panel1.add(scrollPane3);
-				scrollPane3.setBounds(20, 335, 265, 55);
+				scrollPane3.setBounds(35, 205, 265, 55);
 
 				{
 					// compute preferred size
@@ -166,7 +169,38 @@ public class PowerPannel extends JPanel {
 					panel1.setPreferredSize(preferredSize);
 				}
 			}
-			tabbedPane1.addTab("\u9009\u9879", panel1);
+			tabbedPane1.addTab("\u6316\u6d1e", panel1);
+
+			//======== panel4 ========
+			{
+				panel4.setLayout(null);
+
+				//---- checkBox2 ----
+				checkBox2.setText("IP\u968f\u673a\u5316");
+				panel4.add(checkBox2);
+				checkBox2.setBounds(30, 20, 215, checkBox2.getPreferredSize().height);
+
+				//---- checkBox3 ----
+				checkBox3.setText("\u6e05\u7a7aCookies");
+				panel4.add(checkBox3);
+				checkBox3.setBounds(new Rectangle(new Point(30, 50), checkBox3.getPreferredSize()));
+
+				{
+					// compute preferred size
+					Dimension preferredSize = new Dimension();
+					for(int i = 0; i < panel4.getComponentCount(); i++) {
+						Rectangle bounds = panel4.getComponent(i).getBounds();
+						preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+						preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+					}
+					Insets insets = panel4.getInsets();
+					preferredSize.width += insets.right;
+					preferredSize.height += insets.bottom;
+					panel4.setMinimumSize(preferredSize);
+					panel4.setPreferredSize(preferredSize);
+				}
+			}
+			tabbedPane1.addTab("BypassWAF", panel4);
 
 			//======== panel2 ========
 			{
@@ -270,6 +304,9 @@ public class PowerPannel extends JPanel {
 	private JCheckBox checkBox_SensitiveFilesScan;
 	private JScrollPane scrollPane3;
 	private JTextArea textArea_SensitiveFiles;
+	private JPanel panel4;
+	private JCheckBox checkBox2;
+	private JCheckBox checkBox3;
 	private JPanel panel2;
 	private JScrollPane scrollPane1;
 	private JTable table1;

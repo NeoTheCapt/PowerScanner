@@ -18,7 +18,7 @@ public class scanSensiveFiles extends scanHandler {
 		collaboratorContext = callbacks.createBurpCollaboratorClientContext();
 	}
 	
-	List<IScanIssue> doScanSensiveFiles(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
+	public List<IScanIssue> doScanSensiveFiles(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
 		String[] fileList = Global.config.getConfigSensitiveFiles_value().split("\n");
 		List<IScanIssue> issues = new ArrayList<>();
 		for (String file : fileList) {

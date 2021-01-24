@@ -26,7 +26,7 @@ public class ScanRCE extends scanHandler {
 		collaboratorContext = callbacks.createBurpCollaboratorClientContext();
 	}
 	
-	IScanIssue doScanRCE(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
+	public IScanIssue doScanRCE(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
 		byte[] resp = baseRequestResponse.getResponse();
 		String baseName = insertionPoint.getInsertionPointName();
 		String insertionPointType = utils.bytesToHexString(new byte[]{insertionPoint.getInsertionPointType()}, 1);

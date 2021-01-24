@@ -1,6 +1,8 @@
 package BrianW.AKA.BigChan.Tools;
 
 
+import java.util.Random;
+
 public class utils {
 	/**
 	 * @param str     原字符串
@@ -55,6 +57,11 @@ public class utils {
 			sb.append(element.toString() + "\n");
 		}
 		return sb.toString();
+	}
+	
+	public static String IpGen(){
+		Random r = new Random();
+		return r.nextInt(256) + "." + r.nextInt(256) + "." + r.nextInt(256) + "." + r.nextInt(256);
 	}
 	
 }

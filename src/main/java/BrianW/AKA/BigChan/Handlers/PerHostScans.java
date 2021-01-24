@@ -1,18 +1,20 @@
-package BrianW.AKA.BigChan.PowerScanner;
-
+package BrianW.AKA.BigChan.Handlers;
+import BrianW.AKA.BigChan.PowerScanner.scanSensiveFiles;
 import BrianW.AKA.BigChan.Tools.Global;
 import burp.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PerRequestScans implements IScannerCheck {
+public class PerHostScans implements IScannerCheck {
 	private final IBurpExtenderCallbacks callbacks;
 	private final IExtensionHelpers helpers;
+	private final List<String> scanedHosts;
 	
-	public PerRequestScans(IBurpExtenderCallbacks callbacks, IExtensionHelpers helpers) {
+	public PerHostScans(IBurpExtenderCallbacks callbacks, IExtensionHelpers helpers) {
 		this.callbacks = callbacks;
 		this.helpers = helpers;
+		this.scanedHosts = new ArrayList<String>();;
 	}
 	
 	@Override
@@ -24,14 +26,15 @@ public class PerRequestScans implements IScannerCheck {
 	public List<IScanIssue> doActiveScan(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
 		// report the issue
 		List<IScanIssue> issues = new ArrayList<>();
-		if (Global.config.getConfigSqliEnable_value()){
-			issues.add(
-					new ScanSqli(callbacks, helpers).doScanSqli(baseRequestResponse, insertionPoint)
-			);
+		String currentHost = baseRequestResponse.getHttpService().getHost();
+		if (this.scanedHosts.contains(currentHost)){
+			return issues;
 		}
-		if (Global.config.getConfigRCEEnable_value()){
-			issues.add(
-					new ScanRCE(callbacks, helpers).doScanRCE(baseRequestResponse, insertionPoint)
+		this.callbacks.printOutput("do ActiveScan per host on: " + currentHost);
+		scanedHosts.add(currentHost);
+		if (Global.config.getConfigSensitiveFilesScanEnable_value()){
+			issues.addAll(
+					new scanSensiveFiles(callbacks, helpers).doScanSensiveFiles(baseRequestResponse, insertionPoint)
 			);
 		}
 		List nullList = new ArrayList();
@@ -63,4 +66,3 @@ public class PerRequestScans implements IScannerCheck {
 		return matches;
 	}
 }
-

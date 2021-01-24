@@ -13,7 +13,7 @@ public class ScanSqli extends scanHandler{
 		this.helpers = helpers;
 	}
 //@todo where sort order limit table from start end
-	IScanIssue doScanSqli(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
+public IScanIssue doScanSqli(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
 		byte[] resp = baseRequestResponse.getResponse();
 		String baseName = insertionPoint.getInsertionPointName();
 		String InsertionPointType = utils.bytesToHexString(new byte[]{insertionPoint.getInsertionPointType()}, 1);

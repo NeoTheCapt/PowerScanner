@@ -1,7 +1,9 @@
 package burp;
 
 import BrianW.AKA.BigChan.GUI.PowerTab;
-import BrianW.AKA.BigChan.PowerScanner.*;
+import BrianW.AKA.BigChan.Handlers.PerHostScans;
+import BrianW.AKA.BigChan.Handlers.PerRequestScans;
+import BrianW.AKA.BigChan.Handlers.SessionHandler;
 import BrianW.AKA.BigChan.Tools.Config;
 import BrianW.AKA.BigChan.Tools.Global;
 
@@ -23,8 +25,10 @@ public class BurpExtender implements IBurpExtender {
 		// register ourselves as a custom scanner check
 		IScannerCheck PerRequestScans = new PerRequestScans(callbacks, helpers);
 		IScannerCheck PerHostScans = new PerHostScans(callbacks, helpers);
+		ISessionHandlingAction SessionHandler = new SessionHandler(callbacks, helpers);
 		callbacks.registerScannerCheck(PerRequestScans);
 		callbacks.registerScannerCheck(PerHostScans);
+		callbacks.registerSessionHandlingAction(SessionHandler);
 		callbacks.printOutput("PowerScanner by Brian.W");
 		callbacks.printOutput("Start scanner!");
 	}

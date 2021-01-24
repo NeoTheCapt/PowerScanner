@@ -14,16 +14,16 @@ new FormModel {
 						"text": "注入测试"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_SqliActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 15
-						"y": 175
+						"x": 30
+						"y": 45
 					} )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "checkBox_RCE"
 						"text": "命令注入(下方填写单行命令)"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_RCEActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 15
-						"y": 205
+						"x": 30
+						"y": 75
 					} )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "checkBox6"
@@ -42,8 +42,8 @@ new FormModel {
 							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textArea_RCE_cmdFocusLost", true ) )
 						} )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 15
-						"y": 230
+						"x": 30
+						"y": 100
 						"width": 270
 						"height": 35
 					} )
@@ -52,16 +52,16 @@ new FormModel {
 						"text": "路径穿越"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_PathTraversalActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"y": 275
-						"x": 15
+						"y": 145
+						"x": 30
 					} )
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "checkBox_SensitiveFilesScan"
 						"text": "敏感文件探测(下方填写多行探测文件列表)"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_SensitiveFilesScanActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 15
-						"y": 305
+						"x": 30
+						"y": 175
 						"width": 220
 					} )
 					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
@@ -72,13 +72,33 @@ new FormModel {
 							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textArea_SensitiveFilesFocusLost", true ) )
 						} )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-						"x": 20
-						"y": 335
+						"x": 35
+						"y": 205
 						"width": 265
 						"height": 55
 					} )
 				}, new FormLayoutConstraints( null ) {
-					"title": "选项"
+					"title": "挖洞"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+					name: "panel4"
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "checkBox2"
+						"text": "IP随机化"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 30
+						"y": 20
+						"width": 215
+					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "checkBox3"
+						"text": "清空Cookies"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 30
+						"y": 50
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "BypassWAF"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
 					name: "panel2"
