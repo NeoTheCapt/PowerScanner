@@ -36,6 +36,7 @@ public class PerRequestScans implements IScannerCheck {
 					new ScanRCE(callbacks, helpers).doScanRCE(baseRequestResponse, insertionPoint)
 			);
 		}
+		
 		List nullList = new ArrayList();
 		nullList.add(null);
 		issues.removeAll(nullList);

@@ -32,8 +32,8 @@ public class SessionHandler implements ISessionHandlingAction {
 		List<String> headers = requestInfo.getHeaders();
 		int bodySize = currentRequest.getRequest().length - requestInfo.getBodyOffset();
 		byte[] reqBody = new byte[bodySize];
-		callbacks.printOutput("currentRequest.getRequest().length=" + currentRequest.getRequest().length);
-		callbacks.printOutput("requestInfo.getBodyOffset()" + requestInfo.getBodyOffset());
+//		callbacks.printOutput("currentRequest.getRequest().length=" + currentRequest.getRequest().length);
+//		callbacks.printOutput("requestInfo.getBodyOffset()" + requestInfo.getBodyOffset());
 		System.arraycopy(currentRequest.getRequest(), requestInfo.getBodyOffset(), reqBody, 0, bodySize);
 		headers.removeIf(n -> (n.startsWith("x-originating-IP: ")));
 		headers.removeIf(n -> (n.startsWith("x-forwarded-for: ")));

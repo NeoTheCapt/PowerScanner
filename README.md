@@ -10,11 +10,8 @@
 * Sql注入
 * 命令注入
 * 敏感文件
-* BypassWAF:IP随机化
-* BypassWAF:Cookie清空
-* BypassWAF:User-agent随机化
+* BypassWAF:各种Headers随机化(IP随机化、Cookie清空、User-agent随机化、HOST随机化)
 * BypassWAF:锚点随机化，随机锚点{{|RANDOMSTR|}},{{|RANDOMINT|}}
-* BypassWAF:HOST随机化
 
 ## TODO
 * BypassWAF:膨胀Post body
@@ -23,6 +20,8 @@
 * CMS识别
 
 # How To Use
+加载插件，设置主动在线扫描，打开浏览器，设置代理到burp，剩下的就是点点点就行了。
+
 ## 主动扫描
 * (optional) 为了控制发包数目，防止被WAF封，取消勾选其他所有主动扫描插件
 * 加载插件

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ScanRCE extends scanHandler {
+public class ScanRCE extends Reporter {
 	protected IBurpExtenderCallbacks callbacks;
 	protected IExtensionHelpers helpers;
 	private IBurpCollaboratorClientContext collaboratorContext;
