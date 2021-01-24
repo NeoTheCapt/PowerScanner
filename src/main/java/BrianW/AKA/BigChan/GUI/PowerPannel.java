@@ -139,7 +139,7 @@ public class PowerPannel extends JPanel {
 				{
 
 					//---- textArea_SensitiveFiles ----
-					textArea_SensitiveFiles.setText("robots.txt");
+					textArea_SensitiveFiles.setText("robots.txt\nWEB-INF/web.xml\n.git/config\nadmin\nmanager");
 					textArea_SensitiveFiles.addFocusListener(new FocusAdapter() {
 						@Override
 						public void focusLost(FocusEvent e) {

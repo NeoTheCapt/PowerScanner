@@ -1,8 +1,14 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
+import BrianW.AKA.BigChan.Tools.Global;
 import BrianW.AKA.BigChan.Tools.InteractionServer;
 import BrianW.AKA.BigChan.Tools.utils;
 import burp.*;
+
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Spliterator;
 
 public class scanSensiveFiles extends scanHandler {
 	protected IBurpExtenderCallbacks callbacks;
@@ -15,13 +21,38 @@ public class scanSensiveFiles extends scanHandler {
 		this.helpers = helpers;
 		collaboratorContext = callbacks.createBurpCollaboratorClientContext();
 	}
-	IScanIssue doScanSensiveFiles(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
-		byte[] resp = baseRequestResponse.getResponse();
-		String baseName = insertionPoint.getInsertionPointName();
-		String insertionPointType = utils.bytesToHexString(new byte[]{insertionPoint.getInsertionPointType()}, 1);
-		String baseValue = insertionPoint.getBaseValue();
-		InteractionServer interactionServer = new InteractionServer();
-		
-		return null;
+	
+	List<IScanIssue> doScanSensiveFiles(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
+		String[] fileList = Global.config.getConfigSensitiveFiles_value().split("\n");
+		List<IScanIssue> issues = new ArrayList<>();
+		for (String file : fileList) {
+			file = "/" + file;
+			IHttpRequestResponse pairSensitiveFile = fetchURL(baseRequestResponse, file);
+			short code = helpers.analyzeResponse(pairSensitiveFile.getResponse()).getStatusCode();
+			callbacks.printOutput(String.format("Scanning sensitive file: %s, code: %d", file, code));
+			if (code == 200 || code == 403 || code == 301) {
+				issues.add(
+						reporter(
+								"Sensitive File found",
+								String.format("Filename: %s <br>" +
+												"Response Status Code: %d <br>"
+										,
+										file,
+										code
+								),
+								"Low",
+								pairSensitiveFile
+						)
+				);
+			}
+		}
+		return issues;
 	}
+	
+	private IHttpRequestResponse fetchURL(IHttpRequestResponse basePair, String newPath) {
+		String path = this.helpers.analyzeRequest(basePair).getUrl().getPath();
+		String newReq = new String(basePair.getRequest()).replace(path, newPath);
+		return callbacks.makeHttpRequest(basePair.getHttpService(), newReq.getBytes());
+	}
+	
 }

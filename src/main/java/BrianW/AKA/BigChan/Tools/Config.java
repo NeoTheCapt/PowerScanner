@@ -36,7 +36,7 @@ public class Config {
 	//=====================================================
 	private String configSectionSensiveFilesScan = "SensiveFilesScan";
 	private String configSensitiveFiles_key = "SensitiveFiles";
-	private String configSensitiveFiles_value = "robots.txt";
+	private String configSensitiveFiles_value = "robots.txt\nWEB-INF/web.xml\n.git/config\nadmin\nmanager";
 	//=====================================================
 	
 	public Config(IBurpExtenderCallbacks callbacks) {

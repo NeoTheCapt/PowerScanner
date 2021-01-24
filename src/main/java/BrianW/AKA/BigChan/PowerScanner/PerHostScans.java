@@ -1,4 +1,5 @@
 package BrianW.AKA.BigChan.PowerScanner;
+import BrianW.AKA.BigChan.Tools.Global;
 import burp.*;
 
 import java.util.ArrayList;
@@ -28,13 +29,12 @@ public class PerHostScans implements IScannerCheck {
 		if (this.scanedHosts.contains(currentHost)){
 			return issues;
 		}
-		
-		issues.add(
+		this.callbacks.printOutput("do ActiveScan per host on: " + currentHost);
+		scanedHosts.add(currentHost);
+		issues.addAll(
 				new scanSensiveFiles(callbacks, helpers).doScanSensiveFiles(baseRequestResponse, insertionPoint)
 		);
-//		issues.add(
-//				new ScanRCE(callbacks, helpers).doScanRCE(baseRequestResponse, insertionPoint)
-//		);
+		
 		List nullList = new ArrayList();
 		nullList.add(null);
 		issues.removeAll(nullList);
