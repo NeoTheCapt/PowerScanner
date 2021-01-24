@@ -16,6 +16,7 @@
 * 报告敏感参数(参数明看起来可能是漏洞点)
 
 ## TODO
+* 不增加发报量的前提下，修改对照逻辑，降低误报率
 * BypassWAF:膨胀Post body
 * BypassWAF:膨胀Get URL
 * CMS识别

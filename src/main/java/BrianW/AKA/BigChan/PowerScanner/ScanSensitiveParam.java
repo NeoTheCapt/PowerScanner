@@ -4,6 +4,8 @@ import BrianW.AKA.BigChan.Tools.hitRst;
 import BrianW.AKA.BigChan.Tools.utils;
 import burp.*;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class ScanSensitiveParam extends Reporter {
 	protected IBurpExtenderCallbacks callbacks;
@@ -17,39 +19,37 @@ public class ScanSensitiveParam extends Reporter {
 		this.helpers = helpers;
 	}
 	
-	public IScanIssue doScanSensitiveParam(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
-		byte[] resp = baseRequestResponse.getResponse();
-		byte[] req = baseRequestResponse.getRequest();
-		String baseName = insertionPoint.getInsertionPointName();
-		String insertionPointType = utils.bytesToHexString(new byte[]{insertionPoint.getInsertionPointType()}, 1);
-		String baseValue = insertionPoint.getBaseValue();
-		String word = searchSensitiveWords(baseName);
-		if (!word.equals("")) {
-			return reporter(
-					"Sensitive word found in param.",
-					String.format("param: %s <br>" +
-									"Contains sensitive word: %s<br>" +
-									"This sensitive param maybe vulnerable"
-							,
-							baseName,
-							word
-					),
-					"Info",
-					baseRequestResponse
-			);
+	public List<IScanIssue> doScanSensitiveParam(IHttpRequestResponse baseRequestResponse) {
+		List<IScanIssue> issues = new ArrayList<>();
+		List<IParameter> params  = helpers.analyzeRequest(baseRequestResponse).getParameters();
+		for (IParameter param : params){
+			String word = searchSensitiveWords(param.getName());
+			if (!word.equals("")) {
+				issues.add(reporter(
+						"Sensitive word found in param.",
+						String.format("param: %s <br>" +
+										"Contains sensitive word: %s<br>" +
+										"This sensitive param maybe vulnerable"
+								,
+								param.getName(),
+								word
+						),
+						"Information",
+						baseRequestResponse
+				));
+			}
 		}
-		
-		return null;
+		return issues;
 	}
 	
 	private String searchSensitiveWords(String param) {
 		for (String word : sensitiveWords_file) {
-			if (param.contains(word)) {
+			if (param.toLowerCase().contains(word)) {
 				return word;
 			}
 		}
 		for (String word : sensitiveWords_sql) {
-			if (param.contains(word)) {
+			if (param.toLowerCase().contains(word)) {
 				return word;
 			}
 		}

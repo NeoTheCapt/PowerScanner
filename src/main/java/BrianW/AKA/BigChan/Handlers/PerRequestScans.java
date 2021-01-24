@@ -21,7 +21,16 @@ public class PerRequestScans implements IScannerCheck {
 	
 	@Override
 	public List<IScanIssue> doPassiveScan(IHttpRequestResponse baseRequestResponse) {
-		return null;
+		List<IScanIssue> issues = new ArrayList<>();
+		if (Global.config.getConfigSensitiveParamEnable_value()){
+			issues.addAll(
+					new ScanSensitiveParam(callbacks, helpers).doScanSensitiveParam(baseRequestResponse)
+			);
+		}
+		List nullList = new ArrayList();
+		nullList.add(null);
+		issues.removeAll(nullList);
+		return issues;
 	}
 	
 	@Override
@@ -41,11 +50,6 @@ public class PerRequestScans implements IScannerCheck {
 		if (Global.config.getConfigPathTraversalEnable_value()){
 			issues.add(
 					new ScanPathTraversal(callbacks, helpers).doScanPathTraversal(baseRequestResponse, insertionPoint)
-			);
-		}
-		if (Global.config.getConfigSensitiveParamEnable_value()){
-			issues.add(
-					new ScanSensitiveParam(callbacks, helpers).doScanSensitiveParam(baseRequestResponse, insertionPoint)
 			);
 		}
 		List nullList = new ArrayList();
