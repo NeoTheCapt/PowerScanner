@@ -64,5 +64,21 @@ public class utils {
 		return r.nextInt(256) + "." + r.nextInt(256) + "." + r.nextInt(256) + "." + r.nextInt(256);
 	}
 	
+	public static String getRandomString(int length){
+		String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		Random random=new Random();
+		StringBuffer sb=new StringBuffer();
+		for(int i=0;i<length;i++){
+			int number=random.nextInt(62);
+			sb.append(str.charAt(number));
+		}
+		return sb.toString();
+	}
+	
+	public static int getRandomInt(int max, int min){
+		Random random = new Random();
+		int randomWintNextIntWithinARange = random.nextInt(max - min) + min;
+		return randomWintNextIntWithinARange;
+	}
 }
 

@@ -40,13 +40,35 @@ public class SessionHandler implements ISessionHandlingAction {
 		headers.removeIf(n -> (n.startsWith("x-remote-IP: ")));
 		headers.removeIf(n -> (n.startsWith("x-remote-addr: ")));
 		headers.removeIf(n -> (n.startsWith("X-Client-IP: ")));
-		headers.add("x-originating-IP: "+randomIP);
-		headers.add("x-forwarded-for: "+randomIP);
-		headers.add("x-remote-IP: "+randomIP);
-		headers.add("x-remote-addr: "+randomIP);
-		headers.add("X-Client-IP: "+randomIP);
+		headers.add("x-originating-IP: " + randomIP);
+		headers.add("x-forwarded-for: " + randomIP);
+		headers.add("x-remote-IP: " + randomIP);
+		headers.add("x-remote-addr: " + randomIP);
+		headers.add("X-Client-IP: " + randomIP);
+		
 		headers.removeIf(n -> (n.startsWith("Cookie: ")));
 		headers.add("Cookie: ");
+		
+		headers.removeIf(n -> (n.startsWith("User-Agent: ")));
+		headers.add(String.format("User-Agent: %s/%d.0 (Windows NT %d.0; Win%d; x64) AppleWebKit/%d (%s, like %s) %s/%d.0.%d.%d %s/%d.%d",
+				utils.getRandomString(7),
+				utils.getRandomInt(20, 1),
+				utils.getRandomInt(20, 1),
+				utils.getRandomInt(100, 1),
+				utils.getRandomInt(1000, 1),
+				utils.getRandomString(5),
+				utils.getRandomString(5),
+				utils.getRandomString(6),
+				utils.getRandomInt(100, 1),
+				utils.getRandomInt(100, 1),
+				utils.getRandomInt(100, 1),
+				utils.getRandomString(6),
+				utils.getRandomInt(1000, 1),
+				utils.getRandomInt(1000, 1)
+				));
+		
+		headers.removeIf(n -> (n.startsWith("Host: ")));
+		headers.add("Host: " + currentRequest.getHttpService().getHost() + ".:" + utils.getRandomInt(65535, 1));
 		newRequest = helpers.buildHttpMessage(headers, reqBody);
 		
 		currentRequest.setRequest(newRequest);

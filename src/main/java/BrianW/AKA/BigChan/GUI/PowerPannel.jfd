@@ -97,6 +97,20 @@ new FormModel {
 						"x": 30
 						"y": 50
 					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "checkBox7"
+						"text": "User-agent随机化"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 30
+						"y": 80
+					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "checkBox8"
+						"text": "Host随机化"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 30
+						"y": 115
+					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "BypassWAF"
 				} )

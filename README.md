@@ -12,6 +12,9 @@
 * 敏感文件
 * BypassWAF:IP随机化
 * BypassWAF:Cookie清空
+* BypassWAF:User-agent随机化
+* BypassWAF:锚点随机化，随机锚点{{|RANDOMSTR|}},{{|RANDOMINT|}}
+* BypassWAF:HOST随机化
 
 ## TODO
 * BypassWAF:膨胀Post body

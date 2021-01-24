@@ -70,6 +70,8 @@ public class PowerPannel extends JPanel {
 		panel4 = new JPanel();
 		checkBox2 = new JCheckBox();
 		checkBox3 = new JCheckBox();
+		checkBox7 = new JCheckBox();
+		checkBox8 = new JCheckBox();
 		panel2 = new JPanel();
 		scrollPane1 = new JScrollPane();
 		table1 = new JTable();
@@ -184,6 +186,16 @@ public class PowerPannel extends JPanel {
 				checkBox3.setText("\u6e05\u7a7aCookies");
 				panel4.add(checkBox3);
 				checkBox3.setBounds(new Rectangle(new Point(30, 50), checkBox3.getPreferredSize()));
+
+				//---- checkBox7 ----
+				checkBox7.setText("User-agent\u968f\u673a\u5316");
+				panel4.add(checkBox7);
+				checkBox7.setBounds(new Rectangle(new Point(30, 80), checkBox7.getPreferredSize()));
+
+				//---- checkBox8 ----
+				checkBox8.setText("Host\u968f\u673a\u5316");
+				panel4.add(checkBox8);
+				checkBox8.setBounds(new Rectangle(new Point(30, 115), checkBox8.getPreferredSize()));
 
 				{
 					// compute preferred size
@@ -307,6 +319,8 @@ public class PowerPannel extends JPanel {
 	private JPanel panel4;
 	private JCheckBox checkBox2;
 	private JCheckBox checkBox3;
+	private JCheckBox checkBox7;
+	private JCheckBox checkBox8;
 	private JPanel panel2;
 	private JScrollPane scrollPane1;
 	private JTable table1;
