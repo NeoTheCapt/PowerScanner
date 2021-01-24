@@ -20,6 +20,7 @@
 * CMS识别
 
 # How To Use
+## 主动扫描
 * (optional) 为了控制发包数目，防止被WAF封，取消勾选其他所有主动扫描插件
 * 加载插件
 ![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/loadext.png)
@@ -30,3 +31,11 @@
 ![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livescan4.png)
 ![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livescan5.png)
 ![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/livescan6.png)
+
+## Bypass WAF
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/BypassWAF1.jpg)
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/BypassWAF2.jpg)
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/BypassWAF3.jpg)
+
+## 扫描结果
+![image](https://raw.githubusercontent.com/usualwyy/PowerScanner/master/images/report1.jpg)
