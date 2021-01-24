@@ -102,6 +102,8 @@ public class PowerPannel extends JPanel {
 
 				//---- checkBox6 ----
 				checkBox6.setText("\u4f4e\u8c03\u6a21\u5f0f(\u6700\u5927\u7a0b\u5ea6\u51cf\u5c11\u53d1\u5305\u91cf\uff0c\u540c\u65f6\u63d0\u9ad8\u8bef\u62a5\u7387)");
+				checkBox6.setSelected(true);
+				checkBox6.setEnabled(false);
 				panel1.add(checkBox6);
 				checkBox6.setBounds(new Rectangle(new Point(10, 10), checkBox6.getPreferredSize()));
 

@@ -28,6 +28,8 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "checkBox6"
 						"text": "低调模式(最大程度减少发包量，同时提高误报率)"
+						"selected": true
+						"enabled": false
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 						"x": 10
 						"y": 10
