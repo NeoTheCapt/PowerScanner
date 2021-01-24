@@ -36,7 +36,7 @@ public class ScanRCE extends scanHandler {
 		for (String RCEpayload : RCEpayloads) {
 			String collaboratorPayload = this.collaboratorContext.generatePayload(true);
 			callbacks.printOutput("generate collaboratorPayload: " + collaboratorPayload);
-			String cmd = Global.RCEPayloadPrefix + " " + collaboratorPayload;
+			String cmd = Global.config.getConfigRCEcmd_value() + " " + collaboratorPayload;
 			String payload = RCEpayload.replace("{cmd}", cmd);
 			byte[] reqEvil = insertionPoint.buildRequest((payload).getBytes());
 			IHttpRequestResponse pairEvil = callbacks.makeHttpRequest(

@@ -5,52 +5,74 @@
 package BrianW.AKA.BigChan.GUI;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.awt.event.*;
+import java.beans.*;
 import javax.swing.*;
+
+import BrianW.AKA.BigChan.Tools.Config;
 import BrianW.AKA.BigChan.Tools.Global;
-import org.ini4j.Ini;
+
 /**
  * @author usual
  */
 public class PowerPannel extends JPanel {
 	public PowerPannel() {
 		initComponents();
+		this.text_Log.append("inited\n");
+		this.checkBox_PathTraversal.setSelected(Global.config.getConfigPathTraversalEnable_value());
+		this.checkBox_Sqli.setSelected(Global.config.getConfigSqliEnable_value());
+		this.checkBox_RCE.setSelected(Global.config.getConfigRCEEnable_value());
+		this.checkBox_SensitiveFilesScan.setSelected(Global.config.getConfigSensitiveFilesScanEnable_value());
 		
 	}
-	private boolean initConfigFile() throws IOException {
-		File file = new File(Global.configFile);
-		if(file.exists()){
-			return false;
-		}
-		file.createNewFile();
-		Ini ini = new Ini();
-		ini.load(file);
-		ini.add(Global.configIniSectionGlobal,
-				"entity.getKey()",
-				""
-				);
-		//将文件内容保存到文件中
-		ini.store(file);
-		return true;
+
+	private void checkBox_SqliActionPerformed(ActionEvent e) {
+//		this.text_Log.append("checkBox_SqliSelectedChange: \n");
+		Global.config.setConfigSqliEnable_value(this.checkBox_Sqli.isSelected());
+	}
+
+	private void checkBox_RCEActionPerformed(ActionEvent e) {
+		Global.config.setConfigRCEEnable_value(this.checkBox_RCE.isSelected());
+		this.textArea_RCE_cmd.setEnabled(this.checkBox_RCE.isSelected());
+
+	}
+
+	private void checkBox_PathTraversalActionPerformed(ActionEvent e) {
+		Global.config.setConfigPathTraversalEnable_value(this.checkBox_PathTraversal.isSelected());
+	}
+
+	private void checkBox_SensitiveFilesScanActionPerformed(ActionEvent e) {
+		Global.config.setConfigSensitiveFilesScanEnable_value(this.checkBox_SensitiveFilesScan.isSelected());
+		this.textArea_SensitiveFiles.setEnabled(this.checkBox_SensitiveFilesScan.isSelected());
+	}
+
+	private void textArea_RCE_cmdFocusLost(FocusEvent e) {
+		Global.config.setConfigRCEcmd_value(this.textArea_RCE_cmd.getText());
+//		this.text_Log.append("textArea_RCE_cmdFocusLost: " + this.textArea_RCE_cmd.getText() + "\n");
+	}
+
+	private void textArea_SensitiveFilesFocusLost(FocusEvent e) {
+		Global.config.setConfigSensitiveFiles_value(this.textArea_SensitiveFiles.getText());
 	}
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
 		tabbedPane1 = new JTabbedPane();
 		panel1 = new JPanel();
-		checkBox2 = new JCheckBox();
-		checkBox3 = new JCheckBox();
+		checkBox_Sqli = new JCheckBox();
+		checkBox_RCE = new JCheckBox();
 		checkBox6 = new JCheckBox();
 		scrollPane2 = new JScrollPane();
-		textArea1 = new JTextArea();
-		checkBox7 = new JCheckBox();
-		checkBox8 = new JCheckBox();
+		textArea_RCE_cmd = new JTextArea();
+		checkBox_PathTraversal = new JCheckBox();
+		checkBox_SensitiveFilesScan = new JCheckBox();
 		scrollPane3 = new JScrollPane();
-		textArea2 = new JTextArea();
+		textArea_SensitiveFiles = new JTextArea();
 		panel2 = new JPanel();
 		scrollPane1 = new JScrollPane();
 		table1 = new JTable();
 		panel3 = new JPanel();
+		scrollPane4 = new JScrollPane();
+		text_Log = new JTextArea();
 		label2 = new JLabel();
 		checkBox1 = new JCheckBox();
 		checkBox4 = new JCheckBox();
@@ -66,15 +88,17 @@ public class PowerPannel extends JPanel {
 			{
 				panel1.setLayout(null);
 
-				//---- checkBox2 ----
-				checkBox2.setText("\u6ce8\u5165\u6d4b\u8bd5");
-				panel1.add(checkBox2);
-				checkBox2.setBounds(new Rectangle(new Point(15, 175), checkBox2.getPreferredSize()));
+				//---- checkBox_Sqli ----
+				checkBox_Sqli.setText("\u6ce8\u5165\u6d4b\u8bd5");
+				checkBox_Sqli.addActionListener(e -> checkBox_SqliActionPerformed(e));
+				panel1.add(checkBox_Sqli);
+				checkBox_Sqli.setBounds(new Rectangle(new Point(15, 175), checkBox_Sqli.getPreferredSize()));
 
-				//---- checkBox3 ----
-				checkBox3.setText("\u547d\u4ee4\u6ce8\u5165(\u4e0b\u65b9\u586b\u5199\u5355\u884c\u547d\u4ee4)");
-				panel1.add(checkBox3);
-				checkBox3.setBounds(new Rectangle(new Point(15, 205), checkBox3.getPreferredSize()));
+				//---- checkBox_RCE ----
+				checkBox_RCE.setText("\u547d\u4ee4\u6ce8\u5165(\u4e0b\u65b9\u586b\u5199\u5355\u884c\u547d\u4ee4)");
+				checkBox_RCE.addActionListener(e -> checkBox_RCEActionPerformed(e));
+				panel1.add(checkBox_RCE);
+				checkBox_RCE.setBounds(new Rectangle(new Point(15, 205), checkBox_RCE.getPreferredSize()));
 
 				//---- checkBox6 ----
 				checkBox6.setText("\u4f4e\u8c03\u6a21\u5f0f(\u6700\u5927\u7a0b\u5ea6\u51cf\u5c11\u53d1\u5305\u91cf\uff0c\u540c\u65f6\u63d0\u9ad8\u8bef\u62a5\u7387)");
@@ -84,29 +108,43 @@ public class PowerPannel extends JPanel {
 				//======== scrollPane2 ========
 				{
 
-					//---- textArea1 ----
-					textArea1.setText("ping -c 3");
-					scrollPane2.setViewportView(textArea1);
+					//---- textArea_RCE_cmd ----
+					textArea_RCE_cmd.setText("ping -c 3");
+					textArea_RCE_cmd.addFocusListener(new FocusAdapter() {
+						@Override
+						public void focusLost(FocusEvent e) {
+							textArea_RCE_cmdFocusLost(e);
+						}
+					});
+					scrollPane2.setViewportView(textArea_RCE_cmd);
 				}
 				panel1.add(scrollPane2);
 				scrollPane2.setBounds(15, 230, 270, 35);
 
-				//---- checkBox7 ----
-				checkBox7.setText("\u8def\u5f84\u7a7f\u8d8a");
-				panel1.add(checkBox7);
-				checkBox7.setBounds(new Rectangle(new Point(15, 275), checkBox7.getPreferredSize()));
+				//---- checkBox_PathTraversal ----
+				checkBox_PathTraversal.setText("\u8def\u5f84\u7a7f\u8d8a");
+				checkBox_PathTraversal.addActionListener(e -> checkBox_PathTraversalActionPerformed(e));
+				panel1.add(checkBox_PathTraversal);
+				checkBox_PathTraversal.setBounds(new Rectangle(new Point(15, 275), checkBox_PathTraversal.getPreferredSize()));
 
-				//---- checkBox8 ----
-				checkBox8.setText("\u654f\u611f\u6587\u4ef6\u63a2\u6d4b(\u4e0b\u65b9\u586b\u5199\u591a\u884c\u63a2\u6d4b\u6587\u4ef6\u5217\u8868)");
-				panel1.add(checkBox8);
-				checkBox8.setBounds(15, 305, 220, checkBox8.getPreferredSize().height);
+				//---- checkBox_SensitiveFilesScan ----
+				checkBox_SensitiveFilesScan.setText("\u654f\u611f\u6587\u4ef6\u63a2\u6d4b(\u4e0b\u65b9\u586b\u5199\u591a\u884c\u63a2\u6d4b\u6587\u4ef6\u5217\u8868)");
+				checkBox_SensitiveFilesScan.addActionListener(e -> checkBox_SensitiveFilesScanActionPerformed(e));
+				panel1.add(checkBox_SensitiveFilesScan);
+				checkBox_SensitiveFilesScan.setBounds(15, 305, 220, checkBox_SensitiveFilesScan.getPreferredSize().height);
 
 				//======== scrollPane3 ========
 				{
 
-					//---- textArea2 ----
-					textArea2.setText("robots.txt");
-					scrollPane3.setViewportView(textArea2);
+					//---- textArea_SensitiveFiles ----
+					textArea_SensitiveFiles.setText("robots.txt");
+					textArea_SensitiveFiles.addFocusListener(new FocusAdapter() {
+						@Override
+						public void focusLost(FocusEvent e) {
+							textArea_SensitiveFilesFocusLost(e);
+						}
+					});
+					scrollPane3.setViewportView(textArea_SensitiveFiles);
 				}
 				panel1.add(scrollPane3);
 				scrollPane3.setBounds(20, 335, 265, 55);
@@ -159,6 +197,13 @@ public class PowerPannel extends JPanel {
 			//======== panel3 ========
 			{
 				panel3.setLayout(null);
+
+				//======== scrollPane4 ========
+				{
+					scrollPane4.setViewportView(text_Log);
+				}
+				panel3.add(scrollPane4);
+				scrollPane4.setBounds(5, 0, 890, 585);
 
 				{
 					// compute preferred size
@@ -214,19 +259,21 @@ public class PowerPannel extends JPanel {
 	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
 	private JTabbedPane tabbedPane1;
 	private JPanel panel1;
-	private JCheckBox checkBox2;
-	private JCheckBox checkBox3;
+	private JCheckBox checkBox_Sqli;
+	private JCheckBox checkBox_RCE;
 	private JCheckBox checkBox6;
 	private JScrollPane scrollPane2;
-	private JTextArea textArea1;
-	private JCheckBox checkBox7;
-	private JCheckBox checkBox8;
+	private JTextArea textArea_RCE_cmd;
+	private JCheckBox checkBox_PathTraversal;
+	private JCheckBox checkBox_SensitiveFilesScan;
 	private JScrollPane scrollPane3;
-	private JTextArea textArea2;
+	private JTextArea textArea_SensitiveFiles;
 	private JPanel panel2;
 	private JScrollPane scrollPane1;
 	private JTable table1;
 	private JPanel panel3;
+	private JScrollPane scrollPane4;
+	private JTextArea text_Log;
 	private JLabel label2;
 	private JCheckBox checkBox1;
 	private JCheckBox checkBox4;

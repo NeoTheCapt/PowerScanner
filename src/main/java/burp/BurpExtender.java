@@ -2,6 +2,7 @@ package burp;
 
 import BrianW.AKA.BigChan.GUI.PowerTab;
 import BrianW.AKA.BigChan.PowerScanner.*;
+import BrianW.AKA.BigChan.Tools.Config;
 import BrianW.AKA.BigChan.Tools.Global;
 
 public class BurpExtender implements IBurpExtender {
@@ -12,6 +13,8 @@ public class BurpExtender implements IBurpExtender {
 		// implement IBurpExtender
 		//
 		// obtain an extension helpers object
+		
+		Global.config = new Config(callbacks);
 		Global.PowerTab = new PowerTab();
 		callbacks.addSuiteTab(Global.PowerTab);
 		IExtensionHelpers helpers = callbacks.getHelpers();
