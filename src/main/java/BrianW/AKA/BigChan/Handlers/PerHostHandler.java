@@ -1,55 +1,40 @@
 package BrianW.AKA.BigChan.Handlers;
-
-import BrianW.AKA.BigChan.PowerScanner.ScanPathTraversal;
-import BrianW.AKA.BigChan.PowerScanner.ScanRCE;
-import BrianW.AKA.BigChan.PowerScanner.ScanSensitiveParam;
-import BrianW.AKA.BigChan.PowerScanner.ScanSqli;
+import BrianW.AKA.BigChan.PowerScanner.ScanSensitiveFiles;
 import BrianW.AKA.BigChan.Tools.Global;
 import burp.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PerRequestScans implements IScannerCheck {
+public class PerHostHandler implements IScannerCheck {
 	private final IBurpExtenderCallbacks callbacks;
 	private final IExtensionHelpers helpers;
+	private final List<String> scanedHosts;
 	
-	public PerRequestScans(IBurpExtenderCallbacks callbacks, IExtensionHelpers helpers) {
+	public PerHostHandler(IBurpExtenderCallbacks callbacks, IExtensionHelpers helpers) {
 		this.callbacks = callbacks;
 		this.helpers = helpers;
+		this.scanedHosts = new ArrayList<String>();;
 	}
 	
 	@Override
 	public List<IScanIssue> doPassiveScan(IHttpRequestResponse baseRequestResponse) {
-		List<IScanIssue> issues = new ArrayList<>();
-		if (Global.config.getConfigSensitiveParamEnable_value()){
-			issues.addAll(
-					new ScanSensitiveParam(callbacks, helpers).doScanSensitiveParam(baseRequestResponse)
-			);
-		}
-		List nullList = new ArrayList();
-		nullList.add(null);
-		issues.removeAll(nullList);
-		return issues;
+		return null;
 	}
 	
 	@Override
 	public List<IScanIssue> doActiveScan(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
 		// report the issue
 		List<IScanIssue> issues = new ArrayList<>();
-		if (Global.config.getConfigSqliEnable_value()){
-			issues.add(
-					new ScanSqli(callbacks, helpers).doScanSqli(baseRequestResponse, insertionPoint)
-			);
+		String currentHost = baseRequestResponse.getHttpService().getHost();
+		if (this.scanedHosts.contains(currentHost)){
+			return issues;
 		}
-		if (Global.config.getConfigRCEEnable_value()){
-			issues.add(
-					new ScanRCE(callbacks, helpers).doScanRCE(baseRequestResponse, insertionPoint)
-			);
-		}
-		if (Global.config.getConfigPathTraversalEnable_value()){
-			issues.add(
-					new ScanPathTraversal(callbacks, helpers).doScanPathTraversal(baseRequestResponse, insertionPoint)
+		this.callbacks.printOutput("do ActiveScan per host on: " + currentHost);
+		scanedHosts.add(currentHost);
+		if (Global.config.getConfigSensitiveFilesScanEnable_value()){
+			issues.addAll(
+					new ScanSensitiveFiles(callbacks, helpers).doScanSensiveFiles(baseRequestResponse, insertionPoint)
 			);
 		}
 		List nullList = new ArrayList();
@@ -81,4 +66,3 @@ public class PerRequestScans implements IScannerCheck {
 		return matches;
 	}
 }
-

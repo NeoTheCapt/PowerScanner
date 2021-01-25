@@ -10,9 +10,12 @@ import java.util.List;
 public class ScanSensitiveParam extends Reporter {
 	protected IBurpExtenderCallbacks callbacks;
 	protected IExtensionHelpers helpers;
-	protected String[] sensitiveWords_file = new String[]{"file", "down", "path", "template"};
-	protected String[] sensitiveWords_sql = new String[]{"order", "desc", "limit", "table", "db"};
-	
+	protected String[] sensitiveWords = new String[]{
+			"file", "down", "path", "template",
+			"order", "desc", "limit", "table", "db",
+			"@type"
+	};
+
 	public ScanSensitiveParam(IBurpExtenderCallbacks callbacks, IExtensionHelpers helpers) {
 		super(callbacks, helpers);
 		this.callbacks = callbacks;
@@ -43,12 +46,7 @@ public class ScanSensitiveParam extends Reporter {
 	}
 	
 	private String searchSensitiveWords(String param) {
-		for (String word : sensitiveWords_file) {
-			if (param.toLowerCase().contains(word)) {
-				return word;
-			}
-		}
-		for (String word : sensitiveWords_sql) {
+		for (String word : sensitiveWords) {
 			if (param.toLowerCase().contains(word)) {
 				return word;
 			}

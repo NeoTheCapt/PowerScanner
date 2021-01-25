@@ -17,9 +17,13 @@
 
 ## TODO
 * 不增加发报量的前提下，修改对照逻辑，降低误报率
+* fastjson<=2.6.7漏洞检测
+* 敏感文件扫描按照目录扫描(最高遍历一级目录)
+* BypassWAF:增加json unicode编码
 * BypassWAF:膨胀Post body
 * BypassWAF:膨胀Get URL
 * CMS识别
+
 
 # How To Use
 加载插件，设置主动在线扫描，打开浏览器，设置代理到burp，剩下的就是点点点就行了。

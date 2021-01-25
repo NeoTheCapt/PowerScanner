@@ -1,15 +1,11 @@
 package burp;
 
 import BrianW.AKA.BigChan.GUI.PowerTab;
-import BrianW.AKA.BigChan.Handlers.PerHostScans;
-import BrianW.AKA.BigChan.Handlers.PerRequestScans;
+import BrianW.AKA.BigChan.Handlers.PerHostHandler;
+import BrianW.AKA.BigChan.Handlers.PerRequestHandler;
 import BrianW.AKA.BigChan.Handlers.SessionHandler;
 import BrianW.AKA.BigChan.Tools.Config;
 import BrianW.AKA.BigChan.Tools.Global;
-import BrianW.AKA.BigChan.Tools.utils;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class BurpExtender implements IBurpExtender {
 	@Override
@@ -27,8 +23,8 @@ public class BurpExtender implements IBurpExtender {
 		// set our extension name
 		callbacks.setExtensionName("PowerScanner by Brian.W");
 		// register ourselves as a custom scanner check
-		IScannerCheck PerRequestScans = new PerRequestScans(callbacks, helpers);
-		IScannerCheck PerHostScans = new PerHostScans(callbacks, helpers);
+		IScannerCheck PerRequestScans = new PerRequestHandler(callbacks, helpers);
+		IScannerCheck PerHostScans = new PerHostHandler(callbacks, helpers);
 		ISessionHandlingAction SessionHandler = new SessionHandler(callbacks, helpers);
 		callbacks.registerScannerCheck(PerRequestScans);
 		callbacks.registerScannerCheck(PerHostScans);
