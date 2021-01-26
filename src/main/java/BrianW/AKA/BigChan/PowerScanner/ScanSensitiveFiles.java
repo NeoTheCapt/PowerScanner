@@ -40,6 +40,7 @@ public class ScanSensitiveFiles extends Reporter {
 										code
 								),
 								"Low",
+								"Firm",
 								pairSensitiveFile
 						)
 				);

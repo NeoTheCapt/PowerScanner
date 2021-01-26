@@ -4,8 +4,6 @@ import BrianW.AKA.BigChan.Tools.hitRst;
 import BrianW.AKA.BigChan.Tools.utils;
 import burp.*;
 
-import java.util.Arrays;
-
 public class ScanSqli extends Reporter {
 	protected IBurpExtenderCallbacks callbacks;
 	protected IExtensionHelpers helpers;
@@ -49,26 +47,28 @@ public IScanIssue doScanSqli(IHttpRequestResponse baseRequestResponse, IScannerI
 		hitRst hit = hit(resp, respTrue, respEvil, testStr, evilStr);
 		if (hit.getCdoe() > 0) {
 			callbacks.printOutput("injection found in param: " + baseName + " with type " + baseType + " ;InsertionPointType:" + InsertionPointType);
-			// get the offsets of the payload within the request, for in-UI highlighting
-//			List<int[]> requestHighlights_origin = new ArrayList<>(1);
-//			requestHighlights_origin.add(insertionPoint.getPayloadOffsets(baseValue.getBytes()));
 			return reporter(
 					"injection(might be SQLi) found",
 					String.format("param: %s <br>" +
 									"type: %s <br>" +
 									"InsertionPointType: %s <br>" +
 									"HitCode: %s <br><br>" +
-									"compareRestEvil SAME: <br>%s<br>" +
-									"compareRestEvil Different: <br>%s<br>"
+									"The same between base response and negative response: <br>%s<br>" +
+									"The difference between base response and negative response: <br>%s<br>" +
+									"The same between base response and positive response: <br>%s<br>" +
+									"The difference between base response and positive response: <br>%s<br>"
 							,
 							baseName,
 							baseType,
 							InsertionPointType,
 							hit.getCdoe(),
-							hit.getCompareWithRespEvil_Same(),
-							hit.getCompareWithRespEvil_Diff()
+							hit.getCompareWithNegative_Same(),
+							hit.getCompareWithNegative_Diff(),
+							hit.getCompareWithPositive_Same(),
+							hit.getCompareWithPositive_Diff()
 					),
 					"High",
+					"Firm",
 					baseRequestResponse,
 					pairTrue,
 					pairEvil

@@ -1,12 +1,16 @@
 # PowerScanner
 * 面向HW的红队半自动扫描器(Burp插件)
-* 通过缩短payload长度、降低发包数量提高对WAF的隐蔽性，同时提高误报率。
 * 适合有经验的渗透测试人员。
 
 * 注：误报率高！！！所有报告结果需经手动手动确认。
 * By Brian.W AKA BigCHAN
 
-## Feature
+## Features
+* 通过缩短payload长度、降低发包数量提高对WAF的隐蔽性，同时提高误报率。
+* 所有测试项不依赖回显，发现隐蔽漏洞
+* 反制WAF
+
+##Check list
 * 扫描Sql注入
 * 扫描命令注入
 * 扫描敏感文件

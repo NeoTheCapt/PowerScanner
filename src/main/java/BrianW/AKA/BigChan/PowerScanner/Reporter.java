@@ -15,7 +15,7 @@ public class Reporter {
 		this.callbacks = callbacks;
 		this.helpers = helpers;
 	}
-	CustomScanIssue reporter(String title, String desc, String sev, IHttpRequestResponse... Pairs) {
+	CustomScanIssue reporter(String title, String desc, String sev, String confidence, IHttpRequestResponse... Pairs) {
 		IHttpService service = Pairs[0].getHttpService();
 		URL url = helpers.analyzeRequest(Pairs[0]).getUrl();
 		title = "[PowerScanner]: " + title;
@@ -29,89 +29,101 @@ public class Reporter {
 				Pairs,
 				title,
 				desc,
-				sev);
+				sev,
+				confidence);
 	}
-	hitRst hit(byte[] resp, byte[] respTrue, byte[] respEvil, String testStr, String evilStr) {
-		int resp_statusCode = helpers.analyzeResponse(resp).getStatusCode();
-		int respTrue_statusCode = helpers.analyzeResponse(respTrue).getStatusCode();
-		int respEvil_statusCode = helpers.analyzeResponse(respEvil).getStatusCode();
-		IResponseVariations ResponseVariations1 = helpers.analyzeResponseVariations(resp, respTrue);
-		IResponseVariations ResponseVariations2 = helpers.analyzeResponseVariations(resp, respEvil);
-		StringBuilder compareWithRespEvil_Diff = new StringBuilder();
-		StringBuilder compareWithRespEvil_Same = new StringBuilder();
-		for (String VariantAttribute : ResponseVariations2.getVariantAttributes()) {
-			compareWithRespEvil_Diff.append(String.format("%s : %s vs %s<br>",
+	hitRst hit(byte[] respBase, byte[] respPositive, byte[] respNegative, String positiveStr, String negativeStr) {
+		int resp_statusCode = helpers.analyzeResponse(respBase).getStatusCode();
+		int respTrue_statusCode = helpers.analyzeResponse(respPositive).getStatusCode();
+		int respEvil_statusCode = helpers.analyzeResponse(respNegative).getStatusCode();
+		IResponseVariations ResponseVariationsPositive = helpers.analyzeResponseVariations(respBase, respPositive);
+		IResponseVariations ResponseVariationsNegative = helpers.analyzeResponseVariations(respBase, respNegative);
+		StringBuilder compareWithNegative_Diff = new StringBuilder();
+		StringBuilder compareWithNegative_Same = new StringBuilder();
+		StringBuilder compareWithPositive_Diff = new StringBuilder();
+		StringBuilder compareWithPositive_Same = new StringBuilder();
+		for (String VariantAttribute : ResponseVariationsNegative.getVariantAttributes()) {
+			compareWithNegative_Diff.append(String.format("%s : %s vs %s<br>",
 					VariantAttribute,
-					ResponseVariations2.getAttributeValue(VariantAttribute, 0),
-					ResponseVariations2.getAttributeValue(VariantAttribute, 1)
+					ResponseVariationsNegative.getAttributeValue(VariantAttribute, 0),
+					ResponseVariationsNegative.getAttributeValue(VariantAttribute, 1)
 			));
-//			callbacks.printOutput("resp and respEvil has VariantAttribute = " + VariantAttribute + "; "
-//					+ ResponseVariations2.getAttributeValue(VariantAttribute, 0) + " vs "
-//					+ ResponseVariations2.getAttributeValue(VariantAttribute, 1)
-//			);
 		}
-		for (String InvariantAttribute : ResponseVariations2.getInvariantAttributes()) {
-			compareWithRespEvil_Same.append(String.format("%s : %s vs %s<br>",
+		for (String InvariantAttribute : ResponseVariationsNegative.getInvariantAttributes()) {
+			compareWithNegative_Same.append(String.format("%s : %s vs %s<br>",
 					InvariantAttribute,
-					ResponseVariations2.getAttributeValue(InvariantAttribute, 0),
-					ResponseVariations2.getAttributeValue(InvariantAttribute, 1)
+					ResponseVariationsNegative.getAttributeValue(InvariantAttribute, 0),
+					ResponseVariationsNegative.getAttributeValue(InvariantAttribute, 1)
 			));
-//			callbacks.printOutput("resp and respEvil has InvariantAttribute = " + InvariantAttribute + "; "
-//					+ ResponseVariations2.getAttributeValue(InvariantAttribute, 0) + " vs "
-//					+ ResponseVariations2.getAttributeValue(InvariantAttribute, 1)
-//			);
+		}
+		for (String VariantAttribute : ResponseVariationsPositive.getVariantAttributes()) {
+			compareWithPositive_Diff.append(String.format("%s : %s vs %s<br>",
+					VariantAttribute,
+					ResponseVariationsPositive.getAttributeValue(VariantAttribute, 0),
+					ResponseVariationsPositive.getAttributeValue(VariantAttribute, 1)
+			));
+		}
+		for (String InvariantAttribute : ResponseVariationsPositive.getInvariantAttributes()) {
+			compareWithPositive_Same.append(String.format("%s : %s vs %s<br>",
+					InvariantAttribute,
+					ResponseVariationsPositive.getAttributeValue(InvariantAttribute, 0),
+					ResponseVariationsPositive.getAttributeValue(InvariantAttribute, 1)
+			));
 		}
 		if (resp_statusCode == respTrue_statusCode && resp_statusCode != respEvil_statusCode) {
-			return new hitRst(1, compareWithRespEvil_Diff.toString(), compareWithRespEvil_Same.toString());
+			return new hitRst(1, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 		}
-		int resp_ErrorCount = utils.countStr(Arrays.toString(resp), "error");
-		int respTrue_ErrorCount = utils.countStr(Arrays.toString(respTrue), "error");
-		int respEvil_ErrorCount = utils.countStr(Arrays.toString(respEvil), "error");
+		int resp_ErrorCount = utils.countStr(Arrays.toString(respBase), "error");
+		int respTrue_ErrorCount = utils.countStr(Arrays.toString(respPositive), "error");
+		int respEvil_ErrorCount = utils.countStr(Arrays.toString(respNegative), "error");
 		if (resp_ErrorCount == respTrue_ErrorCount && respTrue_ErrorCount != respEvil_ErrorCount) {
-			return new hitRst(2, compareWithRespEvil_Diff.toString(), compareWithRespEvil_Same.toString());
+			return new hitRst(2, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 		}
-		String respTrue_pure = Arrays.toString(respTrue).replace(testStr, "").replace(evilStr, "");
-		//callbacks.printOutput("respTrue_pure=" + respTrue_pure);
-		String respEvil_pure = Arrays.toString(respEvil).replace(evilStr, "").replace(testStr, "");
-		//callbacks.printOutput("respEvil_pure=" + respEvil_pure);
-		
-		//去除payload后，如果test返回和Evil返回一样，无漏洞
+		//如果原始包visible_text和visible_word_count都是0，基本可以断定是验证码类型
+		if (ResponseVariationsPositive.getAttributeValue("visible_text", 0) == 0 && ResponseVariationsPositive.getAttributeValue("visible_word_count", 0) == 0) {
+			return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+		}
+		//去除payload后，如果positive返回和negative返回一样，无漏洞
+		String respTrue_pure = Arrays.toString(respPositive).replace(positiveStr, "").replace(negativeStr, "");
+		String respEvil_pure = Arrays.toString(respNegative).replace(negativeStr, "").replace(positiveStr, "");
 		if (respTrue_pure.equals(respEvil_pure)) {
-			return new hitRst(0, compareWithRespEvil_Diff.toString(), compareWithRespEvil_Same.toString());
-		}
-
-//		callbacks.printOutput(Integer.toString(ResponseVariations2.getAttributeValue("whole_body_content", 0)));
-		
-		//如果test包和原始包不一样，无漏洞
-		if (ResponseVariations1.getVariantAttributes().contains("initial_body_content") ||
-				ResponseVariations1.getVariantAttributes().contains("content_type")
-		) {
-			return new hitRst(0, compareWithRespEvil_Diff.toString(), compareWithRespEvil_Same.toString());
-		}
-		//如果evil包和原始包一样，无漏洞
-		if (ResponseVariations2.getInvariantAttributes().contains("whole_body_content")
-				|| ResponseVariations2.getInvariantAttributes().contains("content_length")
-//				|| ResponseVariations2.getInvariantAttributes().contains("visible_text")
-		) {
-			return new hitRst(0, compareWithRespEvil_Diff.toString(), compareWithRespEvil_Same.toString());
-		}
-		int length1 = ResponseVariations1.getAttributeValue("content_length", 1) - ResponseVariations2.getAttributeValue("content_length", 0);
-		int length2 = ResponseVariations2.getAttributeValue("content_length", 1) - ResponseVariations2.getAttributeValue("content_length", 0);
-//		callbacks.printOutput("respTrueLength - respLength=" + Integer.toString(length1));
-//		callbacks.printOutput(Integer.toString(testStr.length()));
-//		callbacks.printOutput("respEvilLength - respLength=" + Integer.toString(length2));
-//		callbacks.printOutput(Integer.toString(evilStr.length()));
-		if (length1 / testStr.length() == length2 / evilStr.length()) {
-			return new hitRst(0, compareWithRespEvil_Diff.toString(), compareWithRespEvil_Same.toString());
+			return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 		}
 		
-		if (ResponseVariations1.getInvariantAttributes() != ResponseVariations2.getInvariantAttributes()
+		//如果positive包和原始包不一样，无漏洞
+		if (ResponseVariationsPositive.getVariantAttributes().contains("initial_body_content") ||
+				ResponseVariationsPositive.getVariantAttributes().contains("content_type")
+		) {
+			return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+		}
+		//如果Negative包和原始包一样，无漏洞
+		if (ResponseVariationsNegative.getInvariantAttributes().contains("whole_body_content")
+				|| ResponseVariationsNegative.getInvariantAttributes().contains("content_length")
+		) {
+			return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+		}
+		//如果Negative包和原始包字符数差==positive包和原始包字符数差，无漏洞
+		int positiveLength = ResponseVariationsPositive.getAttributeValue("content_length", 1);
+		int negativeLength = ResponseVariationsNegative.getAttributeValue("content_length", 1);
+		int baseLength = ResponseVariationsNegative.getAttributeValue("content_length", 0);
+		
+		int length1 = positiveLength - baseLength;
+		int length2 = negativeLength - baseLength;
+		if (length1 / positiveStr.length() == length2 / negativeStr.length()) {
+			return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+		}
+		//如果Negative包比positive包多一个字符，无漏洞
+		if (positiveLength - negativeLength == positiveStr.length() - negativeStr.length()) {
+			return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+		}
+		
+		if (ResponseVariationsPositive.getInvariantAttributes() != ResponseVariationsNegative.getInvariantAttributes()
 				&&
-				ResponseVariations1.getAttributeValue("content_length", 1) != ResponseVariations2.getAttributeValue("content_length", 1)
+				ResponseVariationsPositive.getAttributeValue("content_length", 1) != ResponseVariationsNegative.getAttributeValue("content_length", 1)
 		) {
-			return new hitRst(3, compareWithRespEvil_Diff.toString(), compareWithRespEvil_Same.toString());
+			return new hitRst(3, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 		}
-		return new hitRst(0, compareWithRespEvil_Diff.toString(), compareWithRespEvil_Same.toString());
+		return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 	}
 	
 }

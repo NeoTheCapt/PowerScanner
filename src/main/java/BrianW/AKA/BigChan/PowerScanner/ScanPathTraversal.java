@@ -47,10 +47,11 @@ public class ScanPathTraversal extends Reporter {
 								,
 								baseName,
 								hit.getCdoe(),
-								hit.getCompareWithRespEvil_Same(),
-								hit.getCompareWithRespEvil_Diff()
+								hit.getCompareWithNegative_Same(),
+								hit.getCompareWithNegative_Diff()
 						),
 						"High",
+						"Firm",
 						baseRequestResponse,
 						pairPositive,
 						pairNegative
@@ -78,15 +79,20 @@ public class ScanPathTraversal extends Reporter {
 					"PathTraversal found",
 					String.format("param: %s <br>" +
 									"HitCode: %s <br><br>" +
-									"compareRestEvil SAME: <br>%s<br>" +
-									"compareRestEvil Different: <br>%s<br>"
+									"The same between base response and negative response: <br>%s<br>" +
+									"The difference between base response and negative response: <br>%s<br>" +
+									"The same between base response and positive response: <br>%s<br>" +
+									"The difference between base response and positive response: <br>%s<br>"
 							,
 							baseName,
 							hit.getCdoe(),
-							hit.getCompareWithRespEvil_Same(),
-							hit.getCompareWithRespEvil_Diff()
+							hit.getCompareWithNegative_Same(),
+							hit.getCompareWithNegative_Diff(),
+							hit.getCompareWithPositive_Same(),
+							hit.getCompareWithPositive_Diff()
 					),
 					"High",
+					"Firm",
 					baseRequestResponse,
 					pairPositive,
 					pairNegative

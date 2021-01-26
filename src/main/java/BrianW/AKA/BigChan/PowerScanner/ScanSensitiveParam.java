@@ -12,7 +12,7 @@ public class ScanSensitiveParam extends Reporter {
 	protected IExtensionHelpers helpers;
 	protected String[] sensitiveWords = new String[]{
 			"file", "down", "path", "template",
-			"order", "desc", "limit", "table", "db",
+			"order", "desc", "limit", "table",
 			"@type"
 	};
 
@@ -38,6 +38,7 @@ public class ScanSensitiveParam extends Reporter {
 								word
 						),
 						"Information",
+						"Firm",
 						baseRequestResponse
 				));
 			}

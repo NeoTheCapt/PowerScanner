@@ -2,43 +2,67 @@ package BrianW.AKA.BigChan.Tools;
 
 public class hitRst {
 	private int cdoe;
-	private String compareWithRespEvil_Same;
-	private String compareWithRespEvil_Diff;
+	private String compareWithNegative_Same;
+	private String compareWithNegative_Diff;
+	private String compareWithPositive_Same;
+	private String compareWithPositive_Diff;
+	
 	
 	public hitRst(
 			int hitCode,
-			String compareWithRespEvil_Diff,
-			String compareWithRespEvil_Same
-	
+			String compareWithNegative_Diff,
+			String compareWithNegative_Same,
+			String compareWithPositive_Diff,
+			String compareWithPositive_Same
 	) {
 		this.cdoe = hitCode;
-		this.compareWithRespEvil_Same = compareWithRespEvil_Same;
-		this.compareWithRespEvil_Diff = compareWithRespEvil_Diff;
+		this.compareWithNegative_Same = compareWithNegative_Same;
+		this.compareWithNegative_Diff = compareWithNegative_Diff;
+		this.compareWithPositive_Diff = compareWithPositive_Diff;
+		this.compareWithPositive_Same = compareWithPositive_Same;
 	}
 	
 	public int getCdoe() {
 		return cdoe;
 	}
 	
+	public String getCompareWithPositive_Same() {
+		return compareWithPositive_Same;
+	}
+	
+	public String getCompareWithPositive_Diff() {
+		return compareWithPositive_Diff;
+	}
+	
+	public hitRst setCompareWithPositive_Same(String compareWithPositive_Same) {
+		this.compareWithPositive_Same = compareWithPositive_Same;
+		return this;
+	}
+	
+	public hitRst setCompareWithPositive_Diff(String compareWithPositive_Diff) {
+		this.compareWithPositive_Diff = compareWithPositive_Diff;
+		return this;
+	}
+	
 	public void setCdoe(int cdoe) {
 		this.cdoe = cdoe;
 	}
 	
-	public String getCompareWithRespEvil_Same() {
-		return compareWithRespEvil_Same;
+	public String getCompareWithNegative_Same() {
+		return compareWithNegative_Same;
 	}
 	
-	public hitRst setCompareWithRespEvil_Same(String compareWithRespEvil_Same) {
-		this.compareWithRespEvil_Same = compareWithRespEvil_Same;
+	public hitRst setCompareWithNegative_Same(String compareWithNegative_Same) {
+		this.compareWithNegative_Same = compareWithNegative_Same;
 		return this;
 	}
 	
-	public String getCompareWithRespEvil_Diff() {
-		return compareWithRespEvil_Diff;
+	public String getCompareWithNegative_Diff() {
+		return compareWithNegative_Diff;
 	}
 	
-	public hitRst setCompareWithRespEvil_Diff(String compareWithRespEvil_Diff) {
-		this.compareWithRespEvil_Diff = compareWithRespEvil_Diff;
+	public hitRst setCompareWithNegative_Diff(String compareWithNegative_Diff) {
+		this.compareWithNegative_Diff = compareWithNegative_Diff;
 		return this;
 	}
 }

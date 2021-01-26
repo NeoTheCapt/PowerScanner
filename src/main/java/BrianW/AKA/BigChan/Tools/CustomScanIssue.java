@@ -13,6 +13,7 @@ public class CustomScanIssue implements IScanIssue {
 	private String name;
 	private String detail;
 	private String severity;
+	private String confidence;
 	
 	public CustomScanIssue(
 			IHttpService httpService,
@@ -20,13 +21,15 @@ public class CustomScanIssue implements IScanIssue {
 			IHttpRequestResponse[] httpMessages,
 			String name,
 			String detail,
-			String severity) {
+			String severity,
+			String confidence) {
 		this.httpService = httpService;
 		this.url = url;
 		this.httpMessages = httpMessages;
 		this.name = name;
 		this.detail = detail;
 		this.severity = severity;
+		this.confidence = confidence;
 	}
 	
 	@Override
@@ -51,7 +54,7 @@ public class CustomScanIssue implements IScanIssue {
 	
 	@Override
 	public String getConfidence() {
-		return "Certain";
+		return confidence;
 	}
 	
 	@Override

@@ -68,6 +68,7 @@ public class ScanRCE extends Reporter {
 								interactionServer.findPair(collaboratorPayload).getComment()
 						),
 						"High",
+						"Certain",
 						interactionServer.findPair(collaboratorPayload)
 				);
 			}
