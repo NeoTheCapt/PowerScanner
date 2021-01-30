@@ -27,7 +27,7 @@ public class ScanFastJson  extends Reporter {
             if (utils.isJson(baseValue)){
                 String collaboratorPayload = Global.interactionServer.getCollaboratorContext().generatePayload(true);
                 callbacks.printOutput("generate Fastjson collaboratorPayload: " + collaboratorPayload);
-                String payload = "{ \"" + utils.getRandomString(3) + "\":[[{\"@type\":\"java.net.InetAddress\",\"val\":\"" + collaboratorPayload + "\"}]]} ";
+                String payload = "{ \"" + utils.getRandomString(3) + "\":[[{\"@type\":\"java.net.Inet4Address\",\"val\":\"" + collaboratorPayload + "\"}]]} ";
                 byte[] reqEvil = insertionPoint.buildRequest((payload).getBytes());
                 IHttpRequestResponse pairEvil = callbacks.makeHttpRequest(
                         baseRequestResponse.getHttpService(),
