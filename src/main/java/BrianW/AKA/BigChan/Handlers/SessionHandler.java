@@ -76,8 +76,8 @@ public class SessionHandler implements ISessionHandlingAction {
 			headers.removeIf(n -> (n.startsWith("Host: ")));
 			headers.add("Host: " + currentRequest.getHttpService().getHost() + ".:" + utils.getRandomInt(65535, 1));
 		}
+		String reqBodyStr = helpers.bytesToString(reqBody);
 		if (Global.config.getConfigJson2UnicodeEnable_value()) {
-			String reqBodyStr = helpers.bytesToString(reqBody);
 			if (utils.isJson(reqBodyStr)){
 				reqBody = utils.encodeJson2Unicode(reqBodyStr).getBytes(StandardCharsets.UTF_8);
 			}

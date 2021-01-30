@@ -1,8 +1,6 @@
 package BrianW.AKA.BigChan.Tools;
 
-
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.parser.ParserConfig;
+import com.google.gson.Gson;
 
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -86,16 +84,16 @@ public class utils {
         return randomWintNextIntWithinARange;
     }
 
-    public static boolean isJson(String content) {
-        ParserConfig.getGlobalInstance().setSafeMode(true);
+    private static final Gson gson = new Gson();
+
+    public static boolean isJson(String jsonInString) {
         try {
-            JSONObject jsonStr = JSONObject.parseObject(content);
+            gson.fromJson(jsonInString, Object.class);
             return true;
-        } catch (Exception e) {
+        } catch (com.google.gson.JsonSyntaxException ex) {
             return false;
         }
     }
-
 
     public static String StrToUnicode(String str) {
         StringBuffer outHexStrBuf = new StringBuffer();
