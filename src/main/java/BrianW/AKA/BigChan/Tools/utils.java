@@ -109,7 +109,7 @@ public class utils {
     }
 
     public static String encodeJson2Unicode(String jsonStr) {
-        String regex = "\".+?\"";
+        String regex = "\".*?\"";
         StringBuffer sb = new StringBuffer();
         String replacementText = "";
         String matchedText = "";

@@ -31,6 +31,7 @@ public class PowerPannel extends JPanel {
 		this.checkBox_RandomUA.setSelected(Global.config.getConfigRandomUAEnable_value());
 		this.checkBox_ClearCookies.setSelected(Global.config.getConfigClearCookieEnable_value());
 		this.checkBox_Json2Unicode.setSelected(Global.config.getConfigJson2UnicodeEnable_value());
+		this.checkBox_fastjson.setSelected(Global.config.getConfigFastjsonEnable_value());
 	}
 
 	private void checkBox_SqliActionPerformed(ActionEvent e) {
@@ -85,6 +86,10 @@ public class PowerPannel extends JPanel {
     private void checkBox_Json2UnicodeActionPerformed(ActionEvent e) {
         Global.config.setConfigJson2UnicodeEnable_value(this.checkBox_Json2Unicode.isSelected());
     }
+
+    private void checkBox_fastjsonActionPerformed(ActionEvent e) {
+        Global.config.setConfigFastjsonEnable_value(this.checkBox_fastjson.isSelected());
+    }
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         tabbedPane1 = new JTabbedPane();
@@ -99,6 +104,7 @@ public class PowerPannel extends JPanel {
         scrollPane3 = new JScrollPane();
         textArea_SensitiveFiles = new JTextArea();
         checkBox_SensitiveParam = new JCheckBox();
+        checkBox_fastjson = new JCheckBox();
         panel4 = new JPanel();
         checkBox_RandomIP = new JCheckBox();
         checkBox_ClearCookies = new JCheckBox();
@@ -194,6 +200,15 @@ public class PowerPannel extends JPanel {
                 checkBox_SensitiveParam.addActionListener(e -> checkBox_SensitiveParamActionPerformed(e));
                 panel1.add(checkBox_SensitiveParam);
                 checkBox_SensitiveParam.setBounds(30, 275, 280, 25);
+
+                //---- checkBox_fastjson ----
+                checkBox_fastjson.setText("Fastjson\u53cd\u5e8f\u5217\u5316");
+                checkBox_fastjson.addActionListener(e -> {
+			checkBox_fastjsonActionPerformed(e);
+			checkBox_fastjsonActionPerformed(e);
+		});
+                panel1.add(checkBox_fastjson);
+                checkBox_fastjson.setBounds(30, 310, 190, checkBox_fastjson.getPreferredSize().height);
 
                 {
                     // compute preferred size
@@ -366,6 +381,7 @@ public class PowerPannel extends JPanel {
     private JScrollPane scrollPane3;
     private JTextArea textArea_SensitiveFiles;
     private JCheckBox checkBox_SensitiveParam;
+    private JCheckBox checkBox_fastjson;
     private JPanel panel4;
     private JCheckBox checkBox_RandomIP;
     private JCheckBox checkBox_ClearCookies;

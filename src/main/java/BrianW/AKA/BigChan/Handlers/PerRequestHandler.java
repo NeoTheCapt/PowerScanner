@@ -51,9 +51,11 @@ public class PerRequestHandler implements IScannerCheck {
 					new ScanPathTraversal(callbacks, helpers).doScanPathTraversal(baseRequestResponse, insertionPoint)
 			);
 		}
-		issues.add(
-				new ScanFastJson(callbacks, helpers).doScanFastJson(baseRequestResponse, insertionPoint)
-		);
+		if (Global.config.getConfigFastjsonEnable_value()) {
+			issues.add(
+					new ScanFastJson(callbacks, helpers).doScanFastJson(baseRequestResponse, insertionPoint)
+			);
+		}
 		List nullList = new ArrayList();
 		nullList.add(null);
 		issues.removeAll(nullList);

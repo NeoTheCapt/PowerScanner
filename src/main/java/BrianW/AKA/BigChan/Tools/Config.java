@@ -42,6 +42,9 @@ public class Config {
 
 	private String configJson2UnicodeEnable_key = "Json2UnicodeEnable";
 	private Boolean configJson2UnicodeEnable_value = true;
+
+	private String configFastjsonEnable_key = "FastjsonEnableEnable";
+	private Boolean configFastjsonEnable_value = true;
 	//=====================================================
 	private String configSectionSqli = "Sqli";
 	//=====================================================
@@ -76,6 +79,7 @@ public class Config {
 				this.configRCEcmd_value = ini.get(configSectionRCE, configRCEcmd_key);
 				this.configSensitiveFiles_value = ini.get(configSectionSensiveFilesScan, configSensitiveFiles_key);
 				this.configJson2UnicodeEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configJson2UnicodeEnable_key));
+				this.configFastjsonEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configFastjsonEnable_key));
 			} else {
 				callbacks.printOutput("config file not exist");
 				Boolean r = this.file.createNewFile();
@@ -131,6 +135,10 @@ public class Config {
 				ini.add(configSectionGlobal,
 						configJson2UnicodeEnable_key,
 						configJson2UnicodeEnable_value
+				);
+				ini.add(configSectionGlobal,
+						configFastjsonEnable_key,
+						configFastjsonEnable_value
 				);
 				//将文件内容保存到文件中
 				ini.store(this.file);
@@ -250,6 +258,15 @@ public class Config {
 		return this;
 	}
 
+	public Config setConfigFastjsonEnable_value(Boolean configFastjsonEnable_value) {
+		setValue(this.configSectionGlobal,
+				this.configFastjsonEnable_key,
+				configFastjsonEnable_value.toString()
+		);
+		this.configFastjsonEnable_value = configFastjsonEnable_value;
+		return this;
+	}
+
 	public Boolean getConfigSqliEnable_value() {
 		return configSqliEnable_value;
 	}
@@ -296,6 +313,10 @@ public class Config {
 
 	public Boolean getConfigJson2UnicodeEnable_value() {
 		return configJson2UnicodeEnable_value;
+	}
+
+	public Boolean getConfigFastjsonEnable_value() {
+		return configFastjsonEnable_value;
 	}
 
 	private void setValue(String section, String key, String value){
