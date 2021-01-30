@@ -125,6 +125,16 @@ new FormModel {
 						"x": 30
 						"y": 115
 					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "checkBox_Json2Unicode"
+						"text": "json编码"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_Json2UnicodeActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 30
+						"y": 150
+						"width": 125
+						"height": 25
+					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "BypassWAF"
 				} )

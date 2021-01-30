@@ -5,4 +5,5 @@ public class Global {
 	public static String configFile = "powerscanner.conf.ini";
 	public static String[] fileExt = new String[]{"doc", };
 	public static Config config;
+	public static InteractionServer interactionServer;
 }

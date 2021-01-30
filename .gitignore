@@ -60,3 +60,4 @@ hs_err_pid*
 # Project exclude paths
 /out/
 /target/
+*.bak

@@ -6,7 +6,7 @@
 
     <groupId>brian.powerscanner</groupId>
     <artifactId>scanner</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.6-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>14</maven.compiler.source>
@@ -45,6 +45,11 @@
             <artifactId>ini4j</artifactId>
             <version>0.5.4</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.75</version>
         </dependency>
     </dependencies>
 

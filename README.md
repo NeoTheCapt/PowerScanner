@@ -10,6 +10,7 @@
 * 所有测试项不依赖回显，发现隐蔽漏洞
 * BypassWAF:各种Headers随机化(IP随机化、Cookie清空、User-agent随机化、HOST随机化)
 * BypassWAF:锚点随机化，随机锚点{{|RANDOMSTR|}},{{|RANDOMINT|}}
+* BypassWAF:json unicode编码
 
 ## Check list
 * 扫描Sql注入
@@ -17,12 +18,11 @@
 * 扫描敏感文件
 * 扫描路径穿越
 * 报告敏感参数(参数明看起来可能是漏洞点)
+* fastjson<=2.6.7漏洞检测
 
 ## TODO
 * 不增加发报量的前提下，修改对照逻辑，降低误报率
-* fastjson<=2.6.7漏洞检测
 * 敏感文件扫描按照目录扫描(最高遍历一级目录)
-* BypassWAF:增加json unicode编码
 * BypassWAF:膨胀Post body
 * BypassWAF:膨胀Get URL
 * CMS识别

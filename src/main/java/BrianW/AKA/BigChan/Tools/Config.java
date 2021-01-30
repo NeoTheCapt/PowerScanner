@@ -39,6 +39,9 @@ public class Config {
 	
 	private String configRandomHostEnable_key = "RandomHostEnable";
 	private Boolean configRandomHostEnable_value = true;
+
+	private String configJson2UnicodeEnable_key = "Json2UnicodeEnable";
+	private Boolean configJson2UnicodeEnable_value = true;
 	//=====================================================
 	private String configSectionSqli = "Sqli";
 	//=====================================================
@@ -72,6 +75,7 @@ public class Config {
 				this.configRandomHostEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configRandomHostEnable_key));
 				this.configRCEcmd_value = ini.get(configSectionRCE, configRCEcmd_key);
 				this.configSensitiveFiles_value = ini.get(configSectionSensiveFilesScan, configSensitiveFiles_key);
+				this.configJson2UnicodeEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configJson2UnicodeEnable_key));
 			} else {
 				callbacks.printOutput("config file not exist");
 				Boolean r = this.file.createNewFile();
@@ -123,6 +127,10 @@ public class Config {
 				ini.add(configSectionGlobal,
 						configRandomHostEnable_key,
 						configRandomHostEnable_value
+				);
+				ini.add(configSectionGlobal,
+						configJson2UnicodeEnable_key,
+						configJson2UnicodeEnable_value
 				);
 				//将文件内容保存到文件中
 				ini.store(this.file);
@@ -232,7 +240,16 @@ public class Config {
 		this.configRandomHostEnable_value = configRandomHostEnable_value;
 		return this;
 	}
-	
+
+	public Config setConfigJson2UnicodeEnable_value(Boolean configJson2UnicodeEnable_value) {
+		setValue(this.configSectionGlobal,
+				this.configJson2UnicodeEnable_key,
+				configJson2UnicodeEnable_value.toString()
+		);
+		this.configJson2UnicodeEnable_value = configJson2UnicodeEnable_value;
+		return this;
+	}
+
 	public Boolean getConfigSqliEnable_value() {
 		return configSqliEnable_value;
 	}
@@ -276,7 +293,11 @@ public class Config {
 	public Boolean getConfigRandomHostEnable_value() {
 		return configRandomHostEnable_value;
 	}
-	
+
+	public Boolean getConfigJson2UnicodeEnable_value() {
+		return configJson2UnicodeEnable_value;
+	}
+
 	private void setValue(String section, String key, String value){
 		try {
 			Ini ini = new Ini(this.file);

@@ -4,6 +4,7 @@ import BrianW.AKA.BigChan.GUI.PowerTab;
 import BrianW.AKA.BigChan.Handlers.PerHostHandler;
 import BrianW.AKA.BigChan.Handlers.PerRequestHandler;
 import BrianW.AKA.BigChan.Handlers.SessionHandler;
+import BrianW.AKA.BigChan.Handlers.StateHandler;
 import BrianW.AKA.BigChan.Tools.Config;
 import BrianW.AKA.BigChan.Tools.Global;
 
@@ -17,7 +18,7 @@ public class BurpExtender implements IBurpExtender {
 		// obtain an extension helpers object
 		
 		Global.config = new Config(callbacks);
-		Global.PowerTab = new PowerTab();
+		Global.PowerTab = new PowerTab(callbacks);
 		callbacks.addSuiteTab(Global.PowerTab);
 		IExtensionHelpers helpers = callbacks.getHelpers();
 		// set our extension name
@@ -26,9 +27,11 @@ public class BurpExtender implements IBurpExtender {
 		IScannerCheck PerRequestScans = new PerRequestHandler(callbacks, helpers);
 		IScannerCheck PerHostScans = new PerHostHandler(callbacks, helpers);
 		ISessionHandlingAction SessionHandler = new SessionHandler(callbacks, helpers);
+		IExtensionStateListener StateHandler = new StateHandler(callbacks, helpers);
 		callbacks.registerScannerCheck(PerRequestScans);
 		callbacks.registerScannerCheck(PerHostScans);
 		callbacks.registerSessionHandlingAction(SessionHandler);
+		callbacks.registerExtensionStateListener(StateHandler);
 		callbacks.printOutput("PowerScanner by Brian.W");
 		callbacks.printOutput("Start scanner!");
 	}

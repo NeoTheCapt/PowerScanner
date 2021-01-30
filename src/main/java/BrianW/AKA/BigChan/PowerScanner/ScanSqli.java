@@ -20,7 +20,7 @@ public IScanIssue doScanSqli(IHttpRequestResponse baseRequestResponse, IScannerI
 		String baseValue = insertionPoint.getBaseValue();
 		String testStr = "";
 		String evilStr = "";
-		callbacks.printOutput("baseName=" + baseName + ", baseValue=" + baseValue);
+//		callbacks.printOutput("baseName=" + baseName + ", baseValue=" + baseValue);
 		String baseType = baseValue.matches("[0-9]+") ? "int" : "string";
 //		if (baseValue.matches("[0-9]+") && baseName.length()<5 && baseName.contains("id")){
 		if ("int".equals(baseType)) {
@@ -46,7 +46,7 @@ public IScanIssue doScanSqli(IHttpRequestResponse baseRequestResponse, IScannerI
 		byte[] respEvil = pairEvil.getResponse();
 		hitRst hit = hit(resp, respTrue, respEvil, testStr, evilStr);
 		if (hit.getCdoe() > 0) {
-			callbacks.printOutput("injection found in param: " + baseName + " with type " + baseType + " ;InsertionPointType:" + InsertionPointType);
+//			callbacks.printOutput("injection found in param: " + baseName + " with type " + baseType + " ;InsertionPointType:" + InsertionPointType);
 			return reporter(
 					"injection(might be SQLi) found",
 					String.format("param: %s <br>" +

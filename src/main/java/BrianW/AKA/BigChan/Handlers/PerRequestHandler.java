@@ -1,10 +1,9 @@
 package BrianW.AKA.BigChan.Handlers;
 
-import BrianW.AKA.BigChan.PowerScanner.ScanPathTraversal;
-import BrianW.AKA.BigChan.PowerScanner.ScanRCE;
-import BrianW.AKA.BigChan.PowerScanner.ScanSensitiveParam;
-import BrianW.AKA.BigChan.PowerScanner.ScanSqli;
+import BrianW.AKA.BigChan.PowerScanner.*;
 import BrianW.AKA.BigChan.Tools.Global;
+import BrianW.AKA.BigChan.Tools.InteractionServer;
+import BrianW.AKA.BigChan.Tools.utils;
 import burp.*;
 
 import java.util.ArrayList;
@@ -52,6 +51,9 @@ public class PerRequestHandler implements IScannerCheck {
 					new ScanPathTraversal(callbacks, helpers).doScanPathTraversal(baseRequestResponse, insertionPoint)
 			);
 		}
+		issues.add(
+				new ScanFastJson(callbacks, helpers).doScanFastJson(baseRequestResponse, insertionPoint)
+		);
 		List nullList = new ArrayList();
 		nullList.add(null);
 		issues.removeAll(nullList);

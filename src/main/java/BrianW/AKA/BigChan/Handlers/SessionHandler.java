@@ -4,6 +4,7 @@ import BrianW.AKA.BigChan.Tools.Global;
 import BrianW.AKA.BigChan.Tools.utils;
 import burp.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class SessionHandler implements ISessionHandlingAction {
@@ -74,6 +75,12 @@ public class SessionHandler implements ISessionHandlingAction {
 		if (Global.config.getConfigRandomHostEnable_value()) {
 			headers.removeIf(n -> (n.startsWith("Host: ")));
 			headers.add("Host: " + currentRequest.getHttpService().getHost() + ".:" + utils.getRandomInt(65535, 1));
+		}
+		if (Global.config.getConfigJson2UnicodeEnable_value()) {
+			String reqBodyStr = helpers.bytesToString(reqBody);
+			if (utils.isJson(reqBodyStr)){
+				reqBody = utils.encodeJson2Unicode(reqBodyStr).getBytes(StandardCharsets.UTF_8);
+			}
 		}
 		newRequest = helpers.buildHttpMessage(headers, reqBody);
 		currentRequest.setRequest(newRequest);
