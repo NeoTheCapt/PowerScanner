@@ -8,6 +8,8 @@ import BrianW.AKA.BigChan.Handlers.StateHandler;
 import BrianW.AKA.BigChan.Tools.Config;
 import BrianW.AKA.BigChan.Tools.Global;
 
+import java.util.List;
+
 public class BurpExtender implements IBurpExtender {
 	@Override
 	public void registerExtenderCallbacks(final IBurpExtenderCallbacks callbacks) {
@@ -34,5 +36,9 @@ public class BurpExtender implements IBurpExtender {
 		callbacks.registerExtensionStateListener(StateHandler);
 		callbacks.printOutput("PowerScanner by Brian.W");
 		callbacks.printOutput("Start scanner!");
+//		List<IScannerCheck> ScannerChecks = callbacks.getScannerChecks();
+//		for (IScannerCheck ScannerCheck: ScannerChecks){
+//			callbacks.printOutput(ScannerCheck.toString());
+//		}
 	}
 }

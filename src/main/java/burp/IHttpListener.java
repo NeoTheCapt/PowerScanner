@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)IHttpListener.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

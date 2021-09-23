@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)IContextMenuFactory.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

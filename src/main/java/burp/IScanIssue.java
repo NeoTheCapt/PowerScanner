@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)IScanIssue.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

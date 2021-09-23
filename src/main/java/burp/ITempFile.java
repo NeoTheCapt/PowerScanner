@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)ITempFile.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)IProxyListener.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

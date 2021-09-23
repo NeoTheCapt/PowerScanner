@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)IIntruderPayloadProcessor.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

@@ -149,6 +149,84 @@ new FormModel {
 					"title": "BypassWAF"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+					name: "panel5"
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "checkBox_fofa_ico"
+						"text": "查找ico"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_fofa_icoActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 10
+						"y": 10
+						"width": 140
+						"height": 25
+					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "checkBox_fofa_title"
+						"text": "title找源"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_fofa_titleActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 10
+						"y": 40
+						"width": 125
+					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "checkBox_fofa_ssl"
+						"text": "ssl证书找源"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_fofa_sslActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 10
+						"y": 70
+						"width": 120
+						"height": 25
+					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "checkBox_fofa_domain"
+						"text": "查找其他相关网站"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_fofa_domainActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 10
+						"y": 100
+						"width": 150
+						"height": 25
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "textField_fofa_email"
+						"text": "test@test.com"
+						addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textField_fofa_emailFocusLost", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 100
+						"y": 210
+						"width": 235
+						"height": 30
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label1"
+						"text": "Email"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 15
+						"y": 220
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "label3"
+						"text": "ApiKey"
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 15
+						"y": 265
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "textField_fofa_apikey"
+						"text": "xxxxxxxxxxxxxxxxxxxxxxxx"
+						addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textField_fofa_apikeyFocusLost", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 100
+						"y": 260
+						"width": 235
+						"height": 25
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "fofa"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
 					name: "panel2"
 					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 						name: "scrollPane1"

@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)IScannerInsertionPointProvider.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

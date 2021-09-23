@@ -1,4 +1,5 @@
 package BrianW.AKA.BigChan.Handlers;
+import BrianW.AKA.BigChan.PowerScanner.GetFofaInfo;
 import BrianW.AKA.BigChan.PowerScanner.ScanSensitiveFiles;
 import BrianW.AKA.BigChan.Tools.Global;
 import burp.*;
@@ -37,6 +38,15 @@ public class PerHostHandler implements IScannerCheck {
 					new ScanSensitiveFiles(callbacks, helpers).doScanSensiveFiles(baseRequestResponse, insertionPoint)
 			);
 		}
+		issues.addAll(
+				new GetFofaInfo(callbacks, helpers).doGetFofaInfo_Icon(baseRequestResponse, insertionPoint)
+		);
+		issues.addAll(
+				new GetFofaInfo(callbacks, helpers).doGetFofaInfo_Title(baseRequestResponse, insertionPoint)
+		);
+		issues.addAll(
+				new GetFofaInfo(callbacks, helpers).doGetFofaInfo_Domain(baseRequestResponse, insertionPoint)
+		);
 		List nullList = new ArrayList();
 		nullList.add(null);
 		issues.removeAll(nullList);

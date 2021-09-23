@@ -58,7 +58,20 @@ public class Config {
 	private String configSensitiveFiles_key = "SensitiveFiles";
 	private String configSensitiveFiles_value = "robots.txt\nWEB-INF/web.xml\n.git/config\nadmin\nmanager";
 	//=====================================================
-	
+	private String configSectionGetFofaInfo = "GetFofaInfo";
+	private String configFofa_Ico_key = "Fofa_Ico";
+	private Boolean configFofa_Ico_value = true;
+	private String configFofa_Title_key = "Fofa_Title";
+	private Boolean configFofa_Title_value = true;
+	private String configFofa_SSL_key = "Fofa_SSL";
+	private Boolean configFofa_SSL_value = true;
+	private String configFofa_Domain_key = "Fofa_Domain";
+	private Boolean configFofa_Domain_value = true;
+	private String configFofa_Email_key = "Fofa_Email";
+	private String configFofa_Email_value = "test@hotmail.com";
+	private String configFofa_ApiKey_key = "Fofa_ApiKey";
+	private String configFofa_ApiKey_value = "xxxxxxxxxxxxxxxxxxxxxxxxxx";
+	//=====================================================
 	public Config(IBurpExtenderCallbacks callbacks) {
 		this.callbacks = callbacks;
 		try {
@@ -80,6 +93,12 @@ public class Config {
 				this.configSensitiveFiles_value = ini.get(configSectionSensiveFilesScan, configSensitiveFiles_key);
 				this.configJson2UnicodeEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configJson2UnicodeEnable_key));
 				this.configFastjsonEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configFastjsonEnable_key));
+				this.configFofa_Ico_value = Boolean.valueOf(ini.get(configSectionGetFofaInfo, configFofa_Ico_key));
+				this.configFofa_Title_value = Boolean.valueOf(ini.get(configSectionGetFofaInfo, configFofa_Title_key));
+				this.configFofa_SSL_value = Boolean.valueOf(ini.get(configSectionGetFofaInfo, configFofa_SSL_key));
+				this.configFofa_Domain_value = Boolean.valueOf(ini.get(configSectionGetFofaInfo, configFofa_Domain_key));
+				this.configFofa_Email_value = String.valueOf(ini.get(configSectionGetFofaInfo, configFofa_Email_key));
+				this.configFofa_ApiKey_value = String.valueOf(ini.get(configSectionGetFofaInfo, configFofa_ApiKey_key));
 			} else {
 				callbacks.printOutput("config file not exist");
 				Boolean r = this.file.createNewFile();
@@ -139,6 +158,30 @@ public class Config {
 				ini.add(configSectionGlobal,
 						configFastjsonEnable_key,
 						configFastjsonEnable_value
+				);
+				ini.add(configSectionGetFofaInfo,
+						configFofa_Ico_key,
+						configFofa_Ico_value
+				);
+				ini.add(configSectionGetFofaInfo,
+						configFofa_Title_key,
+						configFofa_Title_value
+				);
+				ini.add(configSectionGetFofaInfo,
+						configFofa_SSL_key,
+						configFofa_SSL_value
+				);
+				ini.add(configSectionGetFofaInfo,
+						configFofa_Domain_key,
+						configFofa_Domain_value
+				);
+				ini.add(configSectionGetFofaInfo,
+						configFofa_Email_key,
+						configFofa_Email_value
+				);
+				ini.add(configSectionGetFofaInfo,
+						configFofa_ApiKey_key,
+						configFofa_ApiKey_value
 				);
 				//将文件内容保存到文件中
 				ini.store(this.file);
@@ -267,6 +310,55 @@ public class Config {
 		return this;
 	}
 
+	public Config setConfigFofa_Ico_value(Boolean configFofa_Ico_value) {
+		setValue(this.configSectionGetFofaInfo,
+				this.configFofa_Ico_key,
+				configFofa_Ico_value.toString()
+		);
+		this.configFofa_Ico_value = configFofa_Ico_value;
+		return this;
+	}
+
+	public void setConfigFofa_Title_value(Boolean configFofa_Title_value) {
+		setValue(this.configSectionGetFofaInfo,
+				this.configFofa_Title_key,
+				configFofa_Title_value.toString()
+		);
+		this.configFofa_Title_value = configFofa_Title_value;
+	}
+
+	public void setConfigFofa_SSL_value(Boolean configFofa_SSL_value) {
+		setValue(this.configSectionGetFofaInfo,
+				this.configFofa_SSL_key,
+				configFofa_SSL_value.toString()
+		);
+		this.configFofa_SSL_value = configFofa_SSL_value;
+	}
+
+	public void setConfigFofa_Domain_value(Boolean configFofa_Domain_value) {
+		setValue(this.configSectionGetFofaInfo,
+				this.configFofa_Domain_key,
+				configFofa_Domain_value.toString()
+		);
+		this.configFofa_Domain_value = configFofa_Domain_value;
+	}
+
+	public void setConfigFofa_Email_value(String configFofa_Email_value) {
+		setValue(this.configSectionGetFofaInfo,
+				this.configFofa_Email_key,
+				configFofa_Email_value.toString()
+		);
+		this.configFofa_Email_value = configFofa_Email_value;
+	}
+
+	public void setConfigFofa_ApiKey_value(String configFofa_ApiKey_value) {
+		setValue(this.configSectionGetFofaInfo,
+				this.configFofa_ApiKey_key,
+				configFofa_ApiKey_value.toString()
+		);
+		this.configFofa_ApiKey_value = configFofa_ApiKey_value;
+	}
+
 	public Boolean getConfigSqliEnable_value() {
 		return configSqliEnable_value;
 	}
@@ -317,6 +409,30 @@ public class Config {
 
 	public Boolean getConfigFastjsonEnable_value() {
 		return configFastjsonEnable_value;
+	}
+
+	public Boolean getConfigFofa_Ico_value() {
+		return configFofa_Ico_value;
+	}
+
+	public Boolean getConfigFofa_Title_value() {
+		return configFofa_Title_value;
+	}
+
+	public Boolean getConfigFofa_SSL_value() {
+		return configFofa_SSL_value;
+	}
+
+	public Boolean getConfigFofa_Domain_value() {
+		return configFofa_Domain_value;
+	}
+
+	public String getConfigFofa_Email_value() {
+		return configFofa_Email_value;
+	}
+
+	public String getConfigFofa_ApiKey_value() {
+		return configFofa_ApiKey_value;
 	}
 
 	private void setValue(String section, String key, String value){

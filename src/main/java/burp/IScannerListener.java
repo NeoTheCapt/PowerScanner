@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)IScannerListener.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

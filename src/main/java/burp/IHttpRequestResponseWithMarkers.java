@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)IHttpRequestResponseWithMarkers.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

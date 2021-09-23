@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)IIntruderAttack.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

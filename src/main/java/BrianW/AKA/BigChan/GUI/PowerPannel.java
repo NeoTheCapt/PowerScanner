@@ -32,6 +32,12 @@ public class PowerPannel extends JPanel {
 		this.checkBox_ClearCookies.setSelected(Global.config.getConfigClearCookieEnable_value());
 		this.checkBox_Json2Unicode.setSelected(Global.config.getConfigJson2UnicodeEnable_value());
 		this.checkBox_fastjson.setSelected(Global.config.getConfigFastjsonEnable_value());
+		this.checkBox_fofa_ico.setSelected(Global.config.getConfigFofa_Ico_value());
+        this.checkBox_fofa_title.setSelected(Global.config.getConfigFofa_Title_value());
+        this.checkBox_fofa_ssl.setSelected(Global.config.getConfigFofa_SSL_value());
+        this.checkBox_fofa_domain.setSelected(Global.config.getConfigFofa_Domain_value());
+        this.textField_fofa_email.setText(Global.config.getConfigFofa_Email_value());
+        this.textField_fofa_apikey.setText(Global.config.getConfigFofa_ApiKey_value());
 	}
 
 	private void checkBox_SqliActionPerformed(ActionEvent e) {
@@ -90,6 +96,30 @@ public class PowerPannel extends JPanel {
     private void checkBox_fastjsonActionPerformed(ActionEvent e) {
         Global.config.setConfigFastjsonEnable_value(this.checkBox_fastjson.isSelected());
     }
+
+    private void checkBox_fofa_icoActionPerformed(ActionEvent e) {
+        Global.config.setConfigFofa_Ico_value(this.checkBox_fofa_ico.isSelected());
+    }
+
+    private void checkBox_fofa_titleActionPerformed(ActionEvent e) {
+        Global.config.setConfigFofa_Title_value(this.checkBox_fofa_title.isSelected());
+    }
+
+    private void checkBox_fofa_sslActionPerformed(ActionEvent e) {
+        Global.config.setConfigFofa_SSL_value(this.checkBox_fofa_ssl.isSelected());
+    }
+
+    private void checkBox_fofa_domainActionPerformed(ActionEvent e) {
+        Global.config.setConfigFofa_Domain_value(this.checkBox_fofa_domain.isSelected());
+    }
+
+    private void textField_fofa_emailFocusLost(FocusEvent e) {
+        Global.config.setConfigFofa_Email_value(this.textField_fofa_email.getText());
+    }
+
+    private void textField_fofa_apikeyFocusLost(FocusEvent e) {
+        Global.config.setConfigFofa_ApiKey_value(this.textField_fofa_apikey.getText());
+    }
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         tabbedPane1 = new JTabbedPane();
@@ -111,6 +141,15 @@ public class PowerPannel extends JPanel {
         checkBox_RandomUA = new JCheckBox();
         checkBox_RandomHost = new JCheckBox();
         checkBox_Json2Unicode = new JCheckBox();
+        panel5 = new JPanel();
+        checkBox_fofa_ico = new JCheckBox();
+        checkBox_fofa_title = new JCheckBox();
+        checkBox_fofa_ssl = new JCheckBox();
+        checkBox_fofa_domain = new JCheckBox();
+        textField_fofa_email = new JTextField();
+        label1 = new JLabel();
+        label3 = new JLabel();
+        textField_fofa_apikey = new JTextField();
         panel2 = new JPanel();
         scrollPane1 = new JScrollPane();
         table1 = new JTable();
@@ -278,6 +317,83 @@ public class PowerPannel extends JPanel {
             }
             tabbedPane1.addTab("BypassWAF", panel4);
 
+            //======== panel5 ========
+            {
+                panel5.setLayout(null);
+
+                //---- checkBox_fofa_ico ----
+                checkBox_fofa_ico.setText("\u67e5\u627eico");
+                checkBox_fofa_ico.addActionListener(e -> checkBox_fofa_icoActionPerformed(e));
+                panel5.add(checkBox_fofa_ico);
+                checkBox_fofa_ico.setBounds(10, 10, 140, 25);
+
+                //---- checkBox_fofa_title ----
+                checkBox_fofa_title.setText("title\u627e\u6e90");
+                checkBox_fofa_title.addActionListener(e -> checkBox_fofa_titleActionPerformed(e));
+                panel5.add(checkBox_fofa_title);
+                checkBox_fofa_title.setBounds(10, 40, 125, checkBox_fofa_title.getPreferredSize().height);
+
+                //---- checkBox_fofa_ssl ----
+                checkBox_fofa_ssl.setText("ssl\u8bc1\u4e66\u627e\u6e90");
+                checkBox_fofa_ssl.addActionListener(e -> checkBox_fofa_sslActionPerformed(e));
+                panel5.add(checkBox_fofa_ssl);
+                checkBox_fofa_ssl.setBounds(10, 70, 120, 25);
+
+                //---- checkBox_fofa_domain ----
+                checkBox_fofa_domain.setText("\u67e5\u627e\u5176\u4ed6\u76f8\u5173\u7f51\u7ad9");
+                checkBox_fofa_domain.addActionListener(e -> checkBox_fofa_domainActionPerformed(e));
+                panel5.add(checkBox_fofa_domain);
+                checkBox_fofa_domain.setBounds(10, 100, 150, 25);
+
+                //---- textField_fofa_email ----
+                textField_fofa_email.setText("test@test.com");
+                textField_fofa_email.addFocusListener(new FocusAdapter() {
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                        textField_fofa_emailFocusLost(e);
+                    }
+                });
+                panel5.add(textField_fofa_email);
+                textField_fofa_email.setBounds(100, 210, 235, 30);
+
+                //---- label1 ----
+                label1.setText("Email");
+                panel5.add(label1);
+                label1.setBounds(new Rectangle(new Point(15, 220), label1.getPreferredSize()));
+
+                //---- label3 ----
+                label3.setText("ApiKey");
+                panel5.add(label3);
+                label3.setBounds(new Rectangle(new Point(15, 265), label3.getPreferredSize()));
+
+                //---- textField_fofa_apikey ----
+                textField_fofa_apikey.setText("xxxxxxxxxxxxxxxxxxxxxxxx");
+                textField_fofa_apikey.addFocusListener(new FocusAdapter() {
+                    @Override
+                    public void focusLost(FocusEvent e) {
+                        textField_fofa_apikeyFocusLost(e);
+                    }
+                });
+                panel5.add(textField_fofa_apikey);
+                textField_fofa_apikey.setBounds(100, 260, 235, 25);
+
+                {
+                    // compute preferred size
+                    Dimension preferredSize = new Dimension();
+                    for(int i = 0; i < panel5.getComponentCount(); i++) {
+                        Rectangle bounds = panel5.getComponent(i).getBounds();
+                        preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+                        preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+                    }
+                    Insets insets = panel5.getInsets();
+                    preferredSize.width += insets.right;
+                    preferredSize.height += insets.bottom;
+                    panel5.setMinimumSize(preferredSize);
+                    panel5.setPreferredSize(preferredSize);
+                }
+            }
+            tabbedPane1.addTab("fofa", panel5);
+
             //======== panel2 ========
             {
                 panel2.setLayout(null);
@@ -388,6 +504,15 @@ public class PowerPannel extends JPanel {
     private JCheckBox checkBox_RandomUA;
     private JCheckBox checkBox_RandomHost;
     private JCheckBox checkBox_Json2Unicode;
+    private JPanel panel5;
+    private JCheckBox checkBox_fofa_ico;
+    private JCheckBox checkBox_fofa_title;
+    private JCheckBox checkBox_fofa_ssl;
+    private JCheckBox checkBox_fofa_domain;
+    private JTextField textField_fofa_email;
+    private JLabel label1;
+    private JLabel label3;
+    private JTextField textField_fofa_apikey;
     private JPanel panel2;
     private JScrollPane scrollPane1;
     private JTable table1;

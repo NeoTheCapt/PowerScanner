@@ -6,7 +6,7 @@
 
     <groupId>brian.powerscanner</groupId>
     <artifactId>scanner</artifactId>
-    <version>1.0.6-SNAPSHOT</version>
+    <version>1.0.8-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>14</maven.compiler.source>
@@ -50,6 +50,22 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.8.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.13.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.3</version>
         </dependency>
     </dependencies>
 

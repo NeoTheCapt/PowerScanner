@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)IBurpCollaboratorClientContext.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

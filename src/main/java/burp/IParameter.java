@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)IParameter.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

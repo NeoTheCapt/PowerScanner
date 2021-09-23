@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)IResponseInfo.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

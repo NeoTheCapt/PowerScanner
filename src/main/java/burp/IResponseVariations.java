@@ -1,4 +1,6 @@
-package burp;/*
+package burp;
+
+/*
  * @(#)IResponseVariations.java
  *
  * Copyright PortSwigger Ltd. All rights reserved.

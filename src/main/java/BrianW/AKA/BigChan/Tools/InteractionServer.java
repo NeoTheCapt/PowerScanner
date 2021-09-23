@@ -31,7 +31,6 @@ public class InteractionServer extends Thread {
         try {
             checkCollaboratorPayloadList();
         } catch (Exception e) {
-            callbacks.printError(e.toString());
             callbacks.printError(utils.getStackMsg(e));
         }
         this.callbacks.printOutput("InteractionServer stopped, ThreadID: " + this.threadID);
@@ -51,7 +50,7 @@ public class InteractionServer extends Thread {
         List<IBurpCollaboratorInteraction> interactions = new ArrayList<>();
         do {
             for (String collaboratorPayload : this.collaboratorPayloadList) {
-                this.callbacks.printOutput("checking collaborator: " + collaboratorPayload + ", ThreadID: " + this.threadID);
+                //this.callbacks.printOutput("checking collaborator: " + collaboratorPayload + ", ThreadID: " + this.threadID);
                 interactions = this.collaboratorContext.fetchCollaboratorInteractionsFor(collaboratorPayload);
                 if (interactions.size() > 0) {
                     this.callbacks.addScanIssue(this.issuesList.get(collaboratorPayload));
@@ -64,7 +63,7 @@ public class InteractionServer extends Thread {
                     this.collaboratorPayloadList.remove(collaboratorPayload);
                     this.issuesList.remove(collaboratorPayload);
                     this.dateList.remove(collaboratorPayload);
-                    this.callbacks.printOutput("remove collaborator: " + collaboratorPayload + ", ThreadID: " + this.threadID);
+                    //this.callbacks.printOutput("remove collaborator: " + collaboratorPayload + ", ThreadID: " + this.threadID);
                 }
             }
             try{
