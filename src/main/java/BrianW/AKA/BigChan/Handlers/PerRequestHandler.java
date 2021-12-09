@@ -59,6 +59,10 @@ public class PerRequestHandler implements IScannerCheck {
                     new ScanFastJson(callbacks, helpers).doScanFastJson(baseRequestResponse, insertionPoint)
             );
         }
+        //@todo 添加对应GUI和选项卡
+        issues.add(
+                new ScanLog4j(callbacks, helpers).doScanLog4j(baseRequestResponse, insertionPoint)
+        );
         List nullList = new ArrayList();
         nullList.add(null);
         issues.removeAll(nullList);
