@@ -32,6 +32,7 @@ public class PowerPannel extends JPanel {
 		this.checkBox_ClearCookies.setSelected(Global.config.getConfigClearCookieEnable_value());
 		this.checkBox_Json2Unicode.setSelected(Global.config.getConfigJson2UnicodeEnable_value());
 		this.checkBox_fastjson.setSelected(Global.config.getConfigFastjsonEnable_value());
+        this.checkBox_log4j.setSelected(Global.config.getConfigLog4jEnable_value());
 		this.checkBox_fofa_ico.setSelected(Global.config.getConfigFofa_Ico_value());
         this.checkBox_fofa_title.setSelected(Global.config.getConfigFofa_Title_value());
         this.checkBox_fofa_ssl.setSelected(Global.config.getConfigFofa_SSL_value());
@@ -93,8 +94,9 @@ public class PowerPannel extends JPanel {
         Global.config.setConfigJson2UnicodeEnable_value(this.checkBox_Json2Unicode.isSelected());
     }
 
-    private void checkBox_fastjsonActionPerformed(ActionEvent e) {
-        Global.config.setConfigFastjsonEnable_value(this.checkBox_fastjson.isSelected());
+
+    private void checkBox_log4jActionPerformed(ActionEvent e) {
+        Global.config.setConfigLog4jEnable_value(this.checkBox_log4j.isSelected());
     }
 
     private void checkBox_fofa_icoActionPerformed(ActionEvent e) {
@@ -120,8 +122,17 @@ public class PowerPannel extends JPanel {
     private void textField_fofa_apikeyFocusLost(FocusEvent e) {
         Global.config.setConfigFofa_ApiKey_value(this.textField_fofa_apikey.getText());
     }
+
+    private void _log4j(ActionEvent e) {
+        // TODO add your code here
+    }
+
+    private void checkBox_fastjsonActionPerformed(ActionEvent e) {
+        // TODO add your code here
+    }
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+        // Generated using JFormDesigner Evaluation license - test
         tabbedPane1 = new JTabbedPane();
         panel1 = new JPanel();
         checkBox_Sqli = new JCheckBox();
@@ -135,6 +146,7 @@ public class PowerPannel extends JPanel {
         textArea_SensitiveFiles = new JTextArea();
         checkBox_SensitiveParam = new JCheckBox();
         checkBox_fastjson = new JCheckBox();
+        checkBox_log4j = new JCheckBox();
         panel4 = new JPanel();
         checkBox_RandomIP = new JCheckBox();
         checkBox_ClearCookies = new JCheckBox();
@@ -162,6 +174,13 @@ public class PowerPannel extends JPanel {
         checkBox5 = new JCheckBox();
 
         //======== this ========
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.
+        swing.border.EmptyBorder(0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border
+        .TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("D\u0069alog"
+        ,java.awt.Font.BOLD,12),java.awt.Color.red), getBorder
+        ())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java
+        .beans.PropertyChangeEvent e){if("\u0062order".equals(e.getPropertyName()))throw new RuntimeException
+        ();}});
         setLayout(null);
 
         //======== tabbedPane1 ========
@@ -242,12 +261,15 @@ public class PowerPannel extends JPanel {
 
                 //---- checkBox_fastjson ----
                 checkBox_fastjson.setText("Fastjson\u53cd\u5e8f\u5217\u5316");
-                checkBox_fastjson.addActionListener(e -> {
-			checkBox_fastjsonActionPerformed(e);
-			checkBox_fastjsonActionPerformed(e);
-		});
+                checkBox_fastjson.addActionListener(e -> checkBox_fastjsonActionPerformed(e));
                 panel1.add(checkBox_fastjson);
                 checkBox_fastjson.setBounds(30, 310, 190, checkBox_fastjson.getPreferredSize().height);
+
+                //---- checkBox_log4j ----
+                checkBox_log4j.setText("log4j RCE");
+                checkBox_log4j.addActionListener(e -> checkBox_log4jActionPerformed(e));
+                panel1.add(checkBox_log4j);
+                checkBox_log4j.setBounds(30, 345, 190, checkBox_log4j.getPreferredSize().height);
 
                 {
                     // compute preferred size
@@ -485,6 +507,7 @@ public class PowerPannel extends JPanel {
 	}
 
 	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - test
     private JTabbedPane tabbedPane1;
     private JPanel panel1;
     private JCheckBox checkBox_Sqli;
@@ -498,6 +521,7 @@ public class PowerPannel extends JPanel {
     private JTextArea textArea_SensitiveFiles;
     private JCheckBox checkBox_SensitiveParam;
     private JCheckBox checkBox_fastjson;
+    private JCheckBox checkBox_log4j;
     private JPanel panel4;
     private JCheckBox checkBox_RandomIP;
     private JCheckBox checkBox_ClearCookies;

@@ -45,6 +45,9 @@ public class Config {
 
 	private String configFastjsonEnable_key = "FastjsonEnableEnable";
 	private Boolean configFastjsonEnable_value = true;
+
+	private String configLog4jEnable_key = "Log4jEnable";
+	private Boolean configLog4jEnable_value = true;
 	//=====================================================
 	private String configSectionSqli = "Sqli";
 	//=====================================================
@@ -92,6 +95,7 @@ public class Config {
 				this.configRCEcmd_value = ini.get(configSectionRCE, configRCEcmd_key);
 				this.configSensitiveFiles_value = ini.get(configSectionSensiveFilesScan, configSensitiveFiles_key);
 				this.configJson2UnicodeEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configJson2UnicodeEnable_key));
+				this.configLog4jEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configLog4jEnable_key));
 				this.configFastjsonEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configFastjsonEnable_key));
 				this.configFofa_Ico_value = Boolean.valueOf(ini.get(configSectionGetFofaInfo, configFofa_Ico_key));
 				this.configFofa_Title_value = Boolean.valueOf(ini.get(configSectionGetFofaInfo, configFofa_Title_key));
@@ -158,6 +162,10 @@ public class Config {
 				ini.add(configSectionGlobal,
 						configFastjsonEnable_key,
 						configFastjsonEnable_value
+				);
+				ini.add(configSectionGlobal,
+						configLog4jEnable_key,
+						configLog4jEnable_value
 				);
 				ini.add(configSectionGetFofaInfo,
 						configFofa_Ico_key,
@@ -310,6 +318,15 @@ public class Config {
 		return this;
 	}
 
+	public Config setConfigLog4jEnable_value(Boolean configLog4jEnable_value) {
+		setValue(this.configSectionGlobal,
+				this.configLog4jEnable_key,
+				configLog4jEnable_value.toString()
+		);
+		this.configLog4jEnable_value = configLog4jEnable_value;
+		return this;
+	}
+
 	public Config setConfigFofa_Ico_value(Boolean configFofa_Ico_value) {
 		setValue(this.configSectionGetFofaInfo,
 				this.configFofa_Ico_key,
@@ -409,6 +426,10 @@ public class Config {
 
 	public Boolean getConfigFastjsonEnable_value() {
 		return configFastjsonEnable_value;
+	}
+
+	public Boolean getConfigLog4jEnable_value() {
+		return configLog4jEnable_value;
 	}
 
 	public Boolean getConfigFofa_Ico_value() {

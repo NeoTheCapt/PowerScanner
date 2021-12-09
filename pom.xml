@@ -6,7 +6,7 @@
 
     <groupId>brian.powerscanner</groupId>
     <artifactId>scanner</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.9-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

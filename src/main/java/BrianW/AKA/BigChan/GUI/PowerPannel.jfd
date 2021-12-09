@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.3.0.337" Java: "11.0.9.1" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.5.0.404" Java: "11.0.13" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -91,11 +91,19 @@ new FormModel {
 						name: "checkBox_fastjson"
 						"text": "Fastjson反序列化"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_fastjsonActionPerformed", true ) )
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_fastjsonActionPerformed", true ) )
 					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 						"x": 30
 						"y": 310
 						"width": 190
+					} )
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "checkBox_log4j"
+						"text": "log4j RCE"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "checkBox_log4jActionPerformed", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"width": 190
+						"x": 30
+						"y": 345
 					} )
 				}, new FormLayoutConstraints( null ) {
 					"title": "挖洞"
