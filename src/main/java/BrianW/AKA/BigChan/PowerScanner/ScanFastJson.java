@@ -1,9 +1,12 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
+import BrianW.AKA.BigChan.Tools.CollaboratorData;
 import BrianW.AKA.BigChan.Tools.Global;
 import BrianW.AKA.BigChan.Tools.hitRst;
 import BrianW.AKA.BigChan.Tools.utils;
 import burp.*;
+
+import java.util.Date;
 
 public class ScanFastJson  extends Reporter {
     protected IBurpExtenderCallbacks callbacks;
@@ -34,7 +37,7 @@ public class ScanFastJson  extends Reporter {
                         reqEvil
                 );
                 pairEvil.setComment(payload);
-                Global.interactionServer.addToPairList(collaboratorPayload,
+                CollaboratorData collaboratorData = new CollaboratorData(
                         reporter(
                                 "Fastjson vulnerability found",
                                 String.format("param: %s <br>" +
@@ -48,8 +51,11 @@ public class ScanFastJson  extends Reporter {
                                 "High",
                                 "Certain",
                                 pairEvil
-                        )
+                        ),
+                        new Date(),
+                        ""
                 );
+                Global.interactionServer.addToPairList(collaboratorPayload,collaboratorData);
             }
         }
         return null;

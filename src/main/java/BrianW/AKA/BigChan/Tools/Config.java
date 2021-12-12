@@ -17,8 +17,7 @@ public class Config {
 	
 	private String configRCEEnable_key = "RCEEnable";
 	private Boolean configRCEEnable_value = true;
-	
-	
+
 	private String configPathTraversalEnable_key = "PathTraversalEnable";
 	private Boolean configPathTraversalEnable_value = true;
 	
@@ -48,6 +47,11 @@ public class Config {
 
 	private String configLog4jEnable_key = "Log4jEnable";
 	private Boolean configLog4jEnable_value = true;
+
+	private String configRequestRouteEnable_key = "RequestRouteEnable";
+	private Boolean configRequestRouteEnable_value = true;
+	private String configRequestRoute_key = "RequestRoute";
+	private String configRequestRoute_value = "127.0.0.1:9999\n127.0.0.1:8888";
 	//=====================================================
 	private String configSectionSqli = "Sqli";
 	//=====================================================
@@ -103,6 +107,8 @@ public class Config {
 				this.configFofa_Domain_value = Boolean.valueOf(ini.get(configSectionGetFofaInfo, configFofa_Domain_key));
 				this.configFofa_Email_value = String.valueOf(ini.get(configSectionGetFofaInfo, configFofa_Email_key));
 				this.configFofa_ApiKey_value = String.valueOf(ini.get(configSectionGetFofaInfo, configFofa_ApiKey_key));
+				this.configRequestRouteEnable_value = Boolean.valueOf(ini.get(configSectionGlobal, configRequestRouteEnable_key));
+				this.configRequestRoute_value = ini.get(configSectionGlobal, configRequestRoute_key);
 			} else {
 				callbacks.printOutput("config file not exist");
 				Boolean r = this.file.createNewFile();
@@ -166,6 +172,14 @@ public class Config {
 				ini.add(configSectionGlobal,
 						configLog4jEnable_key,
 						configLog4jEnable_value
+				);
+				ini.add(configSectionGlobal,
+						configRequestRouteEnable_key,
+						configRequestRouteEnable_value
+				);
+				ini.add(configSectionGlobal,
+						configRequestRoute_key,
+						configRequestRoute_value
 				);
 				ini.add(configSectionGetFofaInfo,
 						configFofa_Ico_key,
@@ -327,6 +341,24 @@ public class Config {
 		return this;
 	}
 
+	public Config setConfigRequestRouteEnable_value(Boolean configRequestRouteEnable_value) {
+		setValue(this.configSectionGlobal,
+				this.configRequestRouteEnable_key,
+				configRequestRouteEnable_value.toString()
+		);
+		this.configRequestRouteEnable_value = configRequestRouteEnable_value;
+		return this;
+	}
+
+	public Config setConfigRequestRoute_value(String configRequestRoute_value) {
+		setValue(this.configSectionGlobal,
+				this.configRequestRoute_key,
+				configRequestRoute_value
+		);
+		this.configRequestRoute_value = configRequestRoute_value;
+		return this;
+	}
+
 	public Config setConfigFofa_Ico_value(Boolean configFofa_Ico_value) {
 		setValue(this.configSectionGetFofaInfo,
 				this.configFofa_Ico_key,
@@ -430,6 +462,14 @@ public class Config {
 
 	public Boolean getConfigLog4jEnable_value() {
 		return configLog4jEnable_value;
+	}
+
+	public Boolean getConfigRequestRouteEnable_value() {
+		return configRequestRouteEnable_value;
+	}
+
+	public String getConfigRequestRoute_value() {
+		return configRequestRoute_value;
 	}
 
 	public Boolean getConfigFofa_Ico_value() {

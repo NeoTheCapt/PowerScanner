@@ -33,6 +33,7 @@ public interface IMessageEditorTabFactory
      * @return A new
      * <code>IMessageEditorTab</code> object for use within the message editor.
      */
-    IMessageEditorTab createNewInstance(IMessageEditorController controller,
+    IMessageEditorTab createNewInstance(
+            IMessageEditorController controller,
             boolean editable);
 }

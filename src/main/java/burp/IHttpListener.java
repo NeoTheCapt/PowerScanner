@@ -31,7 +31,8 @@ public interface IHttpListener
      * Extensions can call the setter methods on this object to update the
      * current message and so modify Burp's behavior.
      */
-    void processHttpMessage(int toolFlag,
+    void processHttpMessage(
+            int toolFlag,
             boolean messageIsRequest,
             IHttpRequestResponse messageInfo);
 }

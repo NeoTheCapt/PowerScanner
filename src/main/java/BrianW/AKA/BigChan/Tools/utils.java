@@ -1,6 +1,7 @@
 package BrianW.AKA.BigChan.Tools;
 
 import burp.IBurpExtenderCallbacks;
+import burp.IParameter;
 import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import org.jsoup.Connection;
@@ -9,15 +10,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import javax.net.ssl.*;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
+import java.util.Base64;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -216,6 +217,10 @@ public class utils {
         }
     }
 
+//    public byte[] doRequestViaProxy(URL url, List<String> headers, byte[] body, String proxyIP, int proxyPort){
+//
+//    }
+
     public static byte[] httpGet(String urlString) throws NoSuchAlgorithmException, KeyManagementException {
 
         // Install the all-trusting host verifier
@@ -282,6 +287,37 @@ public class utils {
         return allHostsValid;
     }
 
+    public static byte[] Base64Decode(byte[] data){
+        return Base64.getDecoder().decode(data);
+    }
 
+    public static dnsData extractDnsData(byte[] data) throws IOException {
+        dnsData dns = new dnsData();
+        DataInputStream din = new DataInputStream(new ByteArrayInputStream(data));
+        dns.transactionID = din.readShort();
+        dns.Flags = din.readShort();
+        dns.Questions = din.readShort();
+        dns.AnswersRRS = din.readShort();
+        dns.AuthorityRRS = din.readShort();
+        dns.AdditionalRRS = din.readShort();
+        int recLen = 0;
+        while ((recLen = din.readByte()) > 0) {
+            byte[] record = new byte[recLen];
+
+            for (int i = 0; i < recLen; i++) {
+                record[i] = din.readByte();
+            }
+
+            dns.Records.add(new String(record, StandardCharsets.UTF_8));
+        }
+//        dns.RecordType = din.readShort();
+//        dns.RecordClass = din.readShort();
+//
+//        dns.Field = din.readShort();
+//        dns.Type = din.readShort();
+//        dns.FieldClass = din.readShort();
+//        dns.TTL = din.readInt();
+        return dns;
+    }
 }
 

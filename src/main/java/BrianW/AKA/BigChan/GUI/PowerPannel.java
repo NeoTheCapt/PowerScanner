@@ -7,6 +7,10 @@ package BrianW.AKA.BigChan.GUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.*;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.*;
 
 import BrianW.AKA.BigChan.Tools.Config;
@@ -16,79 +20,82 @@ import BrianW.AKA.BigChan.Tools.Global;
  * @author usual
  */
 public class PowerPannel extends JPanel {
-	public PowerPannel() {
-		initComponents();
-		this.text_Log.append("inited\n");
-		this.checkBox_PathTraversal.setSelected(Global.config.getConfigPathTraversalEnable_value());
-		this.checkBox_Sqli.setSelected(Global.config.getConfigSqliEnable_value());
-		this.checkBox_RCE.setSelected(Global.config.getConfigRCEEnable_value());
-		this.checkBox_SensitiveFilesScan.setSelected(Global.config.getConfigSensitiveFilesScanEnable_value());
-		this.textArea_RCE_cmd.setText(Global.config.getConfigRCEcmd_value());
-		this.textArea_SensitiveFiles.setText(Global.config.getConfigSensitiveFiles_value());
-		this.checkBox_SensitiveParam.setSelected(Global.config.getConfigSensitiveParamEnable_value());
-		this.checkBox_RandomIP.setSelected(Global.config.getConfigRandomIPEnable_value());
-		this.checkBox_RandomHost.setSelected(Global.config.getConfigRandomHostEnable_value());
-		this.checkBox_RandomUA.setSelected(Global.config.getConfigRandomUAEnable_value());
-		this.checkBox_ClearCookies.setSelected(Global.config.getConfigClearCookieEnable_value());
-		this.checkBox_Json2Unicode.setSelected(Global.config.getConfigJson2UnicodeEnable_value());
-		this.checkBox_fastjson.setSelected(Global.config.getConfigFastjsonEnable_value());
+    public PowerPannel() {
+        initComponents();
+        this.text_Log.append("inited\n");
+        this.checkBox_PathTraversal.setSelected(Global.config.getConfigPathTraversalEnable_value());
+        this.checkBox_Sqli.setSelected(Global.config.getConfigSqliEnable_value());
+        this.checkBox_RCE.setSelected(Global.config.getConfigRCEEnable_value());
+        this.checkBox_SensitiveFilesScan.setSelected(Global.config.getConfigSensitiveFilesScanEnable_value());
+        this.textArea_RCE_cmd.setText(Global.config.getConfigRCEcmd_value());
+        this.textArea_SensitiveFiles.setText(Global.config.getConfigSensitiveFiles_value());
+        this.checkBox_SensitiveParam.setSelected(Global.config.getConfigSensitiveParamEnable_value());
+        this.checkBox_RandomIP.setSelected(Global.config.getConfigRandomIPEnable_value());
+        this.checkBox_RandomHost.setSelected(Global.config.getConfigRandomHostEnable_value());
+        this.checkBox_RandomUA.setSelected(Global.config.getConfigRandomUAEnable_value());
+        this.checkBox_ClearCookies.setSelected(Global.config.getConfigClearCookieEnable_value());
+        this.checkBox_Json2Unicode.setSelected(Global.config.getConfigJson2UnicodeEnable_value());
+        this.checkBox_fastjson.setSelected(Global.config.getConfigFastjsonEnable_value());
         this.checkBox_log4j.setSelected(Global.config.getConfigLog4jEnable_value());
-		this.checkBox_fofa_ico.setSelected(Global.config.getConfigFofa_Ico_value());
+        this.checkBox_fofa_ico.setSelected(Global.config.getConfigFofa_Ico_value());
         this.checkBox_fofa_title.setSelected(Global.config.getConfigFofa_Title_value());
         this.checkBox_fofa_ssl.setSelected(Global.config.getConfigFofa_SSL_value());
         this.checkBox_fofa_domain.setSelected(Global.config.getConfigFofa_Domain_value());
         this.textField_fofa_email.setText(Global.config.getConfigFofa_Email_value());
         this.textField_fofa_apikey.setText(Global.config.getConfigFofa_ApiKey_value());
-	}
+        this.checkBox_requestRouter.setSelected(Global.config.getConfigRequestRouteEnable_value());
+        this.textArea_requestRouter.setEnabled(Global.config.getConfigRequestRouteEnable_value());
+        this.textArea_requestRouter.setText(Global.config.getConfigRequestRoute_value());
+    }
 
-	private void checkBox_SqliActionPerformed(ActionEvent e) {
+    private void checkBox_SqliActionPerformed(ActionEvent e) {
 //		this.text_Log.append("checkBox_SqliSelectedChange: \n");
-		Global.config.setConfigSqliEnable_value(this.checkBox_Sqli.isSelected());
-	}
+        Global.config.setConfigSqliEnable_value(this.checkBox_Sqli.isSelected());
+    }
 
-	private void checkBox_RCEActionPerformed(ActionEvent e) {
-		Global.config.setConfigRCEEnable_value(this.checkBox_RCE.isSelected());
-		this.textArea_RCE_cmd.setEnabled(this.checkBox_RCE.isSelected());
+    private void checkBox_RCEActionPerformed(ActionEvent e) {
+        Global.config.setConfigRCEEnable_value(this.checkBox_RCE.isSelected());
+        this.textArea_RCE_cmd.setEnabled(this.checkBox_RCE.isSelected());
 
-	}
+    }
 
-	private void checkBox_PathTraversalActionPerformed(ActionEvent e) {
-		Global.config.setConfigPathTraversalEnable_value(this.checkBox_PathTraversal.isSelected());
-	}
+    private void checkBox_PathTraversalActionPerformed(ActionEvent e) {
+        Global.config.setConfigPathTraversalEnable_value(this.checkBox_PathTraversal.isSelected());
+    }
 
-	private void checkBox_SensitiveFilesScanActionPerformed(ActionEvent e) {
-		Global.config.setConfigSensitiveFilesScanEnable_value(this.checkBox_SensitiveFilesScan.isSelected());
-		this.textArea_SensitiveFiles.setEnabled(this.checkBox_SensitiveFilesScan.isSelected());
-	}
+    private void checkBox_SensitiveFilesScanActionPerformed(ActionEvent e) {
+        Global.config.setConfigSensitiveFilesScanEnable_value(this.checkBox_SensitiveFilesScan.isSelected());
+        this.textArea_SensitiveFiles.setEnabled(this.checkBox_SensitiveFilesScan.isSelected());
+    }
 
-	private void textArea_RCE_cmdFocusLost(FocusEvent e) {
-		Global.config.setConfigRCEcmd_value(this.textArea_RCE_cmd.getText());
+    private void textArea_RCE_cmdFocusLost(FocusEvent e) {
+        Global.config.setConfigRCEcmd_value(this.textArea_RCE_cmd.getText());
 //		this.text_Log.append("textArea_RCE_cmdFocusLost: " + this.textArea_RCE_cmd.getText() + "\n");
-	}
+    }
 
-	private void textArea_SensitiveFilesFocusLost(FocusEvent e) {
-		Global.config.setConfigSensitiveFiles_value(this.textArea_SensitiveFiles.getText());
-	}
+    private void textArea_SensitiveFilesFocusLost(FocusEvent e) {
+        Global.config.setConfigSensitiveFiles_value(this.textArea_SensitiveFiles.getText());
+    }
 
-	private void checkBox_SensitiveParamActionPerformed(ActionEvent e) {
-		Global.config.setConfigSensitiveParamEnable_value(this.checkBox_SensitiveParam.isSelected());
-	}
+    private void checkBox_SensitiveParamActionPerformed(ActionEvent e) {
+        Global.config.setConfigSensitiveParamEnable_value(this.checkBox_SensitiveParam.isSelected());
+    }
 
-	private void checkBox_RandomIPActionPerformed(ActionEvent e) {
-		Global.config.setConfigRandomIPEnable_value(this.checkBox_RandomIP.isSelected());
-	}
+    private void checkBox_RandomIPActionPerformed(ActionEvent e) {
+        Global.config.setConfigRandomIPEnable_value(this.checkBox_RandomIP.isSelected());
+    }
 
-	private void checkBox_ClearCookiesActionPerformed(ActionEvent e) {
-		Global.config.setConfigClearCookieEnable_value(this.checkBox_ClearCookies.isSelected());
-	}
+    private void checkBox_ClearCookiesActionPerformed(ActionEvent e) {
+        Global.config.setConfigClearCookieEnable_value(this.checkBox_ClearCookies.isSelected());
+    }
 
-	private void checkBox_RandomUAActionPerformed(ActionEvent e) {
-		Global.config.setConfigRandomUAEnable_value(this.checkBox_RandomUA.isSelected());
-	}
+    private void checkBox_RandomUAActionPerformed(ActionEvent e) {
+        Global.config.setConfigRandomUAEnable_value(this.checkBox_RandomUA.isSelected());
+    }
 
-	private void checkBox_RandomHostActionPerformed(ActionEvent e) {
-		Global.config.setConfigRandomHostEnable_value(this.checkBox_RandomHost.isSelected());
-	}
+    private void checkBox_RandomHostActionPerformed(ActionEvent e) {
+        Global.config.setConfigRandomHostEnable_value(this.checkBox_RandomHost.isSelected());
+    }
 
     private void checkBox_Json2UnicodeActionPerformed(ActionEvent e) {
         Global.config.setConfigJson2UnicodeEnable_value(this.checkBox_Json2Unicode.isSelected());
@@ -123,15 +130,39 @@ public class PowerPannel extends JPanel {
         Global.config.setConfigFofa_ApiKey_value(this.textField_fofa_apikey.getText());
     }
 
-    private void _log4j(ActionEvent e) {
+    private void checkBox_fastjsonActionPerformed(ActionEvent e) {
+        Global.config.setConfigFastjsonEnable_value(this.checkBox_fastjson.isSelected());
+    }
+
+    private void _requestRouter(ActionEvent e) {
+        this.textArea_requestRouter.setEnabled(this.checkBox_requestRouter.isSelected());
+        Global.config.setConfigRequestRouteEnable_value(this.checkBox_requestRouter.isSelected());
+    }
+
+    private void textPane_requestRouterFocusLost(FocusEvent e) {
         // TODO add your code here
     }
 
-    private void checkBox_fastjsonActionPerformed(ActionEvent e) {
-        // TODO add your code here
+    private void textArea_requestRouterFocusLost(FocusEvent e) {
+        String[] proxyList = this.textArea_requestRouter.getText().split("\\r?\\n");
+        textField_requestRouterCheck.setText("");
+        for (String proxyStr : proxyList) {
+            Proxy proxy;
+            try {
+                proxy = new Proxy(
+                        Proxy.Type.HTTP,
+                        new InetSocketAddress(proxyStr.split(":")[0],
+                                Integer.parseInt(proxyStr.split(":")[1]))
+                );
+                Global.config.setConfigRequestRoute_value(this.textArea_requestRouter.getText());
+            } catch (Exception error) {
+                textField_requestRouterCheck.setText(String.format("\"%s\" not a valid proxy", proxyStr));
+            }
+        }
     }
-	private void initComponents() {
-		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+
+    private void initComponents() {
+        // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - test
         tabbedPane1 = new JTabbedPane();
         panel1 = new JPanel();
@@ -153,6 +184,11 @@ public class PowerPannel extends JPanel {
         checkBox_RandomUA = new JCheckBox();
         checkBox_RandomHost = new JCheckBox();
         checkBox_Json2Unicode = new JCheckBox();
+        panel6 = new JPanel();
+        checkBox_requestRouter = new JCheckBox();
+        scrollPane5 = new JScrollPane();
+        textArea_requestRouter = new JTextArea();
+        textField_requestRouterCheck = new JTextField();
         panel5 = new JPanel();
         checkBox_fofa_ico = new JCheckBox();
         checkBox_fofa_title = new JCheckBox();
@@ -174,13 +210,19 @@ public class PowerPannel extends JPanel {
         checkBox5 = new JCheckBox();
 
         //======== this ========
-        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.
-        swing.border.EmptyBorder(0,0,0,0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion",javax.swing.border
-        .TitledBorder.CENTER,javax.swing.border.TitledBorder.BOTTOM,new java.awt.Font("D\u0069alog"
-        ,java.awt.Font.BOLD,12),java.awt.Color.red), getBorder
-        ())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){@Override public void propertyChange(java
-        .beans.PropertyChangeEvent e){if("\u0062order".equals(e.getPropertyName()))throw new RuntimeException
-        ();}});
+        setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new
+                javax.swing.border.EmptyBorder(0, 0, 0, 0), "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax
+                .swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.BOTTOM, new java
+                .awt.Font("Dia\u006cog", java.awt.Font.BOLD, 12), java.awt
+                .Color.red), getBorder()));
+        addPropertyChangeListener(new java.beans.
+                PropertyChangeListener() {
+            @Override
+            public void propertyChange(java.beans.PropertyChangeEvent e) {
+                if ("\u0062ord\u0065r".
+                        equals(e.getPropertyName())) throw new RuntimeException();
+            }
+        });
         setLayout(null);
 
         //======== tabbedPane1 ========
@@ -274,7 +316,7 @@ public class PowerPannel extends JPanel {
                 {
                     // compute preferred size
                     Dimension preferredSize = new Dimension();
-                    for(int i = 0; i < panel1.getComponentCount(); i++) {
+                    for (int i = 0; i < panel1.getComponentCount(); i++) {
                         Rectangle bounds = panel1.getComponent(i).getBounds();
                         preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                         preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -325,7 +367,7 @@ public class PowerPannel extends JPanel {
                 {
                     // compute preferred size
                     Dimension preferredSize = new Dimension();
-                    for(int i = 0; i < panel4.getComponentCount(); i++) {
+                    for (int i = 0; i < panel4.getComponentCount(); i++) {
                         Rectangle bounds = panel4.getComponent(i).getBounds();
                         preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                         preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -338,6 +380,56 @@ public class PowerPannel extends JPanel {
                 }
             }
             tabbedPane1.addTab("BypassWAF", panel4);
+
+            //======== panel6 ========
+            {
+                panel6.setLayout(null);
+
+                //---- checkBox_requestRouter ----
+                checkBox_requestRouter.setText("\u5f00\u542f\u8bf7\u6c42\u8def\u7531");
+                checkBox_requestRouter.addActionListener(e -> _requestRouter(e));
+                panel6.add(checkBox_requestRouter);
+                checkBox_requestRouter.setBounds(25, 15, 150, checkBox_requestRouter.getPreferredSize().height);
+
+                //======== scrollPane5 ========
+                {
+
+                    //---- textArea_requestRouter ----
+                    textArea_requestRouter.setEnabled(false);
+                    textArea_requestRouter.setText("127.0.0.1:8888\n127.0.0.1:9999");
+                    textArea_requestRouter.addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusLost(FocusEvent e) {
+                            textArea_requestRouterFocusLost(e);
+                        }
+                    });
+                    scrollPane5.setViewportView(textArea_requestRouter);
+                }
+                panel6.add(scrollPane5);
+                scrollPane5.setBounds(30, 50, 860, 455);
+
+                //---- textField_requestRouterCheck ----
+                textField_requestRouterCheck.setEditable(false);
+                textField_requestRouterCheck.setForeground(new Color(204, 0, 51));
+                panel6.add(textField_requestRouterCheck);
+                textField_requestRouterCheck.setBounds(25, 520, 865, 45);
+
+                {
+                    // compute preferred size
+                    Dimension preferredSize = new Dimension();
+                    for (int i = 0; i < panel6.getComponentCount(); i++) {
+                        Rectangle bounds = panel6.getComponent(i).getBounds();
+                        preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+                        preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+                    }
+                    Insets insets = panel6.getInsets();
+                    preferredSize.width += insets.right;
+                    preferredSize.height += insets.bottom;
+                    panel6.setMinimumSize(preferredSize);
+                    panel6.setPreferredSize(preferredSize);
+                }
+            }
+            tabbedPane1.addTab("\u8bf7\u6c42\u8def\u7531", panel6);
 
             //======== panel5 ========
             {
@@ -402,7 +494,7 @@ public class PowerPannel extends JPanel {
                 {
                     // compute preferred size
                     Dimension preferredSize = new Dimension();
-                    for(int i = 0; i < panel5.getComponentCount(); i++) {
+                    for (int i = 0; i < panel5.getComponentCount(); i++) {
                         Rectangle bounds = panel5.getComponent(i).getBounds();
                         preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                         preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -430,7 +522,7 @@ public class PowerPannel extends JPanel {
                 {
                     // compute preferred size
                     Dimension preferredSize = new Dimension();
-                    for(int i = 0; i < panel2.getComponentCount(); i++) {
+                    for (int i = 0; i < panel2.getComponentCount(); i++) {
                         Rectangle bounds = panel2.getComponent(i).getBounds();
                         preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                         preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -458,7 +550,7 @@ public class PowerPannel extends JPanel {
                 {
                     // compute preferred size
                     Dimension preferredSize = new Dimension();
-                    for(int i = 0; i < panel3.getComponentCount(); i++) {
+                    for (int i = 0; i < panel3.getComponentCount(); i++) {
                         Rectangle bounds = panel3.getComponent(i).getBounds();
                         preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                         preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -483,7 +575,7 @@ public class PowerPannel extends JPanel {
         {
             // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < getComponentCount(); i++) {
+            for (int i = 0; i < getComponentCount(); i++) {
                 Rectangle bounds = getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -503,10 +595,10 @@ public class PowerPannel extends JPanel {
 
         //---- checkBox5 ----
         checkBox5.setText("text");
-		// JFormDesigner - End of component initialization  //GEN-END:initComponents
-	}
+        // JFormDesigner - End of component initialization  //GEN-END:initComponents
+    }
 
-	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - test
     private JTabbedPane tabbedPane1;
     private JPanel panel1;
@@ -528,6 +620,11 @@ public class PowerPannel extends JPanel {
     private JCheckBox checkBox_RandomUA;
     private JCheckBox checkBox_RandomHost;
     private JCheckBox checkBox_Json2Unicode;
+    private JPanel panel6;
+    private JCheckBox checkBox_requestRouter;
+    private JScrollPane scrollPane5;
+    private JTextArea textArea_requestRouter;
+    private JTextField textField_requestRouterCheck;
     private JPanel panel5;
     private JCheckBox checkBox_fofa_ico;
     private JCheckBox checkBox_fofa_title;
@@ -547,5 +644,5 @@ public class PowerPannel extends JPanel {
     private JCheckBox checkBox1;
     private JCheckBox checkBox4;
     private JCheckBox checkBox5;
-	// JFormDesigner - End of variables declaration  //GEN-END:variables
+    // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

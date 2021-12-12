@@ -157,6 +157,44 @@ new FormModel {
 					"title": "BypassWAF"
 				} )
 				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+					name: "panel6"
+					add( new FormComponent( "javax.swing.JCheckBox" ) {
+						name: "checkBox_requestRouter"
+						"text": "开启请求路由"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "_requestRouter", true ) )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 25
+						"y": 15
+						"width": 150
+					} )
+					add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+						name: "scrollPane5"
+						add( new FormComponent( "javax.swing.JTextArea" ) {
+							name: "textArea_requestRouter"
+							"enabled": false
+							"text": "127.0.0.1:8888\n127.0.0.1:9999"
+							addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "textArea_requestRouterFocusLost", true ) )
+						} )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 30
+						"y": 50
+						"width": 860
+						"height": 455
+					} )
+					add( new FormComponent( "javax.swing.JTextField" ) {
+						name: "textField_requestRouterCheck"
+						"editable": false
+						"foreground": new java.awt.Color( 204, 0, 51, 255 )
+					}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+						"x": 25
+						"y": 520
+						"width": 865
+						"height": 45
+					} )
+				}, new FormLayoutConstraints( null ) {
+					"title": "请求路由"
+				} )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
 					name: "panel5"
 					add( new FormComponent( "javax.swing.JCheckBox" ) {
 						name: "checkBox_fofa_ico"

@@ -516,7 +516,8 @@ public interface IBurpExtenderCallbacks
      * @return An object that implements the <code>IMessageEditor</code>
      * interface, and which the extension can use in its own UI.
      */
-    IMessageEditor createMessageEditor(IMessageEditorController controller,
+    IMessageEditor createMessageEditor(
+            IMessageEditorController controller,
             boolean editable);
 
     /**
@@ -704,8 +705,26 @@ public interface IBurpExtenderCallbacks
      * interface, and which the extension can query to obtain the details of the
      * response.
      */
-    IHttpRequestResponse makeHttpRequest(IHttpService httpService,
+    IHttpRequestResponse makeHttpRequest(
+            IHttpService httpService,
             byte[] request);
+
+    /**
+     * This method can be used to issue HTTP requests and retrieve their
+     * responses.
+     *
+     * @param httpService The HTTP service to which the request should be sent.
+     * @param request The full HTTP request.
+     * @param forceHttp1 If true then HTTP/1 will be used.
+     * @return An object that implements the <code>IHttpRequestResponse</code>
+     * interface, and which the extension can query to obtain the details of the
+     * response.
+     */
+    IHttpRequestResponse makeHttpRequest(
+            IHttpService httpService,
+            byte[] request,
+            boolean forceHttp1);
+
 
     /**
      * This method can be used to issue HTTP requests and retrieve their
@@ -722,6 +741,71 @@ public interface IBurpExtenderCallbacks
             int port,
             boolean useHttps,
             byte[] request);
+
+    /**
+     * This method can be used to issue HTTP requests and retrieve their
+     * responses.
+     *
+     * @param host The hostname of the remote HTTP server.
+     * @param port The port of the remote HTTP server.
+     * @param useHttps Flags whether the protocol is HTTPS or HTTP.
+     * @param request The full HTTP request.
+     * @param forceHttp1 If true then HTTP/1 will be used.
+     * @return The full response retrieved from the remote server.
+     */
+    byte[] makeHttpRequest(
+            String host,
+            int port,
+            boolean useHttps,
+            byte[] request,
+            boolean forceHttp1);
+
+    /**
+     * This method can be used to issue HTTP/2 requests and retrieve their
+     * responses.
+     * @param httpService The HTTP service to which the request should be sent.
+     * @param headers The headers of the request.
+     * @param body The body of the request.
+     * @return The full response retrieved from the remote server.
+     */
+    byte[] makeHttp2Request(
+            IHttpService httpService,
+            List<IHttpHeader> headers,
+            byte[] body);
+
+    /**
+     * This method can be used to issue HTTP/2 requests and retrieve their
+     * responses. You can use this to force the network stack to send this
+     * request using HTTP/2.
+     * @param httpService The HTTP service to which the request should be sent.
+     * @param headers The headers of the request.
+     * @param body The body of the request.
+     * @param forceHttp2 Whether or not to force HTTP/2 for this request.
+     * @return The full response retrieved from the remote server.
+     */
+    byte[] makeHttp2Request(
+            IHttpService httpService,
+            List<IHttpHeader> headers,
+            byte[] body,
+            boolean forceHttp2);
+
+    /**
+     * This method can be used to issue HTTP/2 requests and retrieve their
+     * responses. You can use this to make the network stack send this request
+     * using a specific named connection.
+     * @param httpService The HTTP service to which the request should be sent.
+     * @param headers The headers of the request.
+     * @param body The body of the request.
+     * @param forceHttp2 Whether or not to force HTTP/2 for this request.
+     * @param connectionIdentifier The identifier for the connection you want to use.
+     * @return The full response retrieved from the remote server.
+     */
+    byte[] makeHttp2Request(
+            IHttpService httpService,
+            List<IHttpHeader> headers,
+            byte[] body,
+            boolean forceHttp2,
+            String connectionIdentifier);
 
     /**
      * This method can be used to query whether a specified URL is within the
@@ -801,7 +885,8 @@ public interface IBurpExtenderCallbacks
      * @param issues The Scanner issues to be reported.
      * @param file The file to which the report will be saved.
      */
-    void generateScanReport(String format, IScanIssue[] issues,
+    void generateScanReport(
+            String format, IScanIssue[] issues,
             java.io.File file);
 
     /**
