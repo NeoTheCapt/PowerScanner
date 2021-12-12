@@ -11,6 +11,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.Executors;
 import javax.swing.*;
 
 import BrianW.AKA.BigChan.Tools.Config;
@@ -22,6 +23,7 @@ import BrianW.AKA.BigChan.Tools.Global;
 public class PowerPannel extends JPanel {
     public PowerPannel() {
         initComponents();
+        Global.fixedThreadPool= Executors.newFixedThreadPool(Global.config.fetchCollaboratorMaxThreads);
         this.text_Log.append("inited\n");
         this.checkBox_PathTraversal.setSelected(Global.config.getConfigPathTraversalEnable_value());
         this.checkBox_Sqli.setSelected(Global.config.getConfigSqliEnable_value());

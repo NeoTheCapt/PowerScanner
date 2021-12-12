@@ -1,7 +1,6 @@
 package BrianW.AKA.BigChan.GUI;
 
 import BrianW.AKA.BigChan.Tools.Global;
-import BrianW.AKA.BigChan.Tools.InteractionServer;
 import burp.IBurpExtenderCallbacks;
 import burp.ITab;
 
@@ -17,8 +16,8 @@ public class PowerTab implements ITab {
 	IBurpExtenderCallbacks callbacks;
 	public PowerTab(IBurpExtenderCallbacks callbacks) {
 		this.callbacks = callbacks;
-		Global.interactionServer = new InteractionServer(callbacks);
-		Global.interactionServer.start();
+//		Global.interactionServer = new InteractionServer(callbacks);
+//		Global.interactionServer.start();
 	}
 
 	public void findTab() {

@@ -1,6 +1,7 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
 import BrianW.AKA.BigChan.Tools.CollaboratorData;
+import BrianW.AKA.BigChan.Tools.FetchCollaboratorWithSig;
 import BrianW.AKA.BigChan.Tools.Global;
 import BrianW.AKA.BigChan.Tools.utils;
 import burp.*;
@@ -8,6 +9,8 @@ import burp.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 
 public class ScanRCE extends Reporter {
@@ -35,9 +38,11 @@ public class ScanRCE extends Reporter {
 //		InteractionServer interactionServer = new InteractionServer();
 
         for (String RCEpayload : RCEpayloads) {
-            String collaboratorPayload = Global.interactionServer.getCollaboratorContext().generatePayload(true);
+            IBurpCollaboratorClientContext collaboratorContext = this.callbacks.createBurpCollaboratorClientContext();
+            String collaboratorPayload = collaboratorContext.generatePayload(true);
             callbacks.printOutput("generate RCE collaboratorPayload: " + collaboratorPayload);
-            String cmd = Global.config.getConfigRCEcmd_value() + " " + collaboratorPayload;
+            String sig = utils.getRandomString(3).toLowerCase();
+            String cmd = String.format("%s %s.%s", Global.config.getConfigRCEcmd_value(), sig, collaboratorPayload);
             String payload = RCEpayload.replace("{cmd}", cmd);
             byte[] reqEvil = insertionPoint.buildRequest((payload).getBytes());
             IHttpRequestResponse pairEvil = callbacks.makeHttpRequest(
@@ -45,7 +50,7 @@ public class ScanRCE extends Reporter {
                     reqEvil
             );
             pairEvil.setComment(payload);
-            CollaboratorData collaboratorData = new CollaboratorData(
+            FetchCollaboratorWithSig fetch = new FetchCollaboratorWithSig(
                     reporter(
                             "injection(might be RCE) found",
                             String.format("param: %s <br>" +
@@ -60,10 +65,13 @@ public class ScanRCE extends Reporter {
                             "Certain",
                             pairEvil
                     ),
-                    new Date(),
-                    "got"
+                    collaboratorPayload,
+                    sig,
+                    callbacks,
+                    helpers,
+                    collaboratorContext
             );
-            Global.interactionServer.addToPairList(collaboratorPayload,collaboratorData);
+            fetch.start();
         }
         return null;
     }

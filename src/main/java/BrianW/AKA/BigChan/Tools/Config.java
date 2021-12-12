@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class Config {
+	public int fetchCollaboratorMaxThreads = 20;
+	public long fetchCollaboratorWaitSecond = 5;
 	private IBurpExtenderCallbacks callbacks;
 	private File file = new File(Global.configFile);
 	private String configSectionGlobal = "Global";

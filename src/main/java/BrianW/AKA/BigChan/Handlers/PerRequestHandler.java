@@ -2,7 +2,6 @@ package BrianW.AKA.BigChan.Handlers;
 
 import BrianW.AKA.BigChan.PowerScanner.*;
 import BrianW.AKA.BigChan.Tools.Global;
-import BrianW.AKA.BigChan.Tools.InteractionServer;
 import BrianW.AKA.BigChan.Tools.utils;
 import burp.*;
 

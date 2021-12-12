@@ -34,7 +34,7 @@ public class GetFofaInfo extends Reporter {
         String email = Global.config.getConfigFofa_Email_value();
         String key = Global.config.getConfigFofa_ApiKey_value();
         FofaClient client = new FofaClient(email, key);
-        callbacks.printOutput("if enable fofa info based on icon: " + Global.config.getConfigFofa_Ico_value());
+        //callbacks.printOutput("if enable fofa info based on icon: " + Global.config.getConfigFofa_Ico_value());
         if (!Global.config.getConfigFofa_Ico_value()) {
             return issues;
         }
@@ -88,7 +88,7 @@ public class GetFofaInfo extends Reporter {
         String email = Global.config.getConfigFofa_Email_value();
         String key = Global.config.getConfigFofa_ApiKey_value();
         FofaClient client = new FofaClient(email, key);
-        callbacks.printOutput("if enable fofa info based on title: " + Global.config.getConfigFofa_Title_value());
+        //callbacks.printOutput("if enable fofa info based on title: " + Global.config.getConfigFofa_Title_value());
         if (!Global.config.getConfigFofa_Title_value()) {
             return issues;
         }
@@ -137,7 +137,7 @@ public class GetFofaInfo extends Reporter {
         String email = Global.config.getConfigFofa_Email_value();
         String key = Global.config.getConfigFofa_ApiKey_value();
         FofaClient client = new FofaClient(email, key);
-        callbacks.printOutput("if enable fofa info based on Domain: " + Global.config.getConfigFofa_Domain_value());
+        //callbacks.printOutput("if enable fofa info based on Domain: " + Global.config.getConfigFofa_Domain_value());
         if (!Global.config.getConfigFofa_Domain_value()) {
             return issues;
         }

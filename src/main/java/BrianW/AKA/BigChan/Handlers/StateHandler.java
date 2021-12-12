@@ -15,7 +15,7 @@ public class StateHandler implements IExtensionStateListener {
 
     @Override
     public void extensionUnloaded() {
-        Global.interactionServer.interrupt();
+//        Global.interactionServer.interrupt();
         this.callbacks.printOutput("Extension unloaded");
     }
 }

