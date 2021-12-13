@@ -1,7 +1,7 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
-import BrianW.AKA.BigChan.Tools.hitRst;
-import BrianW.AKA.BigChan.Tools.utils;
+import BrianW.AKA.BigChan.Tools.HitRst;
+import BrianW.AKA.BigChan.Tools.Utils;
 import burp.*;
 
 public class ScanSqli extends Reporter {
@@ -16,7 +16,7 @@ public class ScanSqli extends Reporter {
 public IScanIssue doScanSqli(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
 		byte[] resp = baseRequestResponse.getResponse();
 		String baseName = insertionPoint.getInsertionPointName();
-		String InsertionPointType = utils.bytesToHexString(new byte[]{insertionPoint.getInsertionPointType()}, 1);
+		String InsertionPointType = Utils.bytesToHexString(new byte[]{insertionPoint.getInsertionPointType()}, 1);
 		String baseValue = insertionPoint.getBaseValue();
 		String testStr = "";
 		String evilStr = "";
@@ -44,7 +44,7 @@ public IScanIssue doScanSqli(IHttpRequestResponse baseRequestResponse, IScannerI
 				reqEvil
 		);
 		byte[] respEvil = pairEvil.getResponse();
-		hitRst hit = hit(resp, respTrue, respEvil, testStr, evilStr);
+		HitRst hit = hit(resp, respTrue, respEvil, testStr, evilStr);
 		if (hit.getCdoe() > 0) {
 //			callbacks.printOutput("injection found in param: " + baseName + " with type " + baseType + " ;InsertionPointType:" + InsertionPointType);
 			return reporter(

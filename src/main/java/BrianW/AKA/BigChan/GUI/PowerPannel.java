@@ -151,6 +151,9 @@ public class PowerPannel extends JPanel {
         for (String proxyStr : proxyList) {
             Proxy proxy;
             try {
+                if (proxyStr.contains("@")){
+                    proxyStr = proxyStr.split("@")[1];
+                }
                 proxy = new Proxy(
                         Proxy.Type.HTTP,
                         new InetSocketAddress(proxyStr.split(":")[0],

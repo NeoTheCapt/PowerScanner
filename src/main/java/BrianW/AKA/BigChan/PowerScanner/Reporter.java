@@ -1,8 +1,8 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
 import BrianW.AKA.BigChan.Tools.CustomScanIssue;
-import BrianW.AKA.BigChan.Tools.hitRst;
-import BrianW.AKA.BigChan.Tools.utils;
+import BrianW.AKA.BigChan.Tools.HitRst;
+import BrianW.AKA.BigChan.Tools.Utils;
 import burp.*;
 
 import java.net.URL;
@@ -32,7 +32,7 @@ public class Reporter {
 				sev,
 				confidence);
 	}
-	hitRst hit(byte[] respBase, byte[] respPositive, byte[] respNegative, String positiveStr, String negativeStr) {
+	HitRst hit(byte[] respBase, byte[] respPositive, byte[] respNegative, String positiveStr, String negativeStr) {
 		int resp_statusCode = helpers.analyzeResponse(respBase).getStatusCode();
 		int respTrue_statusCode = helpers.analyzeResponse(respPositive).getStatusCode();
 		int respEvil_statusCode = helpers.analyzeResponse(respNegative).getStatusCode();
@@ -71,36 +71,36 @@ public class Reporter {
 			));
 		}
 		if (resp_statusCode == respTrue_statusCode && resp_statusCode != respEvil_statusCode) {
-			return new hitRst(1, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+			return new HitRst(1, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 		}
-		int resp_ErrorCount = utils.countStr(Arrays.toString(respBase), "error");
-		int respTrue_ErrorCount = utils.countStr(Arrays.toString(respPositive), "error");
-		int respEvil_ErrorCount = utils.countStr(Arrays.toString(respNegative), "error");
+		int resp_ErrorCount = Utils.countStr(Arrays.toString(respBase), "error");
+		int respTrue_ErrorCount = Utils.countStr(Arrays.toString(respPositive), "error");
+		int respEvil_ErrorCount = Utils.countStr(Arrays.toString(respNegative), "error");
 		if (resp_ErrorCount == respTrue_ErrorCount && respTrue_ErrorCount != respEvil_ErrorCount) {
-			return new hitRst(2, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+			return new HitRst(2, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 		}
 		//如果原始包visible_text和visible_word_count都是0，基本可以断定是验证码类型
 		if (ResponseVariationsPositive.getAttributeValue("visible_text", 0) == 0 && ResponseVariationsPositive.getAttributeValue("visible_word_count", 0) == 0) {
-			return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+			return new HitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 		}
 		//去除payload后，如果positive返回和negative返回一样，无漏洞
 		String respTrue_pure = Arrays.toString(respPositive).replace(positiveStr, "").replace(negativeStr, "");
 		String respEvil_pure = Arrays.toString(respNegative).replace(negativeStr, "").replace(positiveStr, "");
 		if (respTrue_pure.equals(respEvil_pure)) {
-			return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+			return new HitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 		}
 		
 		//如果positive包和原始包不一样，无漏洞
 		if (ResponseVariationsPositive.getVariantAttributes().contains("initial_body_content") ||
 				ResponseVariationsPositive.getVariantAttributes().contains("content_type")
 		) {
-			return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+			return new HitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 		}
 		//如果Negative包和原始包一样，无漏洞
 		if (ResponseVariationsNegative.getInvariantAttributes().contains("whole_body_content")
 				|| ResponseVariationsNegative.getInvariantAttributes().contains("content_length")
 		) {
-			return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+			return new HitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 		}
 		//如果Negative包和原始包字符数差==positive包和原始包字符数差，无漏洞
 		int positiveLength = ResponseVariationsPositive.getAttributeValue("content_length", 1);
@@ -110,20 +110,20 @@ public class Reporter {
 		int length1 = positiveLength - baseLength;
 		int length2 = negativeLength - baseLength;
 		if (length1 / positiveStr.length() == length2 / negativeStr.length()) {
-			return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+			return new HitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 		}
 		//如果Negative包比positive包多一个字符，无漏洞
 		if (positiveLength - negativeLength == positiveStr.length() - negativeStr.length()) {
-			return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+			return new HitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 		}
 		
 		if (ResponseVariationsPositive.getInvariantAttributes() != ResponseVariationsNegative.getInvariantAttributes()
 				&&
 				ResponseVariationsPositive.getAttributeValue("content_length", 1) != ResponseVariationsNegative.getAttributeValue("content_length", 1)
 		) {
-			return new hitRst(3, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+			return new HitRst(3, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 		}
-		return new hitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
+		return new HitRst(0, compareWithNegative_Diff.toString(), compareWithNegative_Same.toString(), compareWithPositive_Diff.toString(), compareWithPositive_Same.toString());
 	}
 	
 }

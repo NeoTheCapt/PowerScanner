@@ -30,7 +30,7 @@ public class FetchCollaboratorWithSig {
         try {
             Thread.sleep(Global.config.fetchCollaboratorWaitSecond * 1000);
         } catch (InterruptedException e) {
-            this.callbacks.printError(String.format("Error in doScanLog4j while sleep: %s", utils.getStackMsg(e)));
+            this.callbacks.printError(String.format("Error in doScanLog4j while sleep: %s", Utils.getStackMsg(e)));
             return;
         }
         this.callbacks.printOutput(String.format("Fetch collaborator: %s; ", this.collaboratorPayload));
@@ -41,14 +41,14 @@ public class FetchCollaboratorWithSig {
 //                this.callbacks.printOutput("checking collaborator: " + this.collaboratorPayload);
                 if (interaction.getProperty("type").equalsIgnoreCase("dns") ){
                     try{
-                        List<String> records = utils.extractDnsData(utils.Base64Decode(interaction.getProperty("raw_query").getBytes(StandardCharsets.UTF_8))).Records;
+                        List<String> records = Utils.extractDnsData(Utils.Base64Decode(interaction.getProperty("raw_query").getBytes(StandardCharsets.UTF_8))).Records;
 //                        this.callbacks.printOutput(String.format("%s has records: %s", this.collaboratorPayload, records));
                         if (records.contains(this.sig)){
                             this.callbacks.addScanIssue(this.issue);
                             break;
                         }
                     }catch(Exception e){
-                        this.callbacks.printError(String.format("Error in FetchCollaboratorWithSig: %s", utils.getStackMsg(e)));
+                        this.callbacks.printError(String.format("Error in FetchCollaboratorWithSig: %s", Utils.getStackMsg(e)));
                     }
                 }
             }

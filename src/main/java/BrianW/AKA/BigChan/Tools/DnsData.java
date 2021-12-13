@@ -3,7 +3,7 @@ package BrianW.AKA.BigChan.Tools;
 import java.util.ArrayList;
 import java.util.List;
 
-public class dnsData {
+public class DnsData {
     public short transactionID;
     public short Flags;
     public short Questions;
@@ -21,7 +21,7 @@ public class dnsData {
         this.Records.contains("test");
     }
 
-    public dnsData() {
+    public DnsData() {
         this.Records = new ArrayList<>();
     }
 }

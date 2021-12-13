@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-public class domainTool {
+public class DomainTool {
 
     private final static Set<String> PublicSuffixSet = new HashSet<String>(
             Arrays.asList(new String(

@@ -1,6 +1,6 @@
 package BrianW.AKA.BigChan.Tools;
 
-public class hitRst {
+public class HitRst {
 	private int cdoe;
 	private String compareWithNegative_Same;
 	private String compareWithNegative_Diff;
@@ -8,7 +8,7 @@ public class hitRst {
 	private String compareWithPositive_Diff;
 	
 	
-	public hitRst(
+	public HitRst(
 			int hitCode,
 			String compareWithNegative_Diff,
 			String compareWithNegative_Same,
@@ -34,12 +34,12 @@ public class hitRst {
 		return compareWithPositive_Diff;
 	}
 	
-	public hitRst setCompareWithPositive_Same(String compareWithPositive_Same) {
+	public HitRst setCompareWithPositive_Same(String compareWithPositive_Same) {
 		this.compareWithPositive_Same = compareWithPositive_Same;
 		return this;
 	}
 	
-	public hitRst setCompareWithPositive_Diff(String compareWithPositive_Diff) {
+	public HitRst setCompareWithPositive_Diff(String compareWithPositive_Diff) {
 		this.compareWithPositive_Diff = compareWithPositive_Diff;
 		return this;
 	}
@@ -52,7 +52,7 @@ public class hitRst {
 		return compareWithNegative_Same;
 	}
 	
-	public hitRst setCompareWithNegative_Same(String compareWithNegative_Same) {
+	public HitRst setCompareWithNegative_Same(String compareWithNegative_Same) {
 		this.compareWithNegative_Same = compareWithNegative_Same;
 		return this;
 	}
@@ -61,7 +61,7 @@ public class hitRst {
 		return compareWithNegative_Diff;
 	}
 	
-	public hitRst setCompareWithNegative_Diff(String compareWithNegative_Diff) {
+	public HitRst setCompareWithNegative_Diff(String compareWithNegative_Diff) {
 		this.compareWithNegative_Diff = compareWithNegative_Diff;
 		return this;
 	}

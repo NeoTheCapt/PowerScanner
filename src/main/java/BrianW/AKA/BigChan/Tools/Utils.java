@@ -1,7 +1,5 @@
 package BrianW.AKA.BigChan.Tools;
 
-import burp.IBurpExtenderCallbacks;
-import burp.IParameter;
 import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import org.jsoup.Connection;
@@ -18,12 +16,11 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.Base64;
-import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class utils {
+public class Utils {
     /**
      * @param str     原字符串
      * @param sToFind 需要查找的字符串
@@ -291,8 +288,8 @@ public class utils {
         return Base64.getDecoder().decode(data);
     }
 
-    public static dnsData extractDnsData(byte[] data) throws IOException {
-        dnsData dns = new dnsData();
+    public static DnsData extractDnsData(byte[] data) throws IOException {
+        DnsData dns = new DnsData();
         DataInputStream din = new DataInputStream(new ByteArrayInputStream(data));
         dns.transactionID = din.readShort();
         dns.Flags = din.readShort();

@@ -1,7 +1,6 @@
 package BrianW.AKA.BigChan.Tools;
 
 import burp.IBurpExtenderCallbacks;
-import com.sun.jdi.Value;
 import org.ini4j.Ini;
 
 import java.io.File;
@@ -213,7 +212,7 @@ public class Config {
 			}
 		} catch (IOException e) {
 			callbacks.printError(e.toString());
-			callbacks.printError(utils.getStackMsg(e));
+			callbacks.printError(Utils.getStackMsg(e));
 		}
 	}
 	
@@ -505,7 +504,7 @@ public class Config {
 			ini.store();
 		} catch (IOException e) {
 			callbacks.printError(e.toString());
-			callbacks.printError(utils.getStackMsg(e));
+			callbacks.printError(Utils.getStackMsg(e));
 		}
 	}
 }

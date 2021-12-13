@@ -1,7 +1,7 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
-import BrianW.AKA.BigChan.Tools.hitRst;
-import BrianW.AKA.BigChan.Tools.utils;
+import BrianW.AKA.BigChan.Tools.HitRst;
+import BrianW.AKA.BigChan.Tools.Utils;
 import burp.*;
 
 public class ScanPathTraversal extends Reporter {
@@ -18,7 +18,7 @@ public class ScanPathTraversal extends Reporter {
 		byte[] resp = baseRequestResponse.getResponse();
 		byte[] req = baseRequestResponse.getRequest();
 		String baseName = insertionPoint.getInsertionPointName();
-		String insertionPointType = utils.bytesToHexString(new byte[]{insertionPoint.getInsertionPointType()}, 1);
+		String insertionPointType = Utils.bytesToHexString(new byte[]{insertionPoint.getInsertionPointType()}, 1);
 		String baseValue = insertionPoint.getBaseValue();
 		
 		if (baseValue.contains("/")) {
@@ -36,7 +36,7 @@ public class ScanPathTraversal extends Reporter {
 					reqNegative
 			);
 			byte[] respNegative = pairNegative.getResponse();
-			hitRst hit = hit(resp, respPositive, respNegative, strPositive, strNegative);
+			HitRst hit = hit(resp, respPositive, respNegative, strPositive, strNegative);
 			if (hit.getCdoe() > 0) {
 				return reporter(
 						"PathTraversal found",
@@ -73,7 +73,7 @@ public class ScanPathTraversal extends Reporter {
 				reqNegative
 		);
 		byte[] respNegative = pairNegative.getResponse();
-		hitRst hit = hit(resp, respPositive, respNegative, strPositive, strNegative);
+		HitRst hit = hit(resp, respPositive, respNegative, strPositive, strNegative);
 		if (hit.getCdoe() > 0) {
 			return reporter(
 					"PathTraversal found",

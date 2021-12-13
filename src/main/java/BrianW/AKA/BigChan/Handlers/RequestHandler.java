@@ -1,14 +1,14 @@
 package BrianW.AKA.BigChan.Handlers;
 
 import BrianW.AKA.BigChan.Tools.Global;
-import BrianW.AKA.BigChan.Tools.RequestHelper;
 import BrianW.AKA.BigChan.Tools.SendToProxy;
-import BrianW.AKA.BigChan.Tools.utils;
 import burp.*;
+import org.apache.http.HttpHost;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 public class RequestHandler implements IProxyListener{
@@ -29,11 +29,17 @@ public class RequestHandler implements IProxyListener{
         if (messageIsRequest && Global.config.getConfigRequestRouteEnable_value()){
             String[] proxyList = Global.config.getConfigRequestRoute_value().split("\\r?\\n");
             for (String proxyStr : proxyList) {
-                Proxy proxy = new Proxy(
-                        Proxy.Type.HTTP,
-                        new InetSocketAddress(proxyStr.split(":")[0],
-                                Integer.parseInt(proxyStr.split(":")[1]))
-                );
+                String user = "";
+                String pass = "";
+                if (proxyStr.contains("@")){
+                    String acc = proxyStr.split("@")[0];
+                    if (acc.contains(":")){
+                        user = acc.split(":")[0];
+                        pass = acc.split(":")[1];
+                        proxyStr = proxyStr.split("@")[1];
+                    }
+                }
+                HttpHost proxy = new HttpHost(proxyStr.split(":")[0], Integer.parseInt(proxyStr.split(":")[1]));
                 byte[] currentRequest = message.getMessageInfo().getRequest();
                 IHttpService service = message.getMessageInfo().getHttpService();
                 String host = service.getHost();
@@ -47,12 +53,13 @@ public class RequestHandler implements IProxyListener{
                 byte[] reqBody = new byte[bodySize];
                 System.arraycopy(currentRequest, this.helpers.analyzeRequest(currentRequest).getBodyOffset(), reqBody, 0, bodySize);
                 callbacks.printOutput(headers.get(0));
+//                callbacks.printOutput(String.format("body size=%s, body = %s", bodySize, Arrays.toString(reqBody)));
                 byte[] bytes = new byte[0];
-                SendToProxy sendToProxy = new SendToProxy(url, headers, reqBody, proxy);
+//                SendToProxy sendToProxy = new SendToProxy(url, method, headers, reqBody, proxy, user, pass);
+//                sendToProxy.run();
+                Thread sendToProxy = new Thread(new SendToProxy(url, method, headers, reqBody, proxy, user, pass));
                 sendToProxy.start();
             }
-
         }
-
     }
 }

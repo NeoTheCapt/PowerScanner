@@ -1,13 +1,12 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
 import BrianW.AKA.BigChan.Tools.Global;
-import BrianW.AKA.BigChan.Tools.utils;
+import BrianW.AKA.BigChan.Tools.Utils;
 import burp.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ScanSensitiveFiles extends Reporter {
@@ -25,7 +24,7 @@ public class ScanSensitiveFiles extends Reporter {
     public List<IScanIssue> doScanSensiveFiles(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
         String[] fileList = Global.config.getConfigSensitiveFiles_value().split("\n");
         List<IScanIssue> issues = new ArrayList<>();
-        IHttpRequestResponse pairNegative = fetchURL(baseRequestResponse, "/" + utils.getRandomString(10));
+        IHttpRequestResponse pairNegative = fetchURL(baseRequestResponse, "/" + Utils.getRandomString(10));
         for (String file : fileList) {
             file = file.replace("\r", "");
             if ("".equals(file.replace(" ", ""))) {
@@ -36,7 +35,7 @@ public class ScanSensitiveFiles extends Reporter {
             try {
                 pairSensitiveFile = fetchURLWithNewReq(baseRequestResponse, file);
             } catch (Exception e) {
-                callbacks.printOutput("error in doScanSensiveFiles: " + utils.getStackMsg(e));
+                callbacks.printOutput("error in doScanSensiveFiles: " + Utils.getStackMsg(e));
                 return null;
             }
 
@@ -48,7 +47,7 @@ public class ScanSensitiveFiles extends Reporter {
                     pairNegative.getResponse()
             );
             if (
-                    (utils.rangeInDefined(code, 200, 399) || code == 403)
+                    (Utils.rangeInDefined(code, 200, 399) || code == 403)
                     && responseAnalyze.getAttributeValue("visible_text", 0) != responseAnalyze.getAttributeValue("visible_text", 1)
                     )
             {
@@ -84,7 +83,7 @@ public class ScanSensitiveFiles extends Reporter {
 
     private IHttpRequestResponse fetchURLWithNewReq(IHttpRequestResponse basePair, String path) throws MalformedURLException {
         URL oldURL = this.helpers.analyzeRequest(basePair).getUrl();
-        String baseURL = utils.getBaseUrl(oldURL);
+        String baseURL = Utils.getBaseUrl(oldURL);
         byte[] newReq = this.helpers.buildHttpRequest(new URL(baseURL + path));
         return callbacks.makeHttpRequest(basePair.getHttpService(), newReq);
     }

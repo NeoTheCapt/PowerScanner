@@ -1,17 +1,14 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
 import BrianW.AKA.BigChan.Tools.Global;
-import BrianW.AKA.BigChan.Tools.domainTool;
-import BrianW.AKA.BigChan.Tools.utils;
+import BrianW.AKA.BigChan.Tools.DomainTool;
+import BrianW.AKA.BigChan.Tools.Utils;
 import burp.*;
-import com.google.common.hash.Hashing;
 import com.r4v3zn.fofa.core.DO.FofaData;
-import com.r4v3zn.fofa.core.DO.User;
 import com.r4v3zn.fofa.core.client.FofaClient;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +27,7 @@ public class GetFofaInfo extends Reporter {
 
     public List<IScanIssue> doGetFofaInfo_Icon(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
         List<IScanIssue> issues = new ArrayList<>();
-        IHttpRequestResponse pairNegative = fetchURL(baseRequestResponse, "/" + utils.getRandomString(10));
+        IHttpRequestResponse pairNegative = fetchURL(baseRequestResponse, "/" + Utils.getRandomString(10));
         String email = Global.config.getConfigFofa_Email_value();
         String key = Global.config.getConfigFofa_ApiKey_value();
         FofaClient client = new FofaClient(email, key);
@@ -41,9 +38,9 @@ public class GetFofaInfo extends Reporter {
         URL baseUrl = callbacks.getHelpers().analyzeRequest(baseRequestResponse).getUrl();
         callbacks.printOutput("fofa info based on icon url: " + baseUrl.toString());
         try {
-            String StrBaseUrl = utils.getBaseUrl(baseUrl);
+            String StrBaseUrl = Utils.getBaseUrl(baseUrl);
             callbacks.printOutput("fofa info based on icon StrBaseUrl: " + StrBaseUrl);
-            String iconPath = utils.getIconUrlString(new URL(StrBaseUrl));
+            String iconPath = Utils.getIconUrlString(new URL(StrBaseUrl));
             String iconUrl = StrBaseUrl + iconPath;
             callbacks.printOutput("Get iconUrl: " + iconUrl);
             assert iconPath != null;
@@ -51,11 +48,11 @@ public class GetFofaInfo extends Reporter {
                 callbacks.printOutput("fofa info based on icon found no icon file: " + StrBaseUrl);
                 return issues;
             }
-            byte[] iconResp = utils.httpGet(iconUrl);
+            byte[] iconResp = Utils.httpGet(iconUrl);
 //            callbacks.printOutput("fofa info based on icon iconResp: " + callbacks.getHelpers().bytesToString(iconResp));
             String iconB64 = callbacks.getHelpers().base64Encode(iconResp);
 //            callbacks.printOutput("fofa info based on icon base64: " + iconB64);
-            String q = String.format("icon_hash=\"%s\"", utils.iconb64Hash(iconB64));
+            String q = String.format("icon_hash=\"%s\"", Utils.iconb64Hash(iconB64));
             FofaData fofaData = client.getData(q);
             callbacks.printOutput("Get fofa info based on icon: " + fofaData);
             List<List<String>> fofaResults = fofaData.getResults();
@@ -75,7 +72,7 @@ public class GetFofaInfo extends Reporter {
                 );
             }
         } catch (Exception e) {
-            callbacks.printError(String.format("Error in doGetFofaInfo: %s", utils.getStackMsg(e)));
+            callbacks.printError(String.format("Error in doGetFofaInfo: %s", Utils.getStackMsg(e)));
             return issues;
         }
         //}
@@ -84,7 +81,7 @@ public class GetFofaInfo extends Reporter {
 
     public List<IScanIssue> doGetFofaInfo_Title(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
         List<IScanIssue> issues = new ArrayList<>();
-        IHttpRequestResponse pairNegative = fetchURL(baseRequestResponse, "/" + utils.getRandomString(10));
+        IHttpRequestResponse pairNegative = fetchURL(baseRequestResponse, "/" + Utils.getRandomString(10));
         String email = Global.config.getConfigFofa_Email_value();
         String key = Global.config.getConfigFofa_ApiKey_value();
         FofaClient client = new FofaClient(email, key);
@@ -98,7 +95,7 @@ public class GetFofaInfo extends Reporter {
                 baseRequestResponse.getResponse().length
         );
         URL baseUrl = callbacks.getHelpers().analyzeRequest(baseRequestResponse).getUrl();
-        String title = utils.getWebsiteTitle(baseUrl);
+        String title = Utils.getWebsiteTitle(baseUrl);
         callbacks.printOutput("fofa info based on Title: title = " + title);
         if (title.equals("0")|| title.equals("")){
             return issues;
@@ -124,7 +121,7 @@ public class GetFofaInfo extends Reporter {
                 );
             }
         } catch (Exception e) {
-            callbacks.printError(String.format("Error in doGetFofaInfo: %s", utils.getStackMsg(e)));
+            callbacks.printError(String.format("Error in doGetFofaInfo: %s", Utils.getStackMsg(e)));
             return issues;
         }
         //}
@@ -133,7 +130,7 @@ public class GetFofaInfo extends Reporter {
 
     public List<IScanIssue> doGetFofaInfo_Domain(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
         List<IScanIssue> issues = new ArrayList<>();
-        IHttpRequestResponse pairNegative = fetchURL(baseRequestResponse, "/" + utils.getRandomString(10));
+        IHttpRequestResponse pairNegative = fetchURL(baseRequestResponse, "/" + Utils.getRandomString(10));
         String email = Global.config.getConfigFofa_Email_value();
         String key = Global.config.getConfigFofa_ApiKey_value();
         FofaClient client = new FofaClient(email, key);
@@ -142,7 +139,7 @@ public class GetFofaInfo extends Reporter {
             return issues;
         }
         URL baseUrl = callbacks.getHelpers().analyzeRequest(baseRequestResponse).getUrl();
-        String topDomain = domainTool.getDomainName(baseUrl);
+        String topDomain = DomainTool.getDomainName(baseUrl);
         if (topDomain.equals("")){
             return issues;
         }
@@ -167,7 +164,7 @@ public class GetFofaInfo extends Reporter {
                 );
             }
         } catch (Exception e) {
-            callbacks.printError(String.format("Error in doGetFofaInfo: %s", utils.getStackMsg(e)));
+            callbacks.printError(String.format("Error in doGetFofaInfo: %s", Utils.getStackMsg(e)));
             return issues;
         }
         //}
@@ -181,7 +178,7 @@ public class GetFofaInfo extends Reporter {
 
     private IHttpRequestResponse fetchURLWithNewReq(IHttpRequestResponse basePair, String path) throws MalformedURLException {
         URL oldURL = this.helpers.analyzeRequest(basePair).getUrl();
-        String baseURL = utils.getBaseUrl(oldURL);
+        String baseURL = Utils.getBaseUrl(oldURL);
         byte[] newReq = this.helpers.buildHttpRequest(new URL(baseURL + path));
         return callbacks.makeHttpRequest(basePair.getHttpService(), newReq);
     }

@@ -1,7 +1,5 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
-import BrianW.AKA.BigChan.Tools.hitRst;
-import BrianW.AKA.BigChan.Tools.utils;
 import burp.*;
 
 import java.util.ArrayList;

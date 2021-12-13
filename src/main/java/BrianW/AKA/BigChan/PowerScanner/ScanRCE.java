@@ -1,13 +1,11 @@
 package BrianW.AKA.BigChan.PowerScanner;
 
-import BrianW.AKA.BigChan.Tools.CollaboratorData;
 import BrianW.AKA.BigChan.Tools.FetchCollaboratorWithSig;
 import BrianW.AKA.BigChan.Tools.Global;
-import BrianW.AKA.BigChan.Tools.utils;
+import BrianW.AKA.BigChan.Tools.Utils;
 import burp.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
@@ -33,7 +31,7 @@ public class ScanRCE extends Reporter {
     public IScanIssue doScanRCE(IHttpRequestResponse baseRequestResponse, IScannerInsertionPoint insertionPoint) {
         byte[] resp = baseRequestResponse.getResponse();
         String baseName = insertionPoint.getInsertionPointName();
-        String insertionPointType = utils.bytesToHexString(new byte[]{insertionPoint.getInsertionPointType()}, 1);
+        String insertionPointType = Utils.bytesToHexString(new byte[]{insertionPoint.getInsertionPointType()}, 1);
         String baseValue = insertionPoint.getBaseValue();
 //		InteractionServer interactionServer = new InteractionServer();
 
@@ -41,7 +39,7 @@ public class ScanRCE extends Reporter {
             IBurpCollaboratorClientContext collaboratorContext = this.callbacks.createBurpCollaboratorClientContext();
             String collaboratorPayload = collaboratorContext.generatePayload(true);
             callbacks.printOutput("generate RCE collaboratorPayload: " + collaboratorPayload);
-            String sig = utils.getRandomString(3).toLowerCase();
+            String sig = Utils.getRandomString(3).toLowerCase();
             String cmd = String.format("%s %s.%s", Global.config.getConfigRCEcmd_value(), sig, collaboratorPayload);
             String payload = RCEpayload.replace("{cmd}", cmd);
             byte[] reqEvil = insertionPoint.buildRequest((payload).getBytes());

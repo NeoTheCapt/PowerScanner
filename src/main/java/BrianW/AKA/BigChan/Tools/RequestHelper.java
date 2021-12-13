@@ -1,262 +1,115 @@
 package BrianW.AKA.BigChan.Tools;
 
-import javax.net.ssl.*;
-import java.io.*;
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustAllStrategy;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.SSLContexts;
+
+import javax.net.ssl.SSLContext;
 import java.net.*;
-import java.nio.charset.StandardCharsets;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class RequestHelper {
-    public static byte[] doRequestViaProxy(URL url, List<String> headers, byte[] body, Proxy proxy) throws Exception {
+    public static void doRequestViaProxy(URL url, String method, List<String> headers, byte[] body, HttpHost proxy, String user, String pass) throws Exception {
         String protocol = url.getProtocol();
-        //  String path = url.getPath();
-        //  String urlStr = protocol+"://"+proxyIP+":"+proxyPort+path;
-        URLConnection httpURLConnection;
-        if (protocol.toLowerCase().equals("https")) {
+        Credentials credentials = new UsernamePasswordCredentials(user, pass);
+        AuthScope authScope = new AuthScope(proxy.getHostName(), proxy.getPort());
+        CredentialsProvider credsProvider = new BasicCredentialsProvider();
+        credsProvider.setCredentials(authScope, credentials);
 
-            httpURLConnection = new TestPersistentConnection().request(url, false, proxy);
-        } else {
-            httpURLConnection = url.openConnection(proxy);
+        SSLContext sslContext = SSLContexts.custom()
+                .loadTrustMaterial((chain, authType) -> true).build();
+        SSLConnectionSocketFactory sslConnectionSocketFactory =
+                new SSLConnectionSocketFactory(sslContext, new String[]
+                        {"SSLv3", "TLSv1","TLSv1.1", "TLSv1.2" }, null,
+                        NoopHostnameVerifier.INSTANCE);
+
+        CloseableHttpClient httpClient = HttpClients
+                .custom()
+//                .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
+//                                .loadTrustMaterial(null, new TrustSelfSignedStrategy())
+//                                .build()
+//                        )
+//                )
+                .setSSLSocketFactory(sslConnectionSocketFactory)
+//                .setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
+//                .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                .setProxy(proxy)
+                .setDefaultCredentialsProvider(credsProvider)
+                .build();
+        RequestBuilder requestBuilder = RequestBuilder.get();
+        switch (method.toLowerCase()) {
+            case "get":
+                requestBuilder = RequestBuilder.get();
+                break;
+            case "post":
+                requestBuilder = RequestBuilder.post();
+                break;
+            case "put":
+                requestBuilder = RequestBuilder.put();
+                break;
+            case "delete":
+                requestBuilder = RequestBuilder.delete();
+                break;
+            case "patch":
+                requestBuilder = RequestBuilder.patch();
+                break;
+            case "options":
+                requestBuilder = RequestBuilder.options();
+                break;
+            case "head":
+                requestBuilder = RequestBuilder.head();
+                break;
         }
-        setHeader(httpURLConnection, headers);
-        if (null == body) {
-            //get代理请求
-            return sendGet(httpURLConnection);
-        } else {
-            //post代理请求
-            return sendPost(httpURLConnection, new String(body));
+        setHeader(requestBuilder, headers);
+        if (body.length > 0){
+            ByteArrayEntity bodyEntity = new ByteArrayEntity(body);
+            requestBuilder.setEntity(bodyEntity);
         }
-
-    }
-
-    /**
-     * 发送GET请求
-     *
-     * @return
-     */
-    public static byte[] sendGet(URLConnection connection) {
-        byte[] result = null;
-
-        StringBuffer sb = new StringBuffer();
-        BufferedReader in = null;
-        try {
-            // 建立实际的连接
-            connection.connect();
-            // 定义BufferedReader输入流来读取URL的响应
-            in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-            String line;
-            while ((line = in.readLine()) != null) {
-                sb.append(line);
-            }
-            result = sb.toString().getBytes();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // 关闭输入流
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-        return result;
-    }
-
-
-    /**
-     * 发送post请求(返回json)
-     *
-     * @param body
-     * @return
-     */
-    public static byte[] sendPost(URLConnection connection, String body) {
-        byte[] result = null;
-        PrintWriter out = null;
-        BufferedReader in = null;
-        String res = "";
-        try {
-            // 发送POST请求必须设置如下两行
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
-            // 获取URLConnection对象对应的输出流（设置请求编码为UTF-8）
-            out = new PrintWriter(new OutputStreamWriter(connection.getOutputStream(), StandardCharsets.UTF_8));
-            // 发送请求参数
-            out.print(body);
-            // flush输出流的缓冲
-            out.flush();
-            // 获取请求返回数据（设置返回数据编码为UTF-8）
-            in = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
-            String line;
-            while ((line = in.readLine()) != null) {
-                res += line;
-            }
-            result = res.getBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-        return result;
-    }
-
-    private static void setHeader(URLConnection conn, List<String> headers) {
-        headers.forEach((s) -> {
-            if (s.contains(": ")){
-                String[] split = s.split(": ");
-                conn.setRequestProperty(split[0], split[1]);
-            }
-        });
-    }
-
-    private static SSLSocketFactory createSSLSocketFactory() throws Exception {
-        File crtFile = new File("server.crt");
-        Certificate certificate = CertificateFactory.getInstance("X.509").generateCertificate(new FileInputStream(crtFile));
-
-        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-        keyStore.load(null, null);
-        keyStore.setCertificateEntry("server", certificate);
-
-        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-        trustManagerFactory.init(keyStore);
-
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, trustManagerFactory.getTrustManagers(), null);
-
-        return sslContext.getSocketFactory();
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(5000).setConnectionRequestTimeout(1000)
+                .setSocketTimeout(5000).build();
+        HttpUriRequest request = requestBuilder
+                .setUri(url.toURI())
+                .setConfig(requestConfig)
+                .build();
+        CloseableHttpResponse response = httpClient.execute(request);
+        httpClient.close();
+        response.close();
     }
 
     public static void main(String[] args) throws Exception {
-        /*URL url = new URL("https://220.181.38.150");
-        ArrayList<String> header = new ArrayList<>();
-
-        header.add("connection: keep-alive");
-        byte[] bytes = doRequestViaProxy(url, header, null, "220.181.38.150", 443);
-        String s = new String(bytes);
-        System.out.println(s);*/
-
-        //post
         URL url = new URL("https://xs3c.co/ip.php");
         ArrayList<String> header = new ArrayList<>();
         header.add("connection: keep-alive");
         header.add("content-type: application/json");
         String body = "{\"username\": \"admin\", \"password\": \"123qwe!@#QWE\"}";
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 8080));
-        byte[] bytes = doRequestViaProxy(url, header, body.getBytes(), proxy);
-        String s = new String(bytes);
-        System.out.println(s);
+        HttpHost proxy = new HttpHost("192.168.1.219", 833);
+//        HttpHost proxy = new HttpHost("192.168.124.128", 8081);
+        String method = "post";
+        doRequestViaProxy(url, method, header, body.getBytes(), proxy, "usual", "asdqwe123");
 
     }
-
-    static class TestPersistentConnection {
-        private static SSLSocketFactory sslSocketFactory = null;
-
-        /**
-         * Use the VM argument <code>-Djavax.net.debug=ssl</code> for SSL specific debugging;
-         * the SSL handshake will appear a single time when connections are re-used, and multiple
-         * times when they are not.
-         * <p>
-         * Use the VM <code>-Djavax.net.debug=all</code> for all network related debugging, but
-         * note that it is verbose.
-         *
-         * @throws Exception
-         */
-       /* public static void main(String[] args) throws Exception
-        {
-
-            //URL url = new URL("https://google.com/");
-            URL url = new URL("https://220.181.38.150:443/");
-
-            // Disable first
-            request(url, false);
-
-            // Enable; verifies our previous disable isn't still in effect.
-            request(url, true);
-        }*/
-        public URLConnection request(URL url, boolean enableCertCheck, Proxy proxy) throws Exception {
-            BufferedReader reader = null;
-            // Repeat several times to check persistence.
-            System.out.println("Cert checking=[" + (enableCertCheck ? "enabled" : "disabled") + "]");
-            //   for (int i = 0; i < 5; ++i) {
-            try {
-                HttpsURLConnection httpConnection = (HttpsURLConnection) url.openConnection(proxy);
-                // Normally, instanceof would also be used to check the type.
-                if (!enableCertCheck) {
-                    setAcceptAllVerifier(httpConnection);
-                }
-                return httpConnection;
-            } catch (IOException ex) {
-                System.out.println(ex);
-
+    private static void setHeader(RequestBuilder requestBuilder, List<String> headers) {
+        headers.forEach((s) -> {
+            if (s.contains(": ")) {
+                String[] split = s.split(": ");
+                requestBuilder.addHeader(split[0], split[1]);
             }
-            //    }
-            return null;
-        }
-
-        /**
-         * Overrides the SSL TrustManager and HostnameVerifier to allow
-         * all certs and hostnames.
-         * WARNING: This should only be used for testing, or in a "safe" (i.e. firewalled)
-         * environment.
-         *
-         * @throws NoSuchAlgorithmException
-         * @throws KeyManagementException
-         */
-        protected void setAcceptAllVerifier(HttpsURLConnection connection) throws NoSuchAlgorithmException, KeyManagementException {
-
-            // Create the socket factory.
-            // Reusing the same socket factory allows sockets to be
-            // reused, supporting persistent connections.
-            if (null == sslSocketFactory) {
-                SSLContext sc = SSLContext.getInstance("SSL");
-                sc.init(null, ALL_TRUSTING_TRUST_MANAGER, new java.security.SecureRandom());
-                sslSocketFactory = sc.getSocketFactory();
-            }
-
-            connection.setSSLSocketFactory(sslSocketFactory);
-
-            // Since we may be using a cert with a different name, we need to ignore
-            // the hostname as well.
-            connection.setHostnameVerifier(ALL_TRUSTING_HOSTNAME_VERIFIER);
-        }
-
-        private final TrustManager[] ALL_TRUSTING_TRUST_MANAGER = new TrustManager[]{
-                new X509TrustManager() {
-                    public X509Certificate[] getAcceptedIssuers() {
-                        return null;
-                    }
-
-                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                    }
-
-                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                    }
-                }
-        };
-
-        private final HostnameVerifier ALL_TRUSTING_HOSTNAME_VERIFIER = new HostnameVerifier() {
-            public boolean verify(String hostname, SSLSession session) {
-                return true;
-            }
-        };
-
+        });
     }
 }
