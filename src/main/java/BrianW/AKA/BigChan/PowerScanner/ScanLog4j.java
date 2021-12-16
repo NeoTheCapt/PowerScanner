@@ -73,6 +73,6 @@ public class ScanLog4j extends Reporter {
         String collaboratorPayload = "oe6xdsw7z2mstx2a0sutyu60erkh86.nl.chromdnssrv.com";
         String sig = Utils.getRandomString(3).toLowerCase();
         String payload = genLog4jPayload(collaboratorPayload, sig);
-        System.out.println(String.format("generate log4j2 RCE collaboratorPayload: %s.%s, final payload: %s", sig, collaboratorPayload, payload));
+        System.out.printf("generate log4j2 RCE collaboratorPayload: %s.%s, final payload: %s%n", sig, collaboratorPayload, payload);
     }
 }
